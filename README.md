@@ -3,6 +3,9 @@
 Static, bilingual (Persian-first + English) course-notes site for the NLP course at
 Shahid Beheshti University, taught by Dr. Mehrnoush Shamsfard.
 
+- **Live:** https://soheilnazari2001.github.io/nlp-sbu/
+- **Repo:** https://github.com/soheilnazari2001/nlp-sbu
+
 The site is plain HTML/CSS/JS with no build dependencies and no CDN. It is designed for
 GitHub Pages and can be served from any static host.
 
