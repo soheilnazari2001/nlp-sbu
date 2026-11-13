@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>توکن‌سازی، BPE و ارزیابی کمی — جلسه ۰۳ · پردازش زبان‌های طبیعی</title>
+<meta name="description" content="سطوح توکن‌سازی، نقد توکن‌سازی مبتنی بر فاصله، الگوریتم BPE، توکن‌های حفاظت‌شده، عبارات چندواژه‌ای، تشخیص مرز جمله با Regex و معیارهای Precision، Recall و F1.">
+<meta name="theme-color" content="#1d4ed8">
+<script>(function(){try{var t=localStorage.getItem("nlp-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" href="../assets/img/sbu-logo-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<div class="read-progress" data-read-progress aria-hidden="true"><span></span></div>
+
+<header class="session-topbar">
+  <div class="container inner">
+    <span class="brand-logo brand-logo--sm" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+    <a class="back" href="../notes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg><span>یادداشت‌ها</span></a>
+    <div class="bar-title"><span class="mono">S۰۳</span>توکن‌سازی، BPE و ارزیابی کمی</div>
+    <div class="actions">
+      <button class="icon-btn" type="button" data-print aria-label="چاپ صفحه" title="چاپ صفحه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="تغییر پوسته" title="تغییر پوسته"><svg data-icon-moon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg data-icon-sun viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="session-layout">
+    <article class="session-main">
+      <header class="session-hero">
+        <nav class="breadcrumb" aria-label="مسیر">
+          <a href="../index.html">خانه</a><span class="sep">/</span>
+          <a href="../notes.html">یادداشت جلسات</a><span class="sep">/</span>
+          <span>جلسه ۰۳</span>
+        </nav>
+        <div class="session-kicker">
+          <span class="badge badge--live">جلسه ۰۳</span>
+          <span class="tag tag--brand">پردازش زبان‌های طبیعی</span>
+        </div>
+        <h1>توکن‌سازی، BPE و ارزیابی کمی</h1>
+        <div class="h1-en" dir="ltr">Tokenization, BPE &amp; Quantitative Evaluation</div>
+        <div class="session-summary"><strong>خلاصه: </strong>سطوح توکن‌سازی، نقد توکن‌سازی مبتنی بر فاصله، الگوریتم BPE، توکن‌های حفاظت‌شده، عبارات چندواژه‌ای، تشخیص مرز جمله با Regex و معیارهای Precision، Recall و F1.</div>
+        <div class="session-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>دکتر مهرنوش شمس‌فرد</span></span></div>
+      </header>
+
+      <details class="toc-mobile"><summary>فهرست مطالب</summary><ol><li><a href="#۱-مقدمه-پیش-پردازش-دروازه-ورود-preprocessing-as-the-gate">۱. مقدمه: پیش‌پردازش، دروازهٔ ورود</a></li>
+<li><a href="#۲-سطوح-توکن-سازی-tokenization-granularity">۲. سطوح توکن‌سازی</a></li>
+<li><a href="#۳-نقد-توکن-سازی-مبتنی-بر-فاصله-whitespace-tokenization-critique">۳. نقد توکن‌سازی مبتنی بر فاصله</a></li>
+<li><a href="#۴-رویکرد-خردواژه-subword-tokenization">۴. رویکرد خردواژه</a></li>
+<li><a href="#۵-الگوریتم-bpe-byte-pair-encoding">۵. الگوریتم BPE</a></li>
+<li class="toc-sub"><a href="#۵-۱-گام-های-learner">۵.۱. گام‌های Learner</a></li>
+<li><a href="#۶-توکن-های-حفاظت-شده-و-عبارات-چندواژه-ای-protected-tokens-mwes">۶. توکن‌های حفاظت‌شده و عبارات چندواژه‌ای</a></li>
+<li class="toc-sub"><a href="#۶-۱-توکن-های-حفاظت-شده">۶.۱. توکن‌های حفاظت‌شده</a></li>
+<li class="toc-sub"><a href="#۶-۲-عبارات-چندواژه-ای-فارسی-mwes">۶.۲. عبارات چندواژه‌ای فارسی (MWEs)</a></li>
+<li><a href="#۷-تشخیص-مرز-جمله-و-regex-sentence-boundary-regex">۷. تشخیص مرز جمله و Regex</a></li>
+<li class="toc-sub"><a href="#۷-۱-چرا-نقطه-کافی-نیست">۷.۱. چرا نقطه کافی نیست؟</a></li>
+<li class="toc-sub"><a href="#۷-۲-گروه-بندی-و-ارجاع-پسین">۷.۲. گروه‌بندی و ارجاع پسین</a></li>
+<li><a href="#۸-ارزیابی-کمی-precision-recall-و-f1-quantitative-evaluation">۸. ارزیابی کمی: Precision، Recall و F1</a></li>
+<li class="toc-sub"><a href="#۸-۱-ماتریس-اغتشاش-confusion-matrix">۸.۱. ماتریس اغتشاش (Confusion Matrix)</a></li>
+<li class="toc-sub"><a href="#۸-۲-موازنه-عملی">۸.۲. موازنهٔ عملی</a></li>
+<li><a href="#۹-خودآزمایی-self-check">۹. خودآزمایی</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol></details>
+
+      <div class="prose">
+<h2 id="۱-مقدمه-پیش-پردازش-دروازه-ورود-preprocessing-as-the-gate" dir="rtl" lang="fa">۱. مقدمه: پیش‌پردازش، دروازهٔ ورود<span class="h-en" dir="ltr">Preprocessing as the Gate</span></h2>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>چرا پیش‌پردازش؟</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>پیش‌پردازش متن (Text Preprocessing)</strong> دروازهٔ ورودی همهٔ مدل‌های مدرن NLP و مدل‌های زبانی بزرگ (LLMs) است. تا زمانی که سیگنال خام متنی یا صوتی به واحدهای گسسته و ساخت‌یافته تبدیل نشود، تحلیل نحوی، معنایی یا یادگیری آماری ممکن نیست.</p></div></div>
+<p dir="rtl" lang="fa">این جلسه چهار محور اصلی دارد:</p>
+<ol dir="auto"><li dir="rtl" lang="fa"><strong>سطوح توکن‌سازی (Tokenization Granularity)</strong> و موازنهٔ دقت و پوشش.</li><li dir="rtl" lang="fa"><strong>الگوریتم BPE</strong> به‌عنوان رایج‌ترین روش خردتوکن‌سازی.</li><li dir="rtl" lang="fa"><strong>چالش‌های فارسی</strong> در برخورد با عبارات چندواژه‌ای و نیم‌فاصله.</li><li dir="auto"><strong>ارزیابی کمی</strong> با Precision، Recall و F1.</li></ol>
+<h2 id="۲-سطوح-توکن-سازی-tokenization-granularity" dir="auto">۲. سطوح توکن‌سازی<span class="h-en" dir="ltr">Tokenization Granularity</span></h2>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">سطح</th><th dir="rtl" lang="fa">واحد پایه</th><th dir="rtl" lang="fa">مزیت</th><th dir="rtl" lang="fa">چالش</th></tr></thead><tbody><tr><td dir="auto">کاراکتر (Character-Level)</td><td dir="rtl" lang="fa">حروف و الفبا</td><td dir="rtl" lang="fa">صفر بودن OOV</td><td dir="rtl" lang="fa">زنجیره‌های بلند، فقدان معنای مستقل توکن</td></tr><tr><td dir="auto">واژه (Word-Level / Whitespace)</td><td dir="rtl" lang="fa">واژه و فاصله</td><td dir="rtl" lang="fa">فهم معنایی مستقیم و انطباق با زبان</td><td dir="rtl" lang="fa">انفجار واژگان، عدم تعمیم به واژه‌های دیده‌نشده</td></tr><tr><td dir="auto">خردواژه (Subword / BPE)</td><td dir="rtl" lang="fa">زیرواژه و زوج‌حروف</td><td dir="rtl" lang="fa">توازن حجم واژگان و پوشش OOV</td><td dir="rtl" lang="fa">پیچیدگی مرحلهٔ آموزش و شکستن واژه‌های نادر</td></tr></tbody></table></div>
+<h2 id="۳-نقد-توکن-سازی-مبتنی-بر-فاصله-whitespace-tokenization-critique" dir="auto">۳. نقد توکن‌سازی مبتنی بر فاصله<span class="h-en" dir="ltr">Whitespace Tokenization Critique</span></h2>
+<p dir="rtl" lang="fa">ساده‌ترین راه شکستن متن، استفاده از فاصله و نشانه‌گذاری است؛ اما این روش سه خطای بنیادی دارد:</p>
+<ol dir="auto"><li dir="rtl" lang="fa"><strong>انفجار حجم واژگان (Vocabulary Explosion):</strong> هر صورت تصریفی یک مدخل جدید می‌سازد — کتاب، کتاب‌ها، کتاب‌هامان، کتاب‌هایشان — و اندازهٔ واژگان به میلیون‌ها توکن می‌رسد.</li><li dir="rtl" lang="fa"><strong>واژه‌های خارج از واژگان (OOV):</strong> واژهٔ جدید یا خطای املایی باعث شکست کامل سیستم می‌شود.</li><li dir="rtl" lang="fa"><strong>زبان‌های فاقد فاصله:</strong> چینی و تایلندی فاصلهٔ واژه ندارند. در فارسی نیز نیم‌فاصلهٔ ناهمگون، توکن‌های مبتنی بر فاصله را متلاشی می‌کند: «سیب‌زمینی» در برابر «سیب زمینی».</li></ol>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>اثر نیم‌فاصله</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">اگر «سیب‌زمینی» یک بار با نیم‌فاصله و یک بار با فاصلهٔ کامل نوشته شود، مدل ممکن است دو بازنمایی جدا برای «سیب» و «زمینی» بسازد و ارتباط معنایی واژهٔ مرکب را از دست بدهد.</p></div></div>
+<h2 id="۴-رویکرد-خردواژه-subword-tokenization" dir="auto">۴. رویکرد خردواژه<span class="h-en" dir="ltr">Subword Tokenization</span></h2>
+<p dir="rtl" lang="fa">در Subword Tokenization، واژه‌های پرکاربرد کامل حفظ می‌شوند، اما واژه‌های نادر یا تصریفی به زیرواژه‌ها (و گاهی تکواژها) شکسته می‌شوند. نتیجه:</p>
+<ul dir="auto"><li dir="rtl" lang="fa">واژگان محدودتر و پایدارتر.</li><li dir="rtl" lang="fa">پوشش بهتر واژه‌های نادیده (OOV).</li><li dir="rtl" lang="fa">امکان بازنمایی مشترک قطعات پرتکرار؛ این قطعات همیشه با تکواژها یکی نیستند.</li></ul>
+<h2 id="۵-الگوریتم-bpe-byte-pair-encoding" dir="auto">۵. الگوریتم BPE<span class="h-en" dir="ltr">Byte Pair Encoding</span></h2>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>تعریف</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>BPE</strong> یک الگوریتم خردتوکن‌سازی است که از دو مؤلفه ساخته می‌شود:</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>یادگیرنده (Learner):</strong> پیکرهٔ آموزش را بررسی می‌کند، زوج‌کاراکترهای مجاور را می‌شمارد و پرتکرارترین آن‌ها را ادغام می‌کند تا واژگان ساخته شود.</li><li dir="rtl" lang="fa"><strong>بخش‌بندی‌کننده (Segmenter):</strong> قواعد ادغام یادگرفته‌شده را با اولویت بر متن جدید اعمال می‌کند.</li></ul></div></div>
+<h3 id="۵-۱-گام-های-learner" dir="rtl" lang="fa">۵.۱. گام‌های Learner</h3>
+<ol dir="auto"><li dir="rtl" lang="fa">افزودن نشانگر پایان واژه — مانند <code>&lt;/w&gt;</code> یا <code>-</code> — به انتهای تمام کلمات پیکره، برای حفظ مرزهای واژگانی.</li><li dir="rtl" lang="fa">مقداردهی اولیهٔ واژگان با تمام کاراکترهای فردی موجود در پیکره.</li><li dir="rtl" lang="fa">شمارش فراوانی تمام زوج‌کاراکترهای متوالی.</li><li dir="rtl" lang="fa">انتخاب پرتکرارترین زوج و ادغام آن به یک توکن جدید.</li><li dir="rtl" lang="fa">تکرار گام‌های ۳ و ۴ تا رسیدن به تعداد ادغام هدف (k) یا اندازهٔ واژگان مشخص.</li></ol>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>نمونهٔ عددی BPE</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">فرض کنید پیکره شامل این کلمات است:</p>
+<div class="table-scroll"><table dir="auto"><thead><tr><th dir="rtl" lang="fa">واژه</th><th dir="rtl" lang="fa">فراوانی</th><th dir="rtl" lang="fa">نمایش با مرز</th></tr></thead><tbody><tr><td dir="ltr" lang="en">low</td><td dir="rtl" lang="fa">۵</td><td dir="ltr" lang="en"><code>l o w -</code></td></tr><tr><td dir="ltr" lang="en">lower</td><td dir="rtl" lang="fa">۲</td><td dir="ltr" lang="en"><code>l o w e r -</code></td></tr><tr><td dir="ltr" lang="en">newest</td><td dir="rtl" lang="fa">۶</td><td dir="ltr" lang="en"><code>n e w e s t -</code></td></tr><tr><td dir="ltr" lang="en">widest</td><td dir="rtl" lang="fa">۳</td><td dir="ltr" lang="en"><code>w i d e s t -</code></td></tr></tbody></table></div>
+<p dir="rtl" lang="fa"><strong>گام اول:</strong> زوج <code>e s</code> در newest (۶) و widest (۳) مجموعاً ۹ بار تکرار شده است؛ ادغام می‌شود و توکن <code>es</code> ساخته می‌شود. در صورت تساوی فراوانی، یک قاعدهٔ ثابت (مثلاً ترتیب الفبایی) برای انتخاب زوج لازم است.</p>
+<p dir="rtl" lang="fa"><strong>گام دوم:</strong> زوج <code>es t</code> با فراوانی ۹ ادغام می‌شود و <code>est</code> ساخته می‌شود.</p>
+<p dir="rtl" lang="fa"><strong>گام سوم:</strong> زوج <code>est -</code> ادغام می‌شود و توکن <code>est-</code> شکل می‌گیرد.</p>
+<p dir="rtl" lang="fa">نتیجه: قطعات پرتکرار — که گاهی با ریشه یا پسوند هم‌تراز می‌شوند — بدون دانش زبانی قبلی و به‌صورت خودکار استخراج می‌شوند.</p></div></div>
+<h2 id="۶-توکن-های-حفاظت-شده-و-عبارات-چندواژه-ای-protected-tokens-mwes" dir="rtl" lang="fa">۶. توکن‌های حفاظت‌شده و عبارات چندواژه‌ای<span class="h-en" dir="ltr">Protected Tokens &amp; MWEs</span></h2>
+<h3 id="۶-۱-توکن-های-حفاظت-شده" dir="rtl" lang="fa">۶.۱. توکن‌های حفاظت‌شده</h3>
+<p dir="rtl" lang="fa">برخی عناصر نباید در BPE خرد شوند، چون هویت ساختاری یا اطلاعاتی‌شان از دست می‌رود:</p>
+<ul dir="auto"><li dir="rtl" lang="fa">نشانی‌های وب و ایمیل: <code>https://example.com</code></li><li dir="rtl" lang="fa">اعداد و شناسه‌های ساخت‌یافته: شمارهٔ تلفن، کد ملی، مبالغ</li><li dir="rtl" lang="fa">تاریخ‌ها و زمان‌ها: <code>1405/08/18</code></li><li dir="rtl" lang="fa">نام‌های خاص و اختصارات: San Francisco، آژانس بین‌المللی انرژی اتمی</li></ul>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>الگوی اجرایی</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">ابتدا با Regex این الگوها را شناسایی و با توکن‌های ویژه‌ای مانند <code>[URL]</code> یا <code>[DATE]</code> ایزوله کنید؛ سپس BPE را روی بقیهٔ متن اجرا کنید.</p></div></div>
+<h3 id="۶-۲-عبارات-چندواژه-ای-فارسی-mwes" dir="rtl" lang="fa">۶.۲. عبارات چندواژه‌ای فارسی (MWEs)</h3>
+<p dir="rtl" lang="fa">افعال مرکب (Light Verb Constructions — LVCs) مانند «تصمیم گرفتن»، «فریب خوردن» و «دست درازی کردن» یک واحد معنایی‌اند. اگر «تصمیم» و «گرفتن» جدا پردازش شوند، معنای واحد فعل مرکب از دست می‌رود. پیش‌پردازش پیشرفته تلاش می‌کند این عبارات را به‌عنوان یک توکن معنایی یکپارچه شناسایی کند.</p>
+<h2 id="۷-تشخیص-مرز-جمله-و-regex-sentence-boundary-regex" dir="auto">۷. تشخیص مرز جمله و Regex<span class="h-en" dir="ltr">Sentence Boundary &amp; Regex</span></h2>
+<h3 id="۷-۱-چرا-نقطه-کافی-نیست" dir="rtl" lang="fa">۷.۱. چرا نقطه کافی نیست؟</h3>
+<p dir="rtl" lang="fa">نقطه در چند نقش ظاهر می‌شود:</p>
+<ol dir="auto"><li dir="rtl" lang="fa">پایان جمله.</li><li dir="rtl" lang="fa">نام‌های اختصاری: <code>Dr.</code>، <code>St.</code></li><li dir="rtl" lang="fa">اعداد اعشاری و قیمت‌ها: <code>3.14</code></li><li dir="auto">دامنهٔ وب: <code>google.com</code></li></ol>
+<p dir="rtl" lang="fa">بدون تفکیک این نقش‌ها، تقسیم جمله اشتباه می‌شود.</p>
+<h3 id="۷-۲-گروه-بندی-و-ارجاع-پسین" dir="rtl" lang="fa">۷.۲. گروه‌بندی و ارجاع پسین</h3>
+<p dir="rtl" lang="fa">در Regex، پرانتز یک <strong>گروه کپچری</strong> می‌سازد که در جایگزینی با <code>\1</code>، <code>\2</code> و… به آن ارجاع می‌دهیم. گروه غیرکپچری با <code>(?:...)</code> فقط منطق الگو را اجرا می‌کند و شماره‌گذاری نمی‌شود.</p>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>تبدیل تاریخ شمسی</span><span class="co-label">Example</span></div><div class="callout-body"><pre><code class="language-python">import re
+
+text = &quot;جلسه در تاریخ 1405/08/18 برگزار خواهد شد.&quot;
+pattern = r&quot;(\d{4})/(\d{2})/(\d{2})&quot;
+replacement = r&quot;\3/\2/\1&quot;
+
+print(re.sub(pattern, replacement, text))
+# جلسه در تاریخ 18/08/1405 برگزار خواهد شد.</code></pre></div></div>
+<div class="callout callout--warning"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>اعتبارسنجی تاریخ</span><span class="co-label">Caution</span></div><div class="callout-body"><p dir="rtl" lang="fa">Regex می‌تواند الگو را پیدا کند، اما اعتبار تقویمی را تضمین نمی‌کند: فوریه ۲۸ یا ۲۹ روز دارد و در تقویم شمسی، شش ماه اول ۳۱ روز، پنج ماه بعد ۳۰ روز و اسفند ۲۹ یا ۳۰ روز است.</p></div></div>
+<h2 id="۸-ارزیابی-کمی-precision-recall-و-f1-quantitative-evaluation" dir="auto">۸. ارزیابی کمی: Precision، Recall و F1<span class="h-en" dir="ltr">Quantitative Evaluation</span></h2>
+<h3 id="۸-۱-ماتریس-اغتشاش-confusion-matrix" dir="auto">۸.۱. ماتریس اغتشاش (Confusion Matrix)</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">عنصر</th><th dir="rtl" lang="fa">معنی</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">مثبت واقعی (TP)</td><td dir="rtl" lang="fa">هدف واقعی بود و سیستم درست شناسایی کرد</td></tr><tr><td dir="rtl" lang="fa">مثبت کاذب (FP)</td><td dir="rtl" lang="fa">هدف نبود اما سیستم مثبت اعلام کرد</td></tr><tr><td dir="rtl" lang="fa">منفی کاذب (FN)</td><td dir="rtl" lang="fa">هدف واقعی بود اما سیستم از دست داد</td></tr><tr><td dir="rtl" lang="fa">منفی واقعی (TN)</td><td dir="rtl" lang="fa">هدف نبود و سیستم درست نادیده گرفت</td></tr></tbody></table></div>
+<pre><code class="language-text">Precision = TP / (TP + FP)
+Recall    = TP / (TP + FN)
+F1        = 2 × (Precision × Recall) / (Precision + Recall)</code></pre>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>دو معیار را اشتباه نگیر</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>Precision (دقت):</strong> از پاسخ‌هایی که سیستم داده، چند درصد درست بوده‌اند؟ → صحت خروجی. <strong>Recall (فراخوانی):</strong> از موارد واقعی موجود، چند درصد پیدا شده‌اند؟ → پوشش سیستم.</p></div></div>
+<h3 id="۸-۲-موازنه-عملی" dir="rtl" lang="fa">۸.۲. موازنهٔ عملی</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">سناریو</th><th dir="rtl" lang="fa">معیار اولویت‌دار</th><th dir="rtl" lang="fa">دلیل</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">تشخیص پزشکی</td><td dir="auto">Recall بالا</td><td dir="rtl" lang="fa">جا انداختن بیمار (FN) خطر جانی دارد؛ FP با آزمایش دوباره رفع می‌شود</td></tr><tr><td dir="rtl" lang="fa">کشف تقلب مالی</td><td dir="auto">Recall بالا</td><td dir="rtl" lang="fa">تراکنش مشکوکِ جاافتاده خسارت می‌زند؛ بررسی دستی FP قابل تحمل است</td></tr><tr><td dir="rtl" lang="fa">موتور جستجو</td><td dir="auto">Precision بالا</td><td dir="rtl" lang="fa">نتایج نخست باید مرتبط باشند؛ کاربر لینک نامرتبط را تحمل نمی‌کند</td></tr><tr><td dir="rtl" lang="fa">سیستم حقوقی/اداری</td><td dir="auto">Precision بالا</td><td dir="rtl" lang="fa">رأی اشتباه بر پایهٔ دادهٔ ناکارآمد عواقب سنگین دارد</td></tr></tbody></table></div>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>تعادل را انتخاب کن</span><span class="co-label">Important</span></div><div class="callout-body"><p dir="rtl" lang="fa">افزایش Precision معمولاً Recall را کم می‌کند و برعکس. وزن‌دهی به این دو، تصمیم <strong>کاربردی</strong> است و باید با وظیفه، هزینهٔ خطا و نیاز کاربر توجیه شود.</p></div></div>
+<h2 id="۹-خودآزمایی-self-check" dir="rtl" lang="fa">۹. خودآزمایی<span class="h-en" dir="ltr">Self-Check</span></h2>
+<div class="qa-list">
+<details class="qa"><summary><span>دو مؤلفهٔ اصلی BPE را نام ببرید و وظیفهٔ هر یک را بگویید.</span></summary><div class="qa-a" dir="rtl" lang="fa">Learner واژگان و قواعد ادغام را از پیکرهٔ آموزش می‌سازد؛ Segmenter همان قواعد را روی متن جدید اعمال می‌کند.</div></details>
+<details class="qa"><summary><span>چرا توکن‌سازی مبتنی بر فاصله برای فارسی کافی نیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">نیم‌فاصله، افعال مرکب و تصریف‌های متعدد باعث شکستن نادرست واژه‌ها یا انفجار واژگان می‌شوند.</div></details>
+<details class="qa"><summary><span>نقش کاراکتر پایان واژه (<code>-</code> یا <code>&lt;/w&gt;</code>) در BPE چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">مرز انتهای واژه را حفظ می‌کند تا زوج کاراکتر پایان یک واژه با شروع واژهٔ بعدی ادغام نشود.</div></details>
+<details class="qa"><summary><span>دو نمونه از توکن‌های حفاظت‌شده را نام ببرید.</span></summary><div class="qa-a" dir="rtl" lang="fa">نشانی وب (URL) و تاریخ ساخت‌یافته.</div></details>
+<details class="qa"><summary><span>فرمول Precision را بنویسید.</span></summary><div class="qa-a" dir="ltr" lang="en">TP / (TP + FP)</div></details>
+<details class="qa"><summary><span>فرمول Recall را بنویسید.</span></summary><div class="qa-a" dir="ltr" lang="en">TP / (TP + FN)</div></details>
+<details class="qa"><summary><span>چه زمانی Recall بر Precision ترجیح دارد؟ مثال بزنید.</span></summary><div class="qa-a" dir="rtl" lang="fa">در تشخیص پزشکی یا کشف تقلب؛ چون جا انداختن مورد مثبت (FN) خسارت سنگین دارد.</div></details>
+<details class="qa"><summary><span>الگوی Regex برای یک عدد ۴ رقمی متوالی چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa"><code>\d{4}</code> یا <code>[0-9]{4}</code>.</div></details>
+<details class="qa"><summary><span>چالش اصلی نقطه در تشخیص مرز جمله چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">نقطه هم پایان جمله است، هم نشان اختصاری، هم جداکنندهٔ اعشار و هم بخشی از دامنهٔ وب.</div></details>
+<details class="qa"><summary><span>F1-Score چه چیزی را نشان می‌دهد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">میانگین هارمونیک Precision و Recall؛ تعادل صحت و پوشش مدل.</div></details>
+</div>
+<h2 id="۱۰-واژه-نامه-glossary" dir="rtl" lang="fa">۱۰. واژه‌نامه<span class="h-en" dir="ltr">Glossary</span></h2>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">فارسی</th><th dir="ltr" lang="en">English</th><th dir="rtl" lang="fa">معنی کوتاه</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">توکن‌سازی</td><td dir="ltr" lang="en">Tokenization</td><td dir="rtl" lang="fa">شکستن متن به واحدهای پردازشی</td></tr><tr><td dir="rtl" lang="fa">کدگذاری زوج‌بایت</td><td dir="ltr" lang="en">Byte Pair Encoding (BPE)</td><td dir="rtl" lang="fa">ادغام متوالی پرتکرارترین زوج کاراکترها</td></tr><tr><td dir="rtl" lang="fa">یادگیرنده</td><td dir="ltr" lang="en">Learner</td><td dir="rtl" lang="fa">ماژول ساخت واژگان و قواعد ادغام</td></tr><tr><td dir="rtl" lang="fa">بخش‌بندی‌کننده</td><td dir="ltr" lang="en">Segmenter</td><td dir="rtl" lang="fa">ماژول اعمال قواعد روی متن جدید</td></tr><tr><td dir="rtl" lang="fa">عبارات چندواژه‌ای</td><td dir="ltr" lang="en">Multi-Word Expressions (MWEs)</td><td dir="rtl" lang="fa">ترکیب چند واژه با معنای یکپارچه</td></tr><tr><td dir="rtl" lang="fa">توکن‌های حفاظت‌شده</td><td dir="ltr" lang="en">Protected Tokens</td><td dir="rtl" lang="fa">رشته‌هایی که نباید خرد شوند</td></tr><tr><td dir="rtl" lang="fa">تشخیص مرز جمله</td><td dir="ltr" lang="en">Sentence Boundary Disambiguation</td><td dir="rtl" lang="fa">تعیین دقیق انتهای جمله</td></tr><tr><td dir="rtl" lang="fa">بیان‌های منظم</td><td dir="ltr" lang="en">Regular Expressions (Regex)</td><td dir="rtl" lang="fa">زبان توصیف الگوهای متنی</td></tr><tr><td dir="rtl" lang="fa">ماتریس اغتشاش</td><td dir="ltr" lang="en">Confusion Matrix</td><td dir="rtl" lang="fa">جدول ارزیابی خطاهای پیش‌بینی</td></tr><tr><td dir="rtl" lang="fa">دقت</td><td dir="ltr" lang="en">Precision</td><td dir="rtl" lang="fa">نسبت پاسخ‌های درست به کل پاسخ‌های سیستم</td></tr><tr><td dir="rtl" lang="fa">فراخوانی</td><td dir="ltr" lang="en">Recall</td><td dir="rtl" lang="fa">نسبت پاسخ‌های درست به کل موارد واقعی</td></tr><tr><td dir="ltr" lang="en">F1</td><td dir="ltr" lang="en">F1-Score</td><td dir="rtl" lang="fa">میانگین هارمونیک Precision و Recall</td></tr><tr><td dir="rtl" lang="fa">واژهٔ خارج از واژگان</td><td dir="ltr" lang="en">OOV</td><td dir="rtl" lang="fa">واژه‌ای که در واژگان مدل نیست</td></tr><tr><td dir="rtl" lang="fa">انفجار واژگان</td><td dir="ltr" lang="en">Vocabulary Explosion</td><td dir="rtl" lang="fa">رشد بی‌رویهٔ اندازهٔ واژگان</td></tr></tbody></table></div>
+      </div>
+
+      <div class="session-foot-note">
+        این صفحه یادداشت مطالعاتی دانشجویان بر اساس جلسهٔ کلاس است و جایگزین اعلام‌های رسمی استاد نیست.
+        منبع اصلی درس: <span dir="ltr">Jurafsky &amp; Martin, Speech and Language Processing (3rd ed. draft)</span>.
+        برای اصلاح یا تکمیل یادداشت‌ها، از طریق مخزن گیت‌هاب اقدام کنید.
+      </div>
+
+      <nav class="session-nav" aria-label="ناوبری جلسات">
+        <a class="prev" href="session-02.html"><span class="sn-label">جلسهٔ قبل</span><span class="sn-title">جلسه ۰۲ — سطوح زبانی، واژگان، نحو و گفتمان</span></a>
+        <a class="next" href="session-04.html"><span class="sn-label">جلسهٔ بعد</span><span class="sn-title">جلسه ۰۴ — بیان‌های منظم، ELIZA و فاصلهٔ ویرایش کمینه</span></a>
+      </nav>
+    </article>
+
+    <aside class="toc" data-toc aria-label="فهرست مطالب">
+      <div class="toc-title">در این صفحه</div>
+      <ol><li><a href="#۱-مقدمه-پیش-پردازش-دروازه-ورود-preprocessing-as-the-gate">۱. مقدمه: پیش‌پردازش، دروازهٔ ورود</a></li>
+<li><a href="#۲-سطوح-توکن-سازی-tokenization-granularity">۲. سطوح توکن‌سازی</a></li>
+<li><a href="#۳-نقد-توکن-سازی-مبتنی-بر-فاصله-whitespace-tokenization-critique">۳. نقد توکن‌سازی مبتنی بر فاصله</a></li>
+<li><a href="#۴-رویکرد-خردواژه-subword-tokenization">۴. رویکرد خردواژه</a></li>
+<li><a href="#۵-الگوریتم-bpe-byte-pair-encoding">۵. الگوریتم BPE</a></li>
+<li class="toc-sub"><a href="#۵-۱-گام-های-learner">۵.۱. گام‌های Learner</a></li>
+<li><a href="#۶-توکن-های-حفاظت-شده-و-عبارات-چندواژه-ای-protected-tokens-mwes">۶. توکن‌های حفاظت‌شده و عبارات چندواژه‌ای</a></li>
+<li class="toc-sub"><a href="#۶-۱-توکن-های-حفاظت-شده">۶.۱. توکن‌های حفاظت‌شده</a></li>
+<li class="toc-sub"><a href="#۶-۲-عبارات-چندواژه-ای-فارسی-mwes">۶.۲. عبارات چندواژه‌ای فارسی (MWEs)</a></li>
+<li><a href="#۷-تشخیص-مرز-جمله-و-regex-sentence-boundary-regex">۷. تشخیص مرز جمله و Regex</a></li>
+<li class="toc-sub"><a href="#۷-۱-چرا-نقطه-کافی-نیست">۷.۱. چرا نقطه کافی نیست؟</a></li>
+<li class="toc-sub"><a href="#۷-۲-گروه-بندی-و-ارجاع-پسین">۷.۲. گروه‌بندی و ارجاع پسین</a></li>
+<li><a href="#۸-ارزیابی-کمی-precision-recall-و-f1-quantitative-evaluation">۸. ارزیابی کمی: Precision، Recall و F1</a></li>
+<li class="toc-sub"><a href="#۸-۱-ماتریس-اغتشاش-confusion-matrix">۸.۱. ماتریس اغتشاش (Confusion Matrix)</a></li>
+<li class="toc-sub"><a href="#۸-۲-موازنه-عملی">۸.۲. موازنهٔ عملی</a></li>
+<li><a href="#۹-خودآزمایی-self-check">۹. خودآزمایی</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand" style="margin-bottom:14px">
+      <span class="brand-logo" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+      <span><strong>پردازش زبان‌های طبیعی</strong><span>NLP · SBU</span></span>
+    </div>
+    <div class="footer-bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> — پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</span>
+      <span class="mono">NLP · SBU</span>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

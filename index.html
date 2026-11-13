@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>پردازش زبان‌های طبیعی — دانشگاه شهید بهشتی</title>
+<meta name="description" content="یادداشت‌های درس پردازش زبان‌های طبیعی، دانشگاه شهید بهشتی — دکتر مهرنوش شمس‌فرد. مفاهیم پایه، سطوح زبانی، توکن‌سازی، ارزیابی و پیش‌پردازش.">
+<meta name="theme-color" content="#1d4ed8">
+<meta property="og:title" content="پردازش زبان‌های طبیعی — دانشگاه شهید بهشتی">
+<meta property="og:description" content="یادداشت جلسات و منابع درس NLP.">
+<meta property="og:type" content="website">
+<script>(function(){try{var t=localStorage.getItem("nlp-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" href="assets/img/sbu-logo-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="صفحهٔ اصلی درس پردازش زبان‌های طبیعی">
+      <span class="brand-logo" aria-hidden="true"><img src="assets/img/sbu-logo.svg" alt=""></span>
+      <span class="brand-text">
+        <span class="brand-title">پردازش زبان‌های طبیعی</span>
+        <span class="brand-sub">NLP · Shahid Beheshti University</span>
+      </span>
+    </a>
+    <nav class="nav" id="site-nav" data-nav aria-label="ناوبری اصلی">
+      <a href="index.html" aria-current="page">خانه</a>
+      <a href="notes.html">یادداشت جلسات</a>
+      <a href="exercises.html">تمرین‌ها و پروژه</a>
+      <a href="index.html#resources">منابع</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="تغییر پوسته" title="تغییر پوسته">
+        <svg data-icon-moon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg>
+        <svg data-icon-sun viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-label="باز کردن منو" aria-expanded="false" aria-controls="site-nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">دانشگاه شهید بهشتی</div>
+        <h1>پردازش زبان‌های طبیعی</h1>
+        <div class="hero-en" dir="ltr">Natural Language Processing</div>
+        <p class="hero-lead">
+          یادداشت‌های درس پردازش زبان‌های طبیعی: مفاهیم پایه، سطوح زبانی، واژگان و نحو،
+          توکن‌سازی، BPE، بیان‌های منظم و فاصلهٔ ویرایش — بر پایهٔ جلسات منتشرشده.
+        </p>
+        <p class="hero-lead-en" dir="ltr">
+          Course notes for Natural Language Processing at Shahid Beheshti University.
+          Everything here is drawn from the published session notes.
+        </p>
+        <div class="hero-meta">
+          <span class="chip"><span class="dot"></span> کارشناسی ارشد</span>
+          <span class="chip"><span class="dot"></span> دانشگاه شهید بهشتی</span>
+          <span class="chip"><span class="dot"></span> ۴ جلسهٔ منتشرشده</span>
+          <span class="chip"><span class="dot"></span> کتاب مرجع: J&amp;M</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="notes.html">
+            یادداشت جلسات
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="exercises.html">تمرین‌ها و پروژه</a>
+          <a class="btn btn--quiet" href="#topics">موضوعات</a>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-hidden="true">
+        <div class="panel-top">
+          <span class="panel-logo"><img src="assets/img/sbu-logo.svg" alt=""></span>
+          <span class="panel-label">NLP @ SBU · Course notes</span>
+          <span class="panel-dots"><span></span><span></span><span></span></span>
+        </div>
+        <div class="panel-type">
+          <div class="panel-word">زبان</div>
+          <div class="panel-sub">language · text · meaning</div>
+          <div class="panel-tokens">
+            <span class="token">توکن</span>
+            <span class="token token--hot">نیم‌فاصله</span>
+            <span class="token">BPE</span>
+            <span class="token">Regex</span>
+            <span class="token token--hot">Edit Distance</span>
+            <span class="token">POS</span>
+            <span class="token">P/R/F1</span>
+          </div>
+        </div>
+        <div class="panel-network">
+          <svg viewBox="0 0 380 96" fill="none" aria-hidden="true">
+            <g stroke="rgba(122,166,255,.42)" stroke-width="1">
+              <path d="M20 68 62 38 104 60 146 26 188 56 230 30 272 62 314 34 356 56"/>
+              <path d="M62 38 104 12 146 26M188 56 230 30M272 62 314 34M104 60 146 84 188 56M230 30 272 10 314 34M62 38 62 10M146 84 188 92M230 30 230 72"/>
+            </g>
+            <g fill="#9dc0ff">
+              <circle cx="20" cy="68" r="3"/><circle cx="62" cy="38" r="4"/><circle cx="104" cy="60" r="3"/>
+              <circle cx="146" cy="26" r="3.5"/><circle cx="188" cy="56" r="3"/><circle cx="230" cy="30" r="4"/>
+              <circle cx="272" cy="62" r="3"/><circle cx="314" cy="34" r="3.5"/><circle cx="356" cy="56" r="3"/>
+              <circle cx="104" cy="12" r="2"/><circle cx="272" cy="10" r="2"/><circle cx="146" cy="84" r="2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="panel-caption">
+          <span dir="ltr">Precision · Recall · F1</span>
+          <span dir="ltr">SBU · NLP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" style="margin-top:-1px">
+    <div class="stats" style="margin-top:28px">
+      <div class="stat"><div class="stat-value">۴</div><div class="stat-label">جلسهٔ منتشرشده<br><span class="mono" style="font-size:9px" dir="ltr">session notes</span></div></div>
+      <div class="stat"><div class="stat-value">۲</div><div class="stat-label">آزمون<br><span class="mono" style="font-size:9px" dir="ltr">midterm &amp; final</span></div></div>
+      <div class="stat"><div class="stat-value">۱</div><div class="stat-label">پروژهٔ پایانی<br><span class="mono" style="font-size:9px" dir="ltr">capstone</span></div></div>
+      <div class="stat"><div class="stat-value">۲۰+۲</div><div class="stat-label">مقیاس نمره<br><span class="mono" style="font-size:9px" dir="ltr">up to 22</span></div></div>
+    </div>
+  </div>
+
+  <section class="section" id="about">
+    <div class="container split">
+      <div>
+        <div class="eyebrow">دربارهٔ این سایت</div>
+        <h2 style="font-size:clamp(1.7rem,3.2vw,2.4rem);margin-bottom:14px">یادداشت‌های جلسات، بدون حاشیه</h2>
+        <div class="prose-block">
+          <p>
+            هر صفحهٔ این سایت خلاصهٔ یکی از جلسات درس است: تعریف‌ها، مثال‌ها، جدول‌ها،
+            پرسش‌های خودآزمایی و واژه‌نامهٔ دوزبانه. ساختار صفحه‌ها یکسان است تا مرور سریع
+            و مقایسهٔ جلسات آسان باشد.
+          </p>
+          <p>
+            محتوای آموزشی این سایت فقط از یادداشت‌های جلسات گرفته شده است. سرفصل رسمی، برنامهٔ کلاس، مهلت‌ها و جزئیات رسمی ارزیابی در این سایت بازتولید نمی‌شوند؛ مرجع
+            آن‌ها اعلام استاد درس است.
+          </p>
+          <p class="small muted" dir="ltr" style="margin-top:14px">
+            All substantive course content is derived from the published session notes.
+            Official syllabus, schedule, and deadlines are not reproduced here.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid--2" data-reveal>
+        <a class="card" href="sessions/session-01.html" style="text-decoration:none;color:inherit">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2Z"/><path d="M8 7h6M8 11h8"/></svg></div>
+          <h3>جلسه ۱ · بنیادها</h3>
+          <p>تعریف NLP، مدالیته‌ها، پیشینه، کاربردها، ابهام و چالش‌های فارسی.</p>
+        </a>
+        <a class="card" href="sessions/session-02.html" style="text-decoration:none;color:inherit">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3Z"/><path d="m8 12 3 3 5-6"/></svg></div>
+          <h3>جلسه ۲ · سطوح زبان</h3>
+          <p>آواشناسی، صرف، POS، معناشناسی، گفتمان و پیکره.</p>
+        </a>
+        <a class="card" href="sessions/session-03.html" style="text-decoration:none;color:inherit">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h13"/></svg></div>
+          <h3>جلسه ۳ · توکن‌سازی</h3>
+          <p>سطوح توکن‌سازی، BPE، توکن‌های حفاظت‌شده و Precision/Recall.</p>
+        </a>
+        <a class="card" href="sessions/session-04.html" style="text-decoration:none;color:inherit">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2Z"/><path d="m8 12 2 2 4-4"/></svg></div>
+          <h3>جلسه ۴ · Regex و ویرایش</h3>
+          <p>Regex، ELIZA، فاصلهٔ ویرایش کمینه و تصحیح املایی.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--soft" id="instructor">
+    <div class="container">
+      <h2 class="sr-only">استاد درس</h2>
+      <div class="instructor" style="grid-template-columns:92px minmax(0,1fr);align-items:center;max-width:620px;padding:20px 24px">
+        <div class="instructor-avatar" aria-hidden="true" style="font-size:1.35rem;border-radius:18px"><span>م.ش</span></div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:4px">استاد درس</div>
+          <h3>دکتر مهرنوش شمس‌فرد</h3>
+          <div class="en-name" dir="ltr" style="margin-bottom:8px">Dr. Mehrnoush Shamsfard</div>
+          <div class="role" style="margin-bottom:0">پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="topics">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">موضوعات</div>
+        <h2>چهار جلسهٔ منتشرشده</h2>
+        <p>فهرست زیر فقط موضوعات یادداشت‌های منتشرشده است، نه سرفصل رسمی درس.</p>
+      </div>
+      <div class="syllabus" data-reveal>
+        <a class="syllabus-item" href="sessions/session-01.html" style="text-decoration:none;color:inherit">
+          <span class="syl-num">۰۱</span>
+          <span class="syl-title">بنیادها، کاربردها و چالش‌های زبان فارسی<span class="syl-en" dir="ltr">Foundations, applications &amp; Persian challenges</span></span>
+          <span class="syl-tag">Read</span>
+        </a>
+        <a class="syllabus-item" href="sessions/session-02.html" style="text-decoration:none;color:inherit">
+          <span class="syl-num">۰۲</span>
+          <span class="syl-title">سطوح زبانی، واژگان، نحو و گفتمان<span class="syl-en" dir="ltr">Linguistic levels, lexicon, syntax &amp; discourse</span></span>
+          <span class="syl-tag">Read</span>
+        </a>
+        <a class="syllabus-item" href="sessions/session-03.html" style="text-decoration:none;color:inherit">
+          <span class="syl-num">۰۳</span>
+          <span class="syl-title">توکن‌سازی، BPE و ارزیابی کمی<span class="syl-en" dir="ltr">Tokenization, BPE &amp; quantitative evaluation</span></span>
+          <span class="syl-tag">Read</span>
+        </a>
+        <a class="syllabus-item" href="sessions/session-04.html" style="text-decoration:none;color:inherit">
+          <span class="syl-num">۰۴</span>
+          <span class="syl-title">بیان‌های منظم، ELIZA و فاصلهٔ ویرایش کمینه<span class="syl-en" dir="ltr">Regex, ELIZA &amp; minimum edit distance</span></span>
+          <span class="syl-tag">Read</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="schedule">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">آرشیو</div>
+        <h2>جلسات منتشرشده</h2>
+        <p>فهرست جلساتی که یادداشتشان منتشر شده است. برنامهٔ رسمی جلسات در این سایت نیست.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>جلسه</th>
+              <th>موضوع</th>
+              <th>یادداشت</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- SCHEDULE:START -->
+<tr><td class="cell-session"><span class="num">۰۱</span></td><td class="cell-topic"><span class="topic">بنیادها، کاربردها و چالش‌های زبان فارسی</span><br><span class="small muted" dir="ltr">Foundations, Applications &amp; Persian Challenges</span></td><td class="cell-status"><a class="badge badge--live" href="sessions/session-01.html">مطالعه</a></td></tr>
+<tr><td class="cell-session"><span class="num">۰۲</span></td><td class="cell-topic"><span class="topic">سطوح زبانی، واژگان، نحو و گفتمان</span><br><span class="small muted" dir="ltr">Linguistic Levels, Lexicon, Syntax &amp; Discourse</span></td><td class="cell-status"><a class="badge badge--live" href="sessions/session-02.html">مطالعه</a></td></tr>
+<tr><td class="cell-session"><span class="num">۰۳</span></td><td class="cell-topic"><span class="topic">توکن‌سازی، BPE و ارزیابی کمی</span><br><span class="small muted" dir="ltr">Tokenization, BPE &amp; Quantitative Evaluation</span></td><td class="cell-status"><a class="badge badge--live" href="sessions/session-03.html">مطالعه</a></td></tr>
+<tr><td class="cell-session"><span class="num">۰۴</span></td><td class="cell-topic"><span class="topic">بیان‌های منظم، ELIZA و فاصلهٔ ویرایش کمینه</span><br><span class="small muted" dir="ltr">Regex, ELIZA &amp; Minimum Edit Distance</span></td><td class="cell-status"><a class="badge badge--live" href="sessions/session-04.html">مطالعه</a></td></tr>
+<!-- SCHEDULE:END -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="grading">
+    <div class="container">
+      <div class="split">
+        <div>
+          <div class="eyebrow">ارزشیابی</div>
+          <h2 style="font-size:clamp(1.7rem,3.2vw,2.4rem);margin-bottom:14px">نمره از کجا می‌آید؟</h2>
+          <p class="lead">
+            بر اساس اعلام جلسهٔ دوم: میان‌ترم حدود ۷، پایان‌ترم حدود ۷، پروژهٔ پایانی ۳ تا ۴ و
+            تمرین‌ها و کوییزها ۳ تا ۴ نمره. مجموع نمرات در طول ترم تا ۲۲ سقف‌بندی می‌شود تا
+            امکان جبران فراهم باشد.
+          </p>
+          <div class="grade-note">
+            <strong>پروژهٔ پایانی:</strong> حدود ۳ تا ۴ نمره، با تمرکز بر زبان فارسی یا پروژه‌های
+            استاندارد NLP. جزئیات موضوع و تحویل را استاد درس اعلام می‌کند.
+          </div>
+        </div>
+        <div>
+          <div class="grade-grid">
+            <div class="grade-card"><div class="grade-value">~۷</div><div class="grade-label">میان‌ترم<span>Midterm</span></div></div>
+            <div class="grade-card"><div class="grade-value">~۷</div><div class="grade-label">پایان‌ترم<span>Final</span></div></div>
+            <div class="grade-card"><div class="grade-value">۳–۴</div><div class="grade-label">پروژهٔ پایانی<span>Capstone</span></div></div>
+            <div class="grade-card"><div class="grade-value">۳–۴</div><div class="grade-label">تمرین و کوییز<span>Homework &amp; quizzes</span></div></div>
+          </div>
+          <div class="stack-bar" aria-hidden="true">
+            <span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span>
+          </div>
+          <div class="stack-legend">
+            <span><i style="background:#1d4ed8"></i>میان‌ترم</span>
+            <span><i style="background:#60a5fa"></i>پایان‌ترم</span>
+            <span><i style="background:#93c5fd"></i>پروژه</span>
+            <span><i style="background:#bfdbfe"></i>تمرین و کوییز</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="resources">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">منابع</div>
+        <h2>لینک‌های ذکرشده در جلسات</h2>
+        <p>فقط منابعی که در یادداشت‌ها به آن‌ها اشاره شده است.</p>
+      </div>
+      <div class="book-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <article class="book">
+          <h3>Speech and Language Processing</h3>
+          <div class="book-en" dir="ltr">Jurafsky &amp; Martin · 3rd ed.</div>
+          <p>کتاب مرجع درس، بر اساس اعلام جلسهٔ دوم (نسخهٔ آگوست ۲۰۲۶).</p>
+          <a class="book-link" href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener noreferrer">متن آزاد کتاب <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+        <article class="book book--alt">
+          <h3>ACL Anthology</h3>
+          <div class="book-en" dir="ltr">ACL · EACL · NAACL · AACL</div>
+          <p>پایگاه مقالات کنفرانس‌های خانوادهٔ ACL که در جلسهٔ اول معرفی شد.</p>
+          <a class="book-link" href="https://aclanthology.org/" target="_blank" rel="noopener noreferrer">ACL Anthology <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">پرسش‌های متداول</div>
+        <h2>سه پاسخ کوتاه</h2>
+      </div>
+      <div class="faq" style="max-width:860px">
+        <details class="faq-item">
+          <summary>نمره‌دهی درس چگونه است؟</summary>
+          <div class="faq-body"><p>بر اساس اعلام جلسهٔ دوم: میان‌ترم حدود ۷، پایان‌ترم حدود ۷، پروژهٔ پایانی ۳ تا ۴ و تمرین‌ها و کوییزها ۳ تا ۴ نمره. مجموع تا ۲۲ سقف‌بندی می‌شود. هر تغییری را از اعلام رسمی استاد پیگیری کنید.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>کتاب مرجع درس چیست؟</summary>
+          <div class="faq-body"><p><span dir="ltr">Speech and Language Processing</span> نوشتهٔ Jurafsky و Martin، ویرایش سوم (نسخهٔ آگوست ۲۰۲۶). لینک متن آزاد در بخش منابع آمده است.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>آیا این یادداشت‌ها جای اعلام رسمی استاد را می‌گیرند؟</summary>
+          <div class="faq-body"><p>نه. این صفحه‌ها خلاصهٔ مطالعاتی بر پایهٔ جلسات‌اند. سرفصل رسمی، برنامهٔ کلاس، مهلت‌ها و جزئیات تحویل را از اعلام استاد درس پیگیری کنید.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="cta-band">
+        <div>
+          <h2>از جلسهٔ اول شروع کنید</h2>
+          <p>یادداشت‌ها با تعریف‌ها، مثال‌های فارسی، جدول‌ها و خودآزمایی، برای مرور سریع و مطالعهٔ عمیق طراحی شده‌اند.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn--ghost" href="notes.html">یادداشت‌ها</a>
+          <a class="btn btn--primary" href="exercises.html">تمرین‌ها</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-brand" href="index.html">
+          <span class="brand-logo" aria-hidden="true"><img src="assets/img/sbu-logo.svg" alt=""></span>
+          <span><strong>پردازش زبان‌های طبیعی</strong><span>NLP · Shahid Beheshti University</span></span>
+        </a>
+        <p>یادداشت‌های درس پردازش زبان‌های طبیعی، دانشگاه شهید بهشتی. محتوای آموزشی بر پایهٔ جلسات منتشرشده است؛ مرجع رسمی، اعلام استاد درس است.</p>
+      </div>
+      <div class="footer-col">
+        <h3>صفحه‌ها</h3>
+        <a href="index.html">خانه</a>
+        <a href="notes.html">یادداشت جلسات</a>
+        <a href="exercises.html">تمرین‌ها و پروژه</a>
+        <a href="index.html#resources">منابع</a>
+      </div>
+      <div class="footer-col">
+        <h3>منابع</h3>
+        <a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener noreferrer">J&amp;M · SLP 3rd ed.</a>
+        <a href="https://aclanthology.org/" target="_blank" rel="noopener noreferrer">ACL Anthology</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> — درس پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</span>
+      <span class="mono">NLP · SBU</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
