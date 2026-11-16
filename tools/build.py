@@ -95,6 +95,111 @@ def is_safe_url(url: str) -> bool:
     return True
 
 
+def _brace_span(s: str, i: int):
+    """s[i] == '{'. Return (content, index after '}') or (None, i)."""
+    depth = 0
+    for j in range(i, len(s)):
+        if s[j] == "{":
+            depth += 1
+        elif s[j] == "}":
+            depth -= 1
+            if depth == 0:
+                return s[i + 1:j], j + 1
+    return None, i
+
+
+MATH_CMDS = {
+    "\\mid": '<span class="m-mid">|</span>',
+    "\\prod": '<span class="m-op">∏</span>',
+    "\\sum": '<span class="m-op">∑</span>',
+    "\\times": "×",
+    "\\cdot": "·",
+    "\\cdots": "⋯",
+    "\\dots": "…",
+    "\\approx": "≈",
+    "\\Rightarrow": "⇒",
+    "\\rightarrow": "→",
+    "\\to": "→",
+    "\\le": "≤",
+    "\\ge": "≥",
+    "\\ne": "≠",
+    "\\lambda": "λ",
+    "\\infty": "∞",
+    "\\quad": '<span class="m-sp"></span>',
+    "\\qquad": '<span class="m-sp m-sp2"></span>',
+    "\\left": "",
+    "\\right": "",
+}
+
+
+def math_inline(s: str) -> str:
+    r"""Render a small math subset (\frac, _{}, ^{}, \mid, \prod, …) to HTML."""
+    out: List[str] = []
+    i, n = 0, len(s)
+    while i < n:
+        c = s[i]
+        if s.startswith("\\frac", i):
+            j = i + 5
+            while j < n and s[j].isspace():
+                j += 1
+            if j < n and s[j] == "{":
+                num, j = _brace_span(s, j)
+                if num is not None and j <= n:
+                    while j < n and s[j].isspace():
+                        j += 1
+                    if j < n and s[j] == "{":
+                        den, j = _brace_span(s, j)
+                        if den is not None and j <= n:
+                            out.append(
+                                '<span class="frac"><span class="frac-n">%s</span>'
+                                '<span class="frac-d">%s</span></span>'
+                                % (math_inline(num), math_inline(den))
+                            )
+                            i = j
+                            continue
+            out.append(esc(c))
+            i += 1
+            continue
+        if c in ("^", "_"):
+            tag = "sup" if c == "^" else "sub"
+            if i + 1 < n and s[i + 1] == "{":
+                content, j = _brace_span(s, i + 1)
+                if content is not None and j <= n:
+                    out.append(f"<{tag}>{math_inline(content)}</{tag}>")
+                    i = j
+                    continue
+            if i + 1 < n:
+                out.append(f"<{tag}>{esc(s[i + 1])}</{tag}>")
+                i += 2
+                continue
+            out.append(esc(c))
+            i += 1
+            continue
+        if s.startswith("\\text", i):
+            j = i + 5
+            if j < n and s[j] == "{":
+                content, j = _brace_span(s, j)
+                if content is not None and j <= n:
+                    out.append(f'<span class="m-text">{esc(content)}</span>')
+                    i = j
+                    continue
+            out.append(esc(c))
+            i += 1
+            continue
+        matched = False
+        for cmd in sorted(MATH_CMDS, key=len, reverse=True):
+            if s.startswith(cmd, i):
+                out.append(MATH_CMDS[cmd])
+                i += len(cmd)
+                matched = True
+                break
+        if matched:
+            continue
+        out.append(esc(c))
+        i += 1
+    return "".join(out)
+
+
 def inline_md(text: str) -> str:
     """Render inline Markdown after escaping the source."""
     stash: List[str] = []
@@ -105,6 +210,12 @@ def inline_md(text: str) -> str:
 
     # inline code first
     text = re.sub(r"`([^`\n]+)`", lambda m: keep(f"<code>{esc(m.group(1))}</code>"), text)
+    # inline math
+    text = re.sub(
+        r"\$([^$\n]+)\$",
+        lambda m: keep(f'<span class="math">{math_inline(m.group(1))}</span>'),
+        text,
+    )
     text = esc(text)
     # links
     def link(match: re.Match[str]) -> str:
@@ -175,8 +286,18 @@ class Renderer:
                     code_lines.append(lines[i])
                     i += 1
                 i += 1
-                cls = f' class="language-{esc(lang)}"' if lang else ""
-                out.append(f"<pre><code{cls}>{esc(chr(10).join(code_lines))}</code></pre>")
+                if lang.lower() == "math":
+                    rows = []
+                    for code_line in code_lines:
+                        if code_line.strip():
+                            rows.append(
+                                f'<div class="math-row"><span class="math">'
+                                f"{math_inline(code_line.strip())}</span></div>"
+                            )
+                    out.append(f'<div class="math-block" dir="ltr">{"".join(rows)}</div>')
+                else:
+                    cls = f' class="language-{esc(lang)}"' if lang else ""
+                    out.append(f"<pre><code{cls}>{esc(chr(10).join(code_lines))}</code></pre>")
                 continue
 
             # qa block (must precede generic callout parsing)
