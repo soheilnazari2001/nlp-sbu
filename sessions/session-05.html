@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مدل‌های زبانی، ان‌گرام و پرپلکسیتی — جلسه ۰۵ · پردازش زبان‌های طبیعی</title>
+<meta name="description" content="تصحیح املایی بافت‌مند با خوشه‌های هم‌اشتباه، تعریف مدل زبانی، فرض مارکوف و مدل‌های یونی/بای/ترای‌گرام، ارزیابی درونی با پرپلکسیتی، تقسیم پیکره و هموارسازی احتمال صفر.">
+<meta name="theme-color" content="#1d4ed8">
+<script>(function(){try{var t=localStorage.getItem("nlp-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" href="../assets/img/sbu-logo-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<div class="read-progress" data-read-progress aria-hidden="true"><span></span></div>
+
+<header class="session-topbar">
+  <div class="container inner">
+    <span class="brand-logo brand-logo--sm" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+    <a class="back" href="../notes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg><span>یادداشت‌ها</span></a>
+    <div class="bar-title"><span class="mono">S۰۵</span>مدل‌های زبانی، ان‌گرام و پرپلکسیتی</div>
+    <div class="actions">
+      <button class="icon-btn" type="button" data-print aria-label="چاپ صفحه" title="چاپ صفحه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="تغییر پوسته" title="تغییر پوسته"><svg data-icon-moon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg data-icon-sun viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="session-layout">
+    <article class="session-main">
+      <header class="session-hero">
+        <nav class="breadcrumb" aria-label="مسیر">
+          <a href="../index.html">خانه</a><span class="sep">/</span>
+          <a href="../notes.html">یادداشت جلسات</a><span class="sep">/</span>
+          <span>جلسه ۰۵</span>
+        </nav>
+        <div class="session-kicker">
+          <span class="badge badge--live">جلسه ۰۵</span>
+          <span class="tag tag--brand">پردازش زبان‌های طبیعی</span>
+        </div>
+        <h1>مدل‌های زبانی، ان‌گرام و پرپلکسیتی</h1>
+        <div class="h1-en" dir="ltr">Language Models, N-grams &amp; Perplexity</div>
+        <div class="session-summary"><strong>خلاصه: </strong>تصحیح املایی بافت‌مند با خوشه‌های هم‌اشتباه، تعریف مدل زبانی، فرض مارکوف و مدل‌های یونی/بای/ترای‌گرام، ارزیابی درونی با پرپلکسیتی، تقسیم پیکره و هموارسازی احتمال صفر.</div>
+        <div class="session-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>دکتر مهرنوش شمس‌فرد</span></span></div>
+      </header>
+
+      <details class="toc-mobile"><summary>فهرست مطالب</summary><ol><li><a href="#۱-نمای-کلی-جلسه-session-overview">۱. نمای کلی جلسه</a></li>
+<li><a href="#۲-تصحیح-املایی-بافت-مند-و-بهینه-سازی-سرعت-contextual-spelling-correction-search-optimization">۲. تصحیح املایی بافت‌مند و بهینه‌سازی سرعت</a></li>
+<li class="toc-sub"><a href="#۲-۱-راهکارهای-مطرح-شده-در-کلاس">۲.۱. راهکارهای مطرح‌شده در کلاس</a></li>
+<li class="toc-sub"><a href="#۲-۲-گلوگاه-محاسباتی">۲.۲. گلوگاه محاسباتی</a></li>
+<li class="toc-sub"><a href="#۲-۳-خوشه-بندی-آفلاین-دسته-های-پرخطا">۲.۳. خوشه‌بندی آفلاین دسته‌های پرخطا</a></li>
+<li><a href="#۳-مدل-زبانی-تعریف-پارادایم-ها-و-کاربردها-language-models-foundations-applications">۳. مدل زبانی: تعریف، پارادایم‌ها و کاربردها</a></li>
+<li class="toc-sub"><a href="#۳-۱-تعریف-مدل-زبانی">۳.۱. تعریف مدل زبانی</a></li>
+<li class="toc-sub"><a href="#۳-۲-آماری-در-برابر-عصبی">۳.۲. آماری در برابر عصبی</a></li>
+<li class="toc-sub"><a href="#۳-۳-کاربردهای-عملی">۳.۳. کاربردهای عملی</a></li>
+<li><a href="#۴-مدل-های-ان-گرام-و-فرض-مارکوف-n-gram-models-the-markov-assumption">۴. مدل‌های ان‌گرام و فرض مارکوف</a></li>
+<li class="toc-sub"><a href="#۴-۱-قاعده-زنجیره-ای-احتمال">۴.۱. قاعدهٔ زنجیره‌ای احتمال</a></li>
+<li class="toc-sub"><a href="#۴-۲-چالش-پراکندگی-داده-ها">۴.۲. چالش پراکندگی داده‌ها</a></li>
+<li class="toc-sub"><a href="#۴-۳-فرض-مارکوف">۴.۳. فرض مارکوف</a></li>
+<li class="toc-sub"><a href="#۴-۴-سه-مدل-پایه-ان-گرام">۴.۴. سه مدل پایهٔ ان‌گرام</a></li>
+<li class="toc-sub"><a href="#۴-۵-تایپ-در-برابر-توکن">۴.۵. تایپ در برابر توکن</a></li>
+<li class="toc-sub"><a href="#۴-۶-توکن-های-مرز-جمله">۴.۶. توکن‌های مرز جمله</a></li>
+<li><a href="#۵-موازنه-ها-و-محدودیت-های-ان-گرام-trade-offs-limitations">۵. موازنه‌ها و محدودیت‌های ان‌گرام</a></li>
+<li class="toc-sub"><a href="#۵-۱-تولید-متن-با-نمونه-برداری">۵.۱. تولید متن با نمونه‌برداری</a></li>
+<li class="toc-sub"><a href="#۵-۲-موازنه-انتخاب-اندازه-n">۵.۲. موازنهٔ انتخاب اندازهٔ N</a></li>
+<li class="toc-sub"><a href="#۵-۳-وابستگی-های-راه-دور">۵.۳. وابستگی‌های راه‌دور</a></li>
+<li class="toc-sub"><a href="#۵-۴-سطوح-بالاتر-نحو-و-معنا">۵.۴. سطوح بالاتر: نحو و معنا</a></li>
+<li><a href="#۶-ارزیابی-مدل-های-زبانی-و-پرپلکسیتی-lm-evaluation-perplexity">۶. ارزیابی مدل‌های زبانی و پرپلکسیتی</a></li>
+<li class="toc-sub"><a href="#۶-۱-ارزیابی-درونی-در-برابر-بیرونی">۶.۱. ارزیابی درونی در برابر بیرونی</a></li>
+<li class="toc-sub"><a href="#۶-۲-معیار-پرپلکسیتی">۶.۲. معیار پرپلکسیتی</a></li>
+<li class="toc-sub"><a href="#۶-۳-تقسیم-پیکره-و-اعتبارسنجی">۶.۳. تقسیم پیکره و اعتبارسنجی</a></li>
+<li><a href="#۷-هموارسازی-و-مدیریت-احتمال-صفر-smoothing-the-zero-probability-problem">۷. هموارسازی و مدیریت احتمال صفر</a></li>
+<li class="toc-sub"><a href="#۷-۱-چالش-احتمال-صفر">۷.۱. چالش احتمال صفر</a></li>
+<li class="toc-sub"><a href="#۷-۲-هموارسازی-لاپلاس-add-1">۷.۲. هموارسازی لاپلاس (Add-1)</a></li>
+<li class="toc-sub"><a href="#۷-۳-عقب-نشینی-backoff">۷.۳. عقب‌نشینی (Backoff)</a></li>
+<li class="toc-sub"><a href="#۷-۴-میان-یابی-خطی-linear-interpolation">۷.۴. میان‌یابی خطی (Linear Interpolation)</a></li>
+<li><a href="#۸-خودآزمایی-self-check">۸. خودآزمایی</a></li>
+<li><a href="#۹-پرسش-های-تحلیلی-analytical-questions">۹. پرسش‌های تحلیلی</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol></details>
+
+      <div class="prose">
+<h2 id="۱-نمای-کلی-جلسه-session-overview" dir="auto">۱. نمای کلی جلسه<span class="h-en" dir="ltr">Session Overview</span></h2>
+<p dir="rtl" lang="fa">جلسهٔ پنجم پس از مرور تصحیح املایی بافت‌مند (Contextual Spelling Correction)، ورود رسمی به <strong>مدل‌سازی زبانی (Language Modeling)</strong> است. مدل‌های زبانی از حیاتی‌ترین ارکان سیستم‌های هوشمند پردازش گفتار و متن‌اند و پایهٔ ریاضی خود را بر توزیع احتمال (Probability Distribution) و آمار پیکره‌ای (Corpus Statistics) بنا می‌نهند.</p>
+<p dir="rtl" lang="fa">محورهای این جلسه: مدل‌های ان‌گرام (N-gram Models)، فرض مارکوف (Markov Assumption)، ارزیابی درونی و بیرونی با محوریت پرپلکسیتی (Perplexity)، اعتبارسنجی پیکره (K-Fold Cross-Validation) و هموارسازی (Smoothing) برای حل مشکل احتمال صفر.</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">محور اصلی</th><th dir="rtl" lang="fa">مفاهیم کلیدی</th><th dir="rtl" lang="fa">کاربرد عملی</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">تصحیح املایی بافت‌مند</td><td dir="rtl" lang="fa">فاصلهٔ ویرایشی، بردارهای تعبیه (Embeddings)، خوشه‌بندی آفلاین</td><td dir="rtl" lang="fa">واژه‌پردازها و تصحیح متون</td></tr><tr><td dir="rtl" lang="fa">تعریف مدل زبانی</td><td dir="rtl" lang="fa">توزیع احتمال توالی‌ها P(W) و احتمال کلمهٔ بعدی</td><td dir="rtl" lang="fa">کیبورد هوشمند، ترجمهٔ ماشینی، ASR</td></tr><tr><td dir="rtl" lang="fa">سلسله‌مراتب ان‌گرام</td><td dir="rtl" lang="fa">یونی‌گرام، بای‌گرام، ترای‌گرام و فرض مارکوف</td><td dir="rtl" lang="fa">محاسبهٔ احتمال متون و تولید خودکار متن</td></tr><tr><td dir="rtl" lang="fa">ارزیابی مدل‌های زبانی</td><td dir="rtl" lang="fa">ارزیابی درونی در برابر بیرونی، پرپلکسیتی (PP)</td><td dir="rtl" lang="fa">مقایسهٔ کارایی مدل‌ها روی پیکرهٔ آزمون</td></tr><tr><td dir="rtl" lang="fa">هموارسازی</td><td dir="rtl" lang="fa">لاپلاس (Add-1)، عقب‌نشینی (Backoff)، میان‌یابی خطی</td><td dir="rtl" lang="fa">توزیع مجدد جرم احتمال برای کلمات دیده‌نشده</td></tr></tbody></table></div>
+<h2 id="۲-تصحیح-املایی-بافت-مند-و-بهینه-سازی-سرعت-contextual-spelling-correction-search-optimization" dir="auto">۲. تصحیح املایی بافت‌مند و بهینه‌سازی سرعت<span class="h-en" dir="ltr">Contextual Spelling Correction &amp; Search Optimization</span></h2>
+<p dir="rtl" lang="fa">در جلسات گذشته، الگوریتم‌های کمترین فاصلهٔ ویرایشی (Minimum Edit Distance) برای اصلاح کلماتی که خودشان ناواژه (Non-word) هستند بررسی شد. چالش اصلی جایی است که کلمهٔ اشتباه خودش واژهٔ معتبری در واژه‌نامه باشد: <strong>خطای واژهٔ واقعی (Real-word Error)</strong>.</p>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>خطای هم‌آوایی «حیاط / حیات»</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">در جملهٔ «در حیاتِ مدرسه بازی می‌کردند»، واژهٔ «حیات» در واژه‌نامه معتبر است اما در این بافت نادرست است و باید «حیاط» باشد. مدل باید بین اعضای دستهٔ هم‌اشتباه {حیاط، حیات} با کمک بافت تصمیم بگیرد.</p></div></div>
+<h3 id="۲-۱-راهکارهای-مطرح-شده-در-کلاس" dir="rtl" lang="fa">۲.۱. راهکارهای مطرح‌شده در کلاس</h3>
+<ol dir="auto"><li dir="rtl" lang="fa"><strong>فاصلهٔ برداری (Embedding Distance):</strong> فاصلهٔ معنایی کلمه با کلمات مجاور جمله حساب شود؛ اگر فاصلهٔ برداری واژه‌ای مانند «حیات» با کلمات بافت (مانند «در» و «مدرسه») بسیار زیاد باشد، نشانهٔ خطای احتمالی است.</li><li dir="rtl" lang="fa"><strong>مدل‌سازی ماسک‌گذاری (Masked Language Modeling):</strong> کلمهٔ موردنظر ماسک شود و مدل کلمات جایگزین محتمل را پیش‌بینی کند؛ سپس امتیاز کلمهٔ فعلی با امتیاز پیشنهادی‌های مدل مقایسه شود.</li></ol>
+<h3 id="۲-۲-گلوگاه-محاسباتی" dir="rtl" lang="fa">۲.۲. گلوگاه محاسباتی</h3>
+<p dir="rtl" lang="fa">اگر برای تک‌تک کلمات یک متن، کاندیدهای فاصلهٔ ویرایشی ۱ یا ۲ استخراج و سپس بردار معنایی یا احتمال بافت‌مند همهٔ آن‌ها محاسبه شود، سرعت اجرا به‌شدت افت می‌کند و از نظر عملیاتی ناممکن می‌شود.</p>
+<h3 id="۲-۳-خوشه-بندی-آفلاین-دسته-های-پرخطا" dir="rtl" lang="fa">۲.۳. خوشه‌بندی آفلاین دسته‌های پرخطا</h3>
+<p dir="rtl" lang="fa">راهکار بهینه: انتقال جستجو به مرحلهٔ پیش‌پردازش آفلاین.</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ساخت دسته‌های هم‌اشتباه (Confusion Sets):</strong> واژگانی که فاصلهٔ ویرایشی بسیار کمی دارند — مانند {حیات، حیاط} یا {مدال، مداد، مدار} — از قبل خوشه‌بندی و ذخیره می‌شوند.</li><li dir="rtl" lang="fa"><strong>فیلتر کردن در زمان اجرا (Online Filtering):</strong> الگوریتم فقط وقتی با عضوی از این خوشه‌های پرخطا روبه‌رو شود وارد محاسبهٔ سنگین احتمال بافت می‌شود.</li></ul>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>چرا آفلاین؟</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">حذف جستجوی ویرایشی از مسیر پردازش آنلاین، گلوگاه محاسباتی را از بین می‌برد؛ محاسبهٔ سنگین فقط برای اعضای خوشه‌های پرخطا اجرا می‌شود.</p></div></div>
+<h2 id="۳-مدل-زبانی-تعریف-پارادایم-ها-و-کاربردها-language-models-foundations-applications" dir="auto">۳. مدل زبانی: تعریف، پارادایم‌ها و کاربردها<span class="h-en" dir="ltr">Language Models: Foundations &amp; Applications</span></h2>
+<h3 id="۳-۱-تعریف-مدل-زبانی" dir="rtl" lang="fa">۳.۱. تعریف مدل زبانی</h3>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>مدل زبانی (Language Model)</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa">مدل زبانی مدلی ریاضی و آماری است که ساختار و رفتارهای یک زبان طبیعی را مدل‌سازی می‌کند: مکانیزمی که امکان <strong>شناسایی (Recognition)</strong> و <strong>تولید (Generation)</strong> جملات معتبر را بر پایهٔ توزیع احتمال استخراج‌شده از پیکره فراهم می‌سازد.</p></div></div>
+<p dir="rtl" lang="fa">دو وظیفهٔ اصلی:</p>
+<ol dir="auto"><li dir="rtl" lang="fa"><strong>سنجش اعتبار توالی:</strong> نسبت دادن احتمال به یک توالی از کلمات P(W) = P(w₁, w₂, …, wₙ) که نشان می‌دهد توالی تا چه حد در زبان طبیعی محتمل است.</li><li dir="rtl" lang="fa"><strong>پیش‌بینی و تولید کلمهٔ بعدی:</strong> محاسبهٔ احتمال شرطی وقوع wₖ به شرط کلمات قبلی: P(wₖ | w₁, w₂, …, wₖ₋₁).</li></ol>
+<h3 id="۳-۲-آماری-در-برابر-عصبی" dir="rtl" lang="fa">۳.۲. آماری در برابر عصبی</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">پارادایم</th><th dir="rtl" lang="fa">سازوکار</th></tr></thead><tbody><tr><td dir="auto">مدل‌های آماری (Statistical LMs)</td><td dir="rtl" lang="fa">شمارش تکرار دنباله‌ها در پیکره و احتمال شرطی بر پایهٔ آمار کلاسیک (مدل‌های ان‌گرام)</td></tr><tr><td dir="rtl" lang="fa">مدل‌های عصبی (Neural LMs)</td><td dir="rtl" lang="fa">شبکه‌های عصبی عمیق، خودتوجهی (Self-Attention) و بازنمایی‌های برداری متراکم (Dense Embeddings) — در جلسات آتی</td></tr></tbody></table></div>
+<h3 id="۳-۳-کاربردهای-عملی" dir="rtl" lang="fa">۳.۳. کاربردهای عملی</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>تکمیل خودکار (Auto-complete / Word Prediction):</strong> در صفحه‌کلید موبایل، کلمهٔ بعدی بر اساس توالی کلمات تایپ‌شده پیش‌بینی می‌شود.</li><li dir="rtl" lang="fa"><strong>بازسازی متون مختوش (Text Restoration):</strong> حدس بخش‌های آسیب‌دیده، تار یا پاک‌شده در کتیبه‌ها یا خروجی OCR.</li><li dir="rtl" lang="fa"><strong>ترجمهٔ ماشینی (Machine Translation):</strong> انتخاب بهترین هم‌آیی (Collocation)؛ برای ترجمهٔ «خواهر کوچک»، مدل زبانی تعیین می‌کند که P(younger sister) بسیار بالاتر از P(small sister) یا P(little sister) است.</li><li dir="rtl" lang="fa"><strong>تشخیص گفتار (Automatic Speech Recognition):</strong> رفع ابهام کلمات هم‌آوا (Homophones)؛ مثلاً «Ice Cream» در برابر «I Scream»، یا در فارسی «امداد» در برابر «امتداد».</li><li dir="rtl" lang="fa"><strong>تصحیح املایی بافت‌مند:</strong> تشخیص کلمات معتبری که در بافت جمله اشتباه به کار رفته‌اند.</li></ul>
+<h2 id="۴-مدل-های-ان-گرام-و-فرض-مارکوف-n-gram-models-the-markov-assumption" dir="auto">۴. مدل‌های ان‌گرام و فرض مارکوف<span class="h-en" dir="ltr">N-gram Models &amp; the Markov Assumption</span></h2>
+<h3 id="۴-۱-قاعده-زنجیره-ای-احتمال" dir="rtl" lang="fa">۴.۱. قاعدهٔ زنجیره‌ای احتمال</h3>
+<p dir="rtl" lang="fa">برای محاسبهٔ احتمال کل یک توالی W = (w₁, w₂, …, wₙ)، از قاعدهٔ زنجیره‌ای (Chain Rule) استفاده می‌شود:</p>
+<pre><code class="language-text">P(w₁, w₂, …, wₙ) = P(w₁) × P(w₂ | w₁) × P(w₃ | w₁, w₂) × … × P(wₙ | w₁, …, wₙ₋₁)
+
+P(w₁, w₂, …, wₙ) = ∏ₖ₌₁ⁿ P(wₖ | w₁, …, wₖ₋₁)</code></pre>
+<h3 id="۴-۲-چالش-پراکندگی-داده-ها" dir="rtl" lang="fa">۴.۲. چالش پراکندگی داده‌ها</h3>
+<p dir="rtl" lang="fa">تخمین شمارشی احتمال شرطیِ کامل:</p>
+<pre><code class="language-text">P(wₙ | w₁, …, wₙ₋₁) = C(w₁, …, wₙ₋₁, wₙ) / C(w₁, …, wₙ₋₁)</code></pre>
+<div class="callout callout--warning"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>پراکندگی داده‌ها (Data Sparsity)</span><span class="co-label">Caution</span></div><div class="callout-body"><p dir="rtl" lang="fa">در متون واقعی، احتمال این‌که یک توالی دقیق ۱۰ یا ۱۵ کلمه‌ای عیناً در پیکرهٔ آموزشی تکرار شده باشد نزدیک به صفر است. شمارش مخرج C(w₁, …, wₙ₋₁) صفر می‌شود و تخمین احتمال فرو می‌ریزد.</p></div></div>
+<h3 id="۴-۳-فرض-مارکوف" dir="rtl" lang="fa">۴.۳. فرض مارکوف</h3>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>فرض مارکوف (Markov Assumption)</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa">احتمال حضور کلمهٔ wₖ تنها به N−1 کلمهٔ بلافاصلهٔ قبل وابسته است و از تاریخچهٔ دورتر صرف‌نظر می‌شود:</p>
+<p dir="ltr" lang="en">P(wₖ | w₁, …, wₖ₋₁) ≈ P(wₖ | wₖ₋ₙ₊₁, …, wₖ₋₁)</p></div></div>
+<h3 id="۴-۴-سه-مدل-پایه-ان-گرام" dir="rtl" lang="fa">۴.۴. سه مدل پایهٔ ان‌گرام</h3>
+<p dir="rtl" lang="fa"><strong>یونی‌گرام (Unigram — N=1):</strong> کلمات کاملاً مستقل از هم فرض می‌شوند (مدل کیسه‌واژه):</p>
+<pre><code class="language-text">P(w₁, …, wₙ) ≈ ∏ₖ₌₁ⁿ P(wₖ) = ∏ₖ₌₁ⁿ C(wₖ) / N_tokens</code></pre>
+<p dir="rtl" lang="fa"><strong>بای‌گرام (Bigram — N=2):</strong> هر کلمه فقط به کلمهٔ بلافاصلهٔ قبل وابسته است (فرض مارکوف مرتبهٔ ۱):</p>
+<pre><code class="language-text">P(w₁, …, wₙ) ≈ ∏ₖ₌₁ⁿ P(wₖ | wₖ₋₁) = ∏ₖ₌₁ⁿ C(wₖ₋₁, wₖ) / C(wₖ₋₁)</code></pre>
+<p dir="rtl" lang="fa"><strong>ترای‌گرام (Trigram — N=3):</strong> هر کلمه به دو کلمهٔ قبل وابسته است (فرض مارکوف مرتبهٔ ۲):</p>
+<pre><code class="language-text">P(w₁, …, wₙ) ≈ ∏ₖ₌₁ⁿ P(wₖ | wₖ₋₂, wₖ₋₁) = ∏ₖ₌₁ⁿ C(wₖ₋₂, wₖ₋₁, wₖ) / C(wₖ₋₂, wₖ₋₁)</code></pre>
+<h3 id="۴-۵-تایپ-در-برابر-توکن" dir="rtl" lang="fa">۴.۵. تایپ در برابر توکن</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">مفهوم</th><th dir="rtl" lang="fa">تعریف</th></tr></thead><tbody><tr><td dir="auto">تایپ (Type)</td><td dir="rtl" lang="fa">تعداد واژه‌های منحصربه‌فرد و غیرتکراری واژگان؛ اندازهٔ واژگان (Vocabulary Size)</td></tr><tr><td dir="auto">توکن (Token / Instance)</td><td dir="rtl" lang="fa">تعداد کل واژه‌های جاری در پیکره با احتساب تکرارها</td></tr></tbody></table></div>
+<h3 id="۴-۶-توکن-های-مرز-جمله" dir="rtl" lang="fa">۴.۶. توکن‌های مرز جمله</h3>
+<p dir="rtl" lang="fa">برای این‌که مدل بتواند احتمال شروع یا پایان جمله با یک کلمهٔ خاص را حساب کند، توکن‌های ویژهٔ مرز جمله اضافه می‌شوند:</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong><code>&lt;s&gt;</code> (Start of Sentence):</strong> در ابتدای جمله اضافه می‌شود تا P(w₁ | &lt;s&gt;) محاسبه گردد.</li><li dir="rtl" lang="fa"><strong><code>&lt;/s&gt;</code> (End of Sentence):</strong> در انتهای جمله اضافه می‌شود تا P(&lt;/s&gt; | wₙ) احتمال خاتمهٔ جمله پس از wₙ را مدل کند.</li></ul>
+<h2 id="۵-موازنه-ها-و-محدودیت-های-ان-گرام-trade-offs-limitations" dir="rtl" lang="fa">۵. موازنه‌ها و محدودیت‌های ان‌گرام<span class="h-en" dir="ltr">Trade-offs &amp; Limitations</span></h2>
+<h3 id="۵-۱-تولید-متن-با-نمونه-برداری" dir="rtl" lang="fa">۵.۱. تولید متن با نمونه‌برداری</h3>
+<p dir="rtl" lang="fa">با داشتن احتمالات ان‌گرام می‌توان متن تولید کرد: پس از توکن <code>&lt;s&gt;</code>، کلمهٔ بعدی بر اساس توزیع احتمال شرطی <strong>نمونه‌برداری (Sampling)</strong> می‌شود و این کار تا رسیدن به توکن <code>&lt;/s&gt;</code> ادامه می‌یابد.</p>
+<h3 id="۵-۲-موازنه-انتخاب-اندازه-n" dir="rtl" lang="fa">۵.۲. موازنهٔ انتخاب اندازهٔ N</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">ویژگی</th><th dir="rtl" lang="fa">N کوچک (۱، ۲)</th><th dir="rtl" lang="fa">N بزرگ (۴، ۵)</th></tr></thead><tbody><tr><td dir="auto">روانی موضعی (Local Fluency)</td><td dir="rtl" lang="fa">بسیار پایین؛ جملات گسسته و نامفهوم</td><td dir="rtl" lang="fa">بسیار بالا؛ جملات روان و طبیعی</td></tr><tr><td dir="rtl" lang="fa">خلاقیت و تنوع تولید</td><td dir="rtl" lang="fa">بسیار بالا؛ ترکیب‌های جدید</td><td dir="rtl" lang="fa">بسیار پایین؛ کپی‌برداری محض از پیکره</td></tr><tr><td dir="rtl" lang="fa">خطر بیش‌برازش (Overfitting)</td><td dir="rtl" lang="fa">بسیار پایین</td><td dir="rtl" lang="fa">بسیار بالا؛ حفظ کردن عبارت‌های ۴تایی پیکره</td></tr><tr><td dir="rtl" lang="fa">پراکمندی و احتمال صفر (Sparsity)</td><td dir="rtl" lang="fa">بسیار کم</td><td dir="rtl" lang="fa">بسیار شدید</td></tr><tr><td dir="rtl" lang="fa">حافظه و فضای ذخیره‌سازی</td><td dir="rtl" lang="fa">کم و سبک</td><td dir="rtl" lang="fa">بسیار سنگین</td></tr></tbody></table></div>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>نتیجه‌گیری استاد</span><span class="co-label">Important</span></div><div class="callout-body"><p dir="rtl" lang="fa">در سیستم‌های عملی، مقدار بهینهٔ N معمولاً ۲ یا ۳ (بای‌گرام یا ترای‌گرام) است. Nهای بالاتر بیش‌برازش و افت شدید احتمالات می‌آورند؛ Nهای پایین‌تر ساختار نحوی را تخریب می‌کنند.</p></div></div>
+<h3 id="۵-۳-وابستگی-های-راه-دور" dir="rtl" lang="fa">۵.۳. وابستگی‌های راه‌دور</h3>
+<p dir="rtl" lang="fa">مدل‌های ان‌گرام به دلیل ماهیت موضعی فرض مارکوف، وابستگی‌های با فاصلهٔ زیاد را مدیریت نمی‌کنند.</p>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>وابستگی راه‌دور نهاد و فعل</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">در جملهٔ «مردی که هفتهٔ گذشته از روی پل بزرگ شهر پرید، دیوانه بود»، مطابقت نهاد («مردی») و فعل («بود») نیازمند حفظ ارتباط در طول چندین کلمهٔ واسط است. مدل بای‌گرام یا ترای‌گرام عبارت‌های واسط را ندیده و نمی‌تواند این ارتباط دورافتاده را حفظ کند.</p></div></div>
+<h3 id="۵-۴-سطوح-بالاتر-نحو-و-معنا" dir="rtl" lang="fa">۵.۴. سطوح بالاتر: نحو و معنا</h3>
+<p dir="rtl" lang="fa">برای جبران محدودیت ان‌گرام‌های واژگانی، ان‌گرام در سطوح دیگر تعریف می‌شود:</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ان‌گرام برچسب‌های نحوی (POS Tag N-grams):</strong> بررسی توالی برچسب‌ها مانند P(Noun | Adj).</li><li dir="rtl" lang="fa"><strong>نقش‌های معنایی (Semantic Roles):</strong> مدل‌سازی رابطهٔ کنش‌گر (Agent)، ابزار (Instrument) و کنش‌پذیر (Patient) که با تغییر ساختار نحوی جمله (پارافریز) ثابت می‌مانند.</li></ul>
+<h2 id="۶-ارزیابی-مدل-های-زبانی-و-پرپلکسیتی-lm-evaluation-perplexity" dir="rtl" lang="fa">۶. ارزیابی مدل‌های زبانی و پرپلکسیتی<span class="h-en" dir="ltr">LM Evaluation &amp; Perplexity</span></h2>
+<h3 id="۶-۱-ارزیابی-درونی-در-برابر-بیرونی" dir="rtl" lang="fa">۶.۱. ارزیابی درونی در برابر بیرونی</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">نوع ارزیابی</th><th dir="rtl" lang="fa">تعریف</th></tr></thead><tbody><tr><td dir="auto">بیرونی (Extrinsic)</td><td dir="rtl" lang="fa">قرار دادن مدل زبانی در یک سیستم کاربردی نهایی (مانند ASR یا تصحیح املایی) و سنجش ارتقای کارایی کل سیستم</td></tr><tr><td dir="auto">درونی (Intrinsic)</td><td dir="rtl" lang="fa">ارزیابی مستقیم کیفیت مدل روی پیکرهٔ آزمون مستقل، بدون سامانهٔ جانبی؛ معیار اصلی: پرپلکسیتی (PP)</td></tr></tbody></table></div>
+<h3 id="۶-۲-معیار-پرپلکسیتی" dir="rtl" lang="fa">۶.۲. معیار پرپلکسیتی</h3>
+<p dir="rtl" lang="fa">پرپلکسیتی درجهٔ عدم قطعیت (Uncertainty) یا تعداد گزینه‌های محتمل فعال (Branching Factor) مدل در انتخاب کلمهٔ بعدی را نشان می‌دهد: معکوس احتمال کل دادهٔ آزمون، نرمال‌شده به تعداد کلمات (میانگین هندسی معکوس احتمالات).</p>
+<pre><code class="language-text">PP(W) = P(w₁, w₂, …, wₙ)^(−1/N) = ( 1 / P(w₁, w₂, …, wₙ) )^(1/N)
+
+بای‌گرام:  PP(W) = ( ∏ᵢ₌₁ⁿ 1 / P(wᵢ | wᵢ₋₁) )^(1/N)</code></pre>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>قاعدهٔ طلایی پرپلکسیتی</span><span class="co-label">Important</span></div><div class="callout-body"><p dir="rtl" lang="fa">هرچه پرپلکسیتی <strong>کمتر</strong> باشد، مدل زبانی بهتر و دقیق‌تر است. PP کمتر یعنی مدل احتمال بالاتری به جملات معتبر دادهٔ آزمون اختصاص داده است.</p></div></div>
+<p dir="rtl" lang="fa"><strong>بنچمارک وال‌استریت ژورنال:</strong> پیکرهٔ استاندارد WSJ با آموزش روی ۳۸ میلیون کلمه و آزمون روی ۱٫۵ میلیون کلمه:</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">مدل</th><th dir="rtl" lang="fa">پرپلکسیتی (PP) روی دادهٔ آزمون</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">یونی‌گرام (Unigram)</td><td dir="rtl" lang="fa">۹۶۲ — عدم قطعیت فوق‌العاده بالا</td></tr><tr><td dir="rtl" lang="fa">بای‌گرام (Bigram)</td><td dir="rtl" lang="fa">۱۷۰ — افت شدید سرگشتگی و بهبود چشم‌گیر</td></tr><tr><td dir="rtl" lang="fa">ترای‌گرام (Trigram)</td><td dir="rtl" lang="fa">۱۰۹ — بهترین کارایی و کمترین سرگشتگی</td></tr></tbody></table></div>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>تحلیل استاد</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">تفاوت ۹۶۲ تا ۱۷۰ فاحش است و لزوم عبور از یونی‌گرام به بای‌گرام را نشان می‌دهد. تفاوت ۱۷۰ تا ۱۰۹ هم قابل توجه است، اما از ترای‌گرام به بالا هزینهٔ پردازشی نسبت به میزان بهبود پرپلکسیتی بسیار سنگین می‌شود.</p></div></div>
+<h3 id="۶-۳-تقسیم-پیکره-و-اعتبارسنجی" dir="rtl" lang="fa">۶.۳. تقسیم پیکره و اعتبارسنجی</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>مجموعهٔ آموزش (Training — حدود ۸۰٪):</strong> استخراج آمار شمارش ان‌گرام‌ها.</li><li dir="rtl" lang="fa"><strong>مجموعهٔ توسعه / اعتبارسنجی (Development — حدود ۱۰٪):</strong> تنظیم هایپرپارامترها (مانند ضرایب هموارسازی λ).</li><li dir="rtl" lang="fa"><strong>مجموعهٔ آزمون (Test — حدود ۱۰٪):</strong> ارزیابی نهایی و محاسبهٔ پرپلکسیتی.</li></ul>
+<p dir="rtl" lang="fa">الزامات تقسیم‌بندی:</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>توزیع همسان (Stratified Distribution):</strong> توزیع طول جملات، سبک نگارش و حوزهٔ موضوعی در دادهٔ آموزش و آزمون باید کاملاً همسان باشد.</li><li dir="rtl" lang="fa"><strong>جلوگیری از تسرب داده (Data Leakage):</strong> دادهٔ آزمون نباید تحت هیچ شرایطی در طول آموزش یا تنظیم پارامترها مشاهده شود.</li></ul>
+<div class="callout callout--warning"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>تسرب داده</span><span class="co-label">Caution</span></div><div class="callout-body"><p dir="rtl" lang="fa">اگر دادهٔ آزمون در فرایند آموزش یا تنظیم پارامتر دیده شود، پرپلکسیتی گزارش‌شده خوش‌بینانه و غیرواقعی خواهد بود.</p></div></div>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>اعتبارسنجی متقابل K-تایی</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">برای اطمینان از عدم وابستگی نتیجه به یک تقسیم تصادفی خاص، داده‌ها به K بخش تقسیم می‌شوند و ارزیابی در K نوبت تکرار و میانگین‌گیری می‌شود (K-Fold Cross-Validation).</p></div></div>
+<h2 id="۷-هموارسازی-و-مدیریت-احتمال-صفر-smoothing-the-zero-probability-problem" dir="auto">۷. هموارسازی و مدیریت احتمال صفر<span class="h-en" dir="ltr">Smoothing &amp; the Zero-Probability Problem</span></h2>
+<h3 id="۷-۱-چالش-احتمال-صفر" dir="rtl" lang="fa">۷.۱. چالش احتمال صفر</h3>
+<p dir="rtl" lang="fa">اگر ان‌گرامی در دادهٔ آزمون ظاهر شود که در دادهٔ آموزش حتی یک‌بار هم تکرار نشده است (C(wₖ₋₁, wₖ) = 0)، احتمال شرطی آن صفر می‌شود:</p>
+<pre><code class="language-text">P(wₖ | wₖ₋₁) = 0   ⇒   P(W) = 0   ⇒   PP(W) = 1/0 → ∞</code></pre>
+<div class="callout callout--warning"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>احتمال صفر</span><span class="co-label">Caution</span></div><div class="callout-body"><p dir="rtl" lang="fa">صفر شدن احتمال یک توکن، احتمال کل توالی را صفر و پرپلکسیتی را بی‌نهایت می‌کند. روش‌های هموارسازی بخشی از جرم احتمال را از ان‌گرام‌های پرتکرار می‌گیرند و به ان‌گرام‌های دیده‌نشده اختصاص می‌دهند.</p></div></div>
+<h3 id="۷-۲-هموارسازی-لاپلاس-add-1" dir="rtl" lang="fa">۷.۲. هموارسازی لاپلاس (Add-1)</h3>
+<p dir="rtl" lang="fa">ساده‌ترین روش هموارسازی: افزودن عدد ۱ به شمارش تمام ان‌گرام‌های ممکن.</p>
+<pre><code class="language-text">P_Laplace(wᵢ | wᵢ₋₁) = ( C(wᵢ₋₁, wᵢ) + 1 ) / ( C(wᵢ₋₁) + V )</code></pre>
+<p dir="rtl" lang="fa">V برابر تعداد کل تایپ‌های واژگان (اندازهٔ واژگان) است تا شرط مجموع احتمالات (ΣP = 1) برقرار بماند.</p>
+<div class="callout callout--warning"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>نقد روش لاپلاس</span><span class="co-label">Caution</span></div><div class="callout-body"><p dir="rtl" lang="fa">این روش بخش بسیار بزرگی از جرم احتمال را به کلمات دیده‌نشده اختصاص می‌دهد و احتمال ان‌گرام‌های واقعی و پرتکرار به‌شدت افت می‌کند؛ بنابراین برای پیکره‌های بزرگ عملکرد مناسبی ندارد.</p></div></div>
+<h3 id="۷-۳-عقب-نشینی-backoff" dir="rtl" lang="fa">۷.۳. عقب‌نشینی (Backoff)</h3>
+<p dir="rtl" lang="fa">در روش‌های عقب‌نشینی (مانند Stupid Backoff یا Katz Backoff)، اگر اطلاعاتی از ترای‌گرام موجود نباشد، الگوریتم به بای‌گرام و در نهایت به یونی‌گرام عقب می‌نشیند:</p>
+<pre><code class="language-text">اگر C(wᵢ₋₂, wᵢ₋₁, wᵢ) &gt; 0     → استفاده از ترای‌گرام
+وگرنه اگر C(wᵢ₋₁, wᵢ) &gt; 0      → استفاده از بای‌گرام با ضریب جریمه
+وگرنه                           → یونی‌گرام یا مقدار ثابت برای کلمات ناشناخته (&lt;UNK&gt;)</code></pre>
+<h3 id="۷-۴-میان-یابی-خطی-linear-interpolation" dir="auto">۷.۴. میان‌یابی خطی (Linear Interpolation)</h3>
+<p dir="rtl" lang="fa">به جای تصمیم قطعی میان ان‌گرام‌ها، احتمالات یونی‌گرام، بای‌گرام و ترای‌گرام ترکیب خطی می‌شوند:</p>
+<pre><code class="language-text">P_interp(wᵢ | wᵢ₋₂, wᵢ₋₁) = λ₃·P(wᵢ | wᵢ₋₂, wᵢ₋₁) + λ₂·P(wᵢ | wᵢ₋₁) + λ₁·P(wᵢ)
+
+شرط:  λ₁ + λ₂ + λ₃ = 1   و   λ₁, λ₂, λ₃ ≥ 0</code></pre>
+<p dir="rtl" lang="fa"><strong>ضرایب وابسته به بافت (Context-Dependent Lambdas):</strong> در حالت پیشرفته‌تر، ضرایب λ ثابت نیستند و تابعی از بافت پیشین‌اند: λ(wᵢ₋₂, wᵢ₋₁).</p>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>مثال استاد: «شورای عالی»</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">برای ترکیب‌های بسیار رایج و هم‌آیند مانند «شورای عالی»، وزن λ₃ بسیار بزرگ‌تر انتخاب می‌شود، چون احتمال کلمهٔ بعدی (مانند «انقلاب» یا «آموزش») در بافت سه‌تایی بسیار بالاست. اما برای بافت‌های نادر، وزن بای‌گرام یا یونی‌گرام تقویت می‌گردد.</p></div></div>
+<h2 id="۸-خودآزمایی-self-check" dir="rtl" lang="fa">۸. خودآزمایی<span class="h-en" dir="ltr">Self-Check</span></h2>
+<div class="qa-list">
+<details class="qa"><summary><span>هدف اصلی از خوشه‌بندی آفلاین دسته‌های هم‌اشتباه (Confusion Sets) در تصحیح املایی بافت‌مند چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">کاهش گلوگاه محاسباتی و افزایش سرعت در زمان اجرای آنلاین؛ با خوشه‌بندی پیش‌فرض کلمات دارای فاصلهٔ ویرایشی کم، سیستم تنها زمانی وارد محاسبات سنگین بافت می‌شود که با یکی از کلمات پرخطا مواجه گردد.</div></details>
+<details class="qa"><summary><span>دو وظیفهٔ اصلی یک مدل زبانی را نام ببرید.</span></summary><div class="qa-a" dir="rtl" lang="fa">۱) سنجش اعتبار و اختصاص احتمال به یک توالی متنی P(W)، و ۲) پیش‌بینی احتمال وقوع کلمهٔ بعدی در توالی P(wₖ | w₁, …, wₖ₋₁).</div></details>
+<details class="qa"><summary><span>چرا برای «خواهر کوچک»، مدل زبانی عبارت younger sister را به small sister ترجیح می‌دهد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">زیرا مدل زبانی بر اساس آمار هم‌آیی‌ها (Collocations) در پیکرهٔ متنی آموزش دیده است و احتمال وقوع توالی younger sister در زبان طبیعی بسیار بیشتر از small sister است.</div></details>
+<details class="qa"><summary><span>قاعدهٔ زنجیره‌ای احتمال (Chain Rule) را برای جملهٔ ۴ کلمه‌ای W = (w₁, w₂, w₃, w₄) بنویسید.</span></summary><div class="qa-a" dir="ltr" lang="en">P(w₁, w₂, w₃, w₄) = P(w₁) × P(w₂ | w₁) × P(w₃ | w₁, w₂) × P(w₄ | w₁, w₂, w₃).</div></details>
+<details class="qa"><summary><span>فرض مارکوف مرتبهٔ اول (First-order Markov Assumption) احتمال P(w₄ | w₁, w₂, w₃) را چگونه تقریب می‌زند؟</span></summary><div class="qa-a" dir="rtl" lang="fa">شرط کلمات دورتر را حذف می‌کند و آن را تنها به کلمهٔ بلافاصلهٔ قبل تقریب می‌زند: P(w₄ | w₁, w₂, w₃) ≈ P(w₄ | w₃).</div></details>
+<details class="qa"><summary><span>تفاوت تایپ (Type) و توکن (Token) در یک پیکرهٔ متنی چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">تایپ تعداد واژه‌های منحصربه‌فرد و غیرتکراری واژگان است، در حالی که توکن تعداد کل کلمات موجود در متن با احتساب تکرارهاست.</div></details>
+<details class="qa"><summary><span>چرا اضافه کردن توکن‌های &lt;s&gt; و &lt;/s&gt; در مدل‌سازی زبانی ضروری است؟</span></summary><div class="qa-a" dir="rtl" lang="fa">توکن &lt;s&gt; محاسبهٔ احتمال شروع جمله با یک کلمهٔ خاص را ممکن می‌سازد و توکن &lt;/s&gt; احتمال پایان یافتن جمله را مدل‌سازی می‌کند.</div></details>
+<details class="qa"><summary><span>افزایش مقدار N در مدل‌های ان‌گرام چه تأثیری بر روانی موضعی و بیش‌برازش (Overfitting) دارد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">روانی موضعی (Local Fluency) را به‌شدت افزایش می‌دهد، اما خطر بیش‌برازش را بالا برده و توانایی تولید جملات خلاقانهٔ جدید را کاهش می‌دهد.</div></details>
+<details class="qa"><summary><span>فرمول ریاضی پرپلکسیتی (PP) برای یک توالی از کلمات به طول N را بنویسید.</span></summary><div class="qa-a" dir="ltr" lang="en">PP(W) = P(w₁, w₂, …, wₙ)^(−1/N) = ( 1 / P(w₁, w₂, …, wₙ) )^(1/N).</div></details>
+<details class="qa"><summary><span>فرمول هموارسازی لاپلاس (Add-1 Smoothing) را برای مدل بای‌گرام P(wᵢ | wᵢ₋₁) بنویسید و پارامتر V را تعریف کنید.</span></summary><div class="qa-a" dir="rtl" lang="fa">P_Laplace(wᵢ | wᵢ₋₁) = ( C(wᵢ₋₁, wᵢ) + 1 ) / ( C(wᵢ₋₁) + V ). در این فرمول V اندازهٔ واژگان است: تعداد کل تایپ‌های منحصربه‌فرد در پیکره.</div></details>
+</div>
+<h2 id="۹-پرسش-های-تحلیلی-analytical-questions" dir="auto">۹. پرسش‌های تحلیلی<span class="h-en" dir="ltr">Analytical Questions</span></h2>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>موازنهٔ اندازهٔ ان‌گرام در کیبورد هوشمند</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">قصد دارید یک سیستم پیشنهاددهندهٔ کلمه برای کیبورد هوشمند گوشی طراحی کنید. چالش‌های استفاده از مدل یونی‌گرام (N=1) و مدل ۴-گرام (N=4) را مقایسه کنید و برای انتخاب مقدار مناسب N دلیل فنی بیاورید.</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>راهنمای پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">یونی‌گرام ساختار نحوی را تخریب می‌کند و پیشنهادهای بی‌ربط می‌دهد (روانی موضعی پایین)؛ ۴-گرام عبارت‌های پیکره را حفظ می‌کند (بیش‌برازش)، حافظهٔ سنگین می‌خواهد و برای دنباله‌های جدید پرپلکسیتی بی‌نهایت می‌آورد. برای موبایل (حافظهٔ محدود + پاسخ سریع) بای‌گرام یا ترای‌گرام با هموارسازی، نقطهٔ تعادل است — نگاه کنید به بخش‌های ۵.۲ و ۷.</p></div></div>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>مقایسهٔ دو مدل با پرپلکسیتی</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">دو مدل زبانی A و B روی یک پیکرهٔ آزمون یکسان ارزیابی شده‌اند: PP(A) = ۱۲۰ و PP(B) = ۴۵۰. کدام مدل برتر است؟ مفهوم الگوریتمی و آماری این تفاوت عددی را تبیین کنید.</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>راهنمای پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">مدل A برتر است؛ پرپلکسیتی کمتر یعنی عدم قطعیت کمتر و اختصاص احتمال بالاتر به دادهٔ آزمون. از نظر آماری، پرپلکسیتی معکوس میانگین هندسی احتمالات است، پس PP برابر ۱۲۰ یعنی مدل به‌طور میانگین انگار میان ۱۲۰ گزینهٔ تقریباً هم‌احتمال انتخاب می‌کند — نگاه کنید به بخش ۶.۲.</p></div></div>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>نقد لاپلاس در برابر میان‌یابی خطی</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">چرا هموارسازی لاپلاس (Add-1) در پیکره‌های بزرگ با واژگان عریض (بیش از ۱۰۰٬۰۰۰ تایپ) به افت کیفیت می‌انجامد؟ میان‌یابی خطی این نقص را چگونه برطرف می‌سازد؟</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>راهنمای پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">در لاپلاس، مخرج C(wᵢ₋₁) + V با بزرگ شدن V تحت سلطهٔ تعداد تایپ‌ها می‌رود و بخش بزرگی از جرم احتمال به ان‌گرام‌های دیده‌نشده منتقل می‌شود؛ احتمال ان‌گرام‌های واقعی به‌شدت افت می‌کند. میان‌یابی خطی به‌جای افزودن یکنواخت، احتمالات یونی/بای/ترای‌گرام را با وزن‌های قابل تنظیم (λ) ترکیب می‌کند و وزن‌ها را می‌توان با دادهٔ توسعه یاد گرفت — نگاه کنید به بخش‌های ۷.۲ و ۷.۴.</p></div></div>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>وابستگی‌های راه‌دور در فارسی</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">چرا مدل‌های ان‌گرام مبتنی بر فرض مارکوف در ساختارهای نحوی پیچیدهٔ فارسی — مانند فاصله افتادن میان نهاد و فعل با جمله‌های پیرو — خطا می‌کنند؟ چه راهکارهایی برای بهبود وجود دارد؟</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>راهنمای پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">فرض مارکوف فقط N−1 کلمهٔ قبل را می‌بیند و عبارت‌های واسطِ میان نهاد و فعل را از دست می‌دهد؛ مطابقت نهاد و فعل (مانند مثال «مردی که … بود» در بخش ۵.۳) ورای پنجرهٔ بای/ترای‌گرام است. راهکارهای مطرح‌شده: ان‌گرام برچسب‌های نحوی (POS) و نقش‌های معنایی که ساختار را فشرده و پایدار می‌کنند (بخش ۵.۴).</p></div></div>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>طراحی پروتکل ارزیابی پیکره</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">در یک پروژهٔ NLP، دادهٔ آموزش از مقالات علمی و دادهٔ آزمون از نظرات محاوره‌ای شبکه‌های اجتماعی جمع‌آوری شده است. خطاهای احتمالی این تصمیم را نقد کنید و اصلاح آن را با اعتبارسنجی متقابل K-تایی شرح دهید.</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>راهنمای پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">دو پیکره توزیع ناهمسان دارند (سبک نگارش، طول جمله، حوزهٔ موضوعی): مدل روی متونی آزموده می‌شود که نمایندهٔ دادهٔ آموزش نیستند و پرپلکسیتی گزارش‌شده گمراه‌کننده می‌شود. اصلاح: پیکرهٔ یکپارچه از یک حوزه، تقسیم طبقه‌بندی‌شده (Stratified) به آموزش/توسعه/آزمون و اعتبارسنجی K-تایی برای اطمینان از پایداری نتیجه نسبت به تقسیم‌بندی — نگاه کنید به بخش ۶.۳.</p></div></div>
+<h2 id="۱۰-واژه-نامه-glossary" dir="rtl" lang="fa">۱۰. واژه‌نامه<span class="h-en" dir="ltr">Glossary</span></h2>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">فارسی</th><th dir="ltr" lang="en">English</th><th dir="rtl" lang="fa">معنی کوتاه</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">مدل زبانی</td><td dir="ltr" lang="en">Language Model (LM)</td><td dir="rtl" lang="fa">مدل آماری اختصاص‌دهندهٔ احتمال به توالی کلمات P(W)</td></tr><tr><td dir="rtl" lang="fa">مدل ان‌گرام</td><td dir="ltr" lang="en">N-gram Model</td><td dir="rtl" lang="fa">مدل زبانی آماری مبتنی بر توالی‌های Nتایی کلمات</td></tr><tr><td dir="rtl" lang="fa">فرض مارکوف</td><td dir="ltr" lang="en">Markov Assumption</td><td dir="rtl" lang="fa">وابستگی احتمال کلمهٔ فعلی تنها به N−1 کلمهٔ قبل</td></tr><tr><td dir="rtl" lang="fa">تک‌گرام / دوگرام / سه‌گرام</td><td dir="ltr" lang="en">Unigram / Bigram / Trigram</td><td dir="rtl" lang="fa">مدل‌های ان‌گرام با N=1، N=2 و N=3</td></tr><tr><td dir="rtl" lang="fa">تایپ در برابر توکن</td><td dir="ltr" lang="en">Types vs. Tokens</td><td dir="rtl" lang="fa">واژه‌های منحصربه‌فرد (اندازهٔ واژگان) در برابر کل وقوع‌ها</td></tr><tr><td dir="rtl" lang="fa">پرپلکسیتی / سرگشتگی</td><td dir="ltr" lang="en">Perplexity (PP)</td><td dir="rtl" lang="fa">معیار ارزیابی درونی؛ معکوس میانگین هندسی احتمالات</td></tr><tr><td dir="rtl" lang="fa">ارزیابی درونی / بیرونی</td><td dir="ltr" lang="en">Intrinsic / Extrinsic Evaluation</td><td dir="rtl" lang="fa">سنجش مستقیم مدل در برابر سنجش در یک سامانهٔ کاربردی</td></tr><tr><td dir="rtl" lang="fa">هموارسازی لاپلاس</td><td dir="ltr" lang="en">Laplace / Add-1 Smoothing</td><td dir="rtl" lang="fa">افزودن ۱ به شمارش‌ها برای رفع احتمال صفر</td></tr><tr><td dir="rtl" lang="fa">عقب‌نشینی</td><td dir="ltr" lang="en">Backoff</td><td dir="rtl" lang="fa">بازگشت به ان‌گرام کمرتبه‌تر در صورت عدم مشاهده</td></tr><tr><td dir="rtl" lang="fa">میان‌یابی خطی</td><td dir="ltr" lang="en">Linear Interpolation</td><td dir="rtl" lang="fa">ترکیب وزن‌دار احتمالات ترای‌گرام، بای‌گرام و یونی‌گرام</td></tr><tr><td dir="rtl" lang="fa">پراکمندی داده‌ها</td><td dir="ltr" lang="en">Data Sparsity</td><td dir="rtl" lang="fa">کمبود وقوع توالی‌های بلند متنی در پیکرهٔ آموزشی</td></tr><tr><td dir="rtl" lang="fa">دسته‌های هم‌اشتباه</td><td dir="ltr" lang="en">Confusion Sets</td><td dir="rtl" lang="fa">خوشه‌های آفلاین کلمات با فاصلهٔ ویرایشی کم و خطاساز</td></tr></tbody></table></div>
+      </div>
+
+      <div class="session-foot-note">
+        این صفحه یادداشت مطالعاتی دانشجویان بر اساس جلسهٔ کلاس است و جایگزین اعلام‌های رسمی استاد نیست.
+        منبع اصلی درس: <span dir="ltr">Jurafsky &amp; Martin, Speech and Language Processing (3rd ed. draft)</span>.
+        برای اصلاح یا تکمیل یادداشت‌ها، از طریق مخزن گیت‌هاب اقدام کنید.
+      </div>
+
+      <nav class="session-nav" aria-label="ناوبری جلسات">
+        <a class="prev" href="session-04.html"><span class="sn-label">جلسهٔ قبل</span><span class="sn-title">جلسه ۰۴ — بیان‌های منظم، ELIZA و فاصلهٔ ویرایش کمینه</span></a>
+        
+      </nav>
+    </article>
+
+    <aside class="toc" data-toc aria-label="فهرست مطالب">
+      <div class="toc-title">در این صفحه</div>
+      <ol><li><a href="#۱-نمای-کلی-جلسه-session-overview">۱. نمای کلی جلسه</a></li>
+<li><a href="#۲-تصحیح-املایی-بافت-مند-و-بهینه-سازی-سرعت-contextual-spelling-correction-search-optimization">۲. تصحیح املایی بافت‌مند و بهینه‌سازی سرعت</a></li>
+<li class="toc-sub"><a href="#۲-۱-راهکارهای-مطرح-شده-در-کلاس">۲.۱. راهکارهای مطرح‌شده در کلاس</a></li>
+<li class="toc-sub"><a href="#۲-۲-گلوگاه-محاسباتی">۲.۲. گلوگاه محاسباتی</a></li>
+<li class="toc-sub"><a href="#۲-۳-خوشه-بندی-آفلاین-دسته-های-پرخطا">۲.۳. خوشه‌بندی آفلاین دسته‌های پرخطا</a></li>
+<li><a href="#۳-مدل-زبانی-تعریف-پارادایم-ها-و-کاربردها-language-models-foundations-applications">۳. مدل زبانی: تعریف، پارادایم‌ها و کاربردها</a></li>
+<li class="toc-sub"><a href="#۳-۱-تعریف-مدل-زبانی">۳.۱. تعریف مدل زبانی</a></li>
+<li class="toc-sub"><a href="#۳-۲-آماری-در-برابر-عصبی">۳.۲. آماری در برابر عصبی</a></li>
+<li class="toc-sub"><a href="#۳-۳-کاربردهای-عملی">۳.۳. کاربردهای عملی</a></li>
+<li><a href="#۴-مدل-های-ان-گرام-و-فرض-مارکوف-n-gram-models-the-markov-assumption">۴. مدل‌های ان‌گرام و فرض مارکوف</a></li>
+<li class="toc-sub"><a href="#۴-۱-قاعده-زنجیره-ای-احتمال">۴.۱. قاعدهٔ زنجیره‌ای احتمال</a></li>
+<li class="toc-sub"><a href="#۴-۲-چالش-پراکندگی-داده-ها">۴.۲. چالش پراکندگی داده‌ها</a></li>
+<li class="toc-sub"><a href="#۴-۳-فرض-مارکوف">۴.۳. فرض مارکوف</a></li>
+<li class="toc-sub"><a href="#۴-۴-سه-مدل-پایه-ان-گرام">۴.۴. سه مدل پایهٔ ان‌گرام</a></li>
+<li class="toc-sub"><a href="#۴-۵-تایپ-در-برابر-توکن">۴.۵. تایپ در برابر توکن</a></li>
+<li class="toc-sub"><a href="#۴-۶-توکن-های-مرز-جمله">۴.۶. توکن‌های مرز جمله</a></li>
+<li><a href="#۵-موازنه-ها-و-محدودیت-های-ان-گرام-trade-offs-limitations">۵. موازنه‌ها و محدودیت‌های ان‌گرام</a></li>
+<li class="toc-sub"><a href="#۵-۱-تولید-متن-با-نمونه-برداری">۵.۱. تولید متن با نمونه‌برداری</a></li>
+<li class="toc-sub"><a href="#۵-۲-موازنه-انتخاب-اندازه-n">۵.۲. موازنهٔ انتخاب اندازهٔ N</a></li>
+<li class="toc-sub"><a href="#۵-۳-وابستگی-های-راه-دور">۵.۳. وابستگی‌های راه‌دور</a></li>
+<li class="toc-sub"><a href="#۵-۴-سطوح-بالاتر-نحو-و-معنا">۵.۴. سطوح بالاتر: نحو و معنا</a></li>
+<li><a href="#۶-ارزیابی-مدل-های-زبانی-و-پرپلکسیتی-lm-evaluation-perplexity">۶. ارزیابی مدل‌های زبانی و پرپلکسیتی</a></li>
+<li class="toc-sub"><a href="#۶-۱-ارزیابی-درونی-در-برابر-بیرونی">۶.۱. ارزیابی درونی در برابر بیرونی</a></li>
+<li class="toc-sub"><a href="#۶-۲-معیار-پرپلکسیتی">۶.۲. معیار پرپلکسیتی</a></li>
+<li class="toc-sub"><a href="#۶-۳-تقسیم-پیکره-و-اعتبارسنجی">۶.۳. تقسیم پیکره و اعتبارسنجی</a></li>
+<li><a href="#۷-هموارسازی-و-مدیریت-احتمال-صفر-smoothing-the-zero-probability-problem">۷. هموارسازی و مدیریت احتمال صفر</a></li>
+<li class="toc-sub"><a href="#۷-۱-چالش-احتمال-صفر">۷.۱. چالش احتمال صفر</a></li>
+<li class="toc-sub"><a href="#۷-۲-هموارسازی-لاپلاس-add-1">۷.۲. هموارسازی لاپلاس (Add-1)</a></li>
+<li class="toc-sub"><a href="#۷-۳-عقب-نشینی-backoff">۷.۳. عقب‌نشینی (Backoff)</a></li>
+<li class="toc-sub"><a href="#۷-۴-میان-یابی-خطی-linear-interpolation">۷.۴. میان‌یابی خطی (Linear Interpolation)</a></li>
+<li><a href="#۸-خودآزمایی-self-check">۸. خودآزمایی</a></li>
+<li><a href="#۹-پرسش-های-تحلیلی-analytical-questions">۹. پرسش‌های تحلیلی</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand" style="margin-bottom:14px">
+      <span class="brand-logo" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+      <span><strong>پردازش زبان‌های طبیعی</strong><span>NLP · SBU</span></span>
+    </div>
+    <div class="footer-bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> — پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</span>
+      <span class="mono">NLP · SBU</span>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>
