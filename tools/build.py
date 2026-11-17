@@ -2,7 +2,7 @@
 """Build the NLP @ SBU course site.
 
 Reads content/sessions/*.md, renders styled session pages into sessions/,
-and injects the schedule table + note cards into index.html and notes.html.
+and injects the note cards into notes.html.
 
 Usage:
     python3 tools/build.py            # build everything
@@ -756,21 +756,6 @@ def published_map() -> Dict[int, Dict[str, str]]:
     return result
 
 
-def schedule_rows(published: Dict[int, Dict[str, str]]) -> str:
-    rows = []
-    for num in sorted(published):
-        meta = published[num]
-        rows.append(
-            "<tr>"
-            f'<td class="cell-session"><span class="num">{to_fa_digits(str(num).zfill(2))}</span></td>'
-            f'<td class="cell-topic"><span class="topic">{esc(meta.get("title_fa", "جلسه"))}</span>'
-            f'<br><span class="small muted" dir="ltr">{esc(meta.get("title_en", ""))}</span></td>'
-            f'<td class="cell-status"><a class="badge badge--live" href="sessions/session-{num:02d}.html">مطالعه</a></td>'
-            "</tr>"
-        )
-    return "\n".join(rows)
-
-
 def note_cards(published: Dict[int, Dict[str, str]], prefix: str = "") -> str:
     cards = []
     for num in sorted(published):
@@ -860,11 +845,9 @@ def main() -> int:
         print(f"  ✓ session {num:02d}: {front.get('title_fa')} ({len(renderer.toc)} headings)")
 
     if not args.check:
-        rows = schedule_rows(published)
         cards = note_cards(published)
-        inject(ROOT / "index.html", "<!-- SCHEDULE:START -->", "<!-- SCHEDULE:END -->", rows)
         inject(ROOT / "notes.html", "<!-- NOTE_CARDS:START -->", "<!-- NOTE_CARDS:END -->", cards)
-        print(f"  ✓ injected {len(published)} session rows and note cards")
+        print(f"  ✓ injected {len(published)} note cards")
 
     if errors:
         print(f"\n{errors} error(s)")

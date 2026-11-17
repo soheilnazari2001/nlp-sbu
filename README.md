@@ -100,13 +100,12 @@ A | پاسخ دوم.
 ### Build
 
 ```bash
-python3 tools/build.py          # render sessions, inject cards + session table
+python3 tools/build.py          # render sessions, inject note cards
 python3 tools/build.py --check  # validate without writing
 ```
 
-The build also injects the published-session table into `index.html` and the note cards
-into `notes.html`. Do not edit the generated blocks between the `START`/`END` markers by
-hand.
+The build also injects the note cards into `notes.html`. Do not edit the generated
+blocks between the `START`/`END` markers by hand.
 
 ## Logo
 
