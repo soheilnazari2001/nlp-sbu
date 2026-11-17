@@ -113,6 +113,8 @@ MATH_CMDS = {
     "\\prod": '<span class="m-op">∏</span>',
     "\\sum": '<span class="m-op">∑</span>',
     "\\min": '<span class="m-text">min</span>',
+    "\\forall": '<span class="m-op">∀</span>',
+    "\\exists": '<span class="m-op">∃</span>',
     "\\{": "{",
     "\\}": "}",
     "\\times": "×",
