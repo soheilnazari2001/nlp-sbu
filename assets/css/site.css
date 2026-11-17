@@ -446,10 +446,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.2rem 0; }
 .panel-dots { display: flex; gap: 6px; }
 .panel-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.28); }
 .panel-dots span:first-child { background: #7aa6ff; }
-.panel-type { position: relative; padding-block: 26px; }
+.panel-demo { position: relative; padding-block: 26px; }
 .panel-word {
-  font-size: clamp(2.6rem, 5vw, 4.2rem); font-weight: 900; line-height: 1.1;
-  color: #fff; letter-spacing: -0.02em; margin-bottom: 6px;
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 900; line-height: 1.2;
+  color: #fff; letter-spacing: -0.02em; margin-bottom: 4px;
 }
 .panel-sub {
   font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
@@ -457,16 +457,39 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.2rem 0; }
   display: flex; align-items: center; gap: 10px;
 }
 .panel-sub::before { content: ""; width: 24px; height: 1px; background: rgba(255,255,255,.4); }
-.panel-tokens { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.token {
-  font-family: var(--mono); font-size: 11px; padding: 6px 10px;
-  border: 1px solid rgba(255,255,255,.16); border-radius: 8px;
-  background: rgba(255,255,255,.06); color: rgba(255,255,255,.82);
+.panel-sentence {
+  margin-top: 24px; display: flex; flex-wrap: wrap; gap: 10px;
+}
+.tok {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 10px 12px 8px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
   backdrop-filter: blur(4px);
 }
-.token--hot { background: rgba(122,166,255,.18); border-color: rgba(122,166,255,.5); color: #dbe8ff; }
-.panel-network { margin-top: auto; opacity: .9; }
-.panel-network svg { width: 100%; height: auto; }
+.tok-word { font-size: 15px; font-weight: 700; color: #fff; }
+.tok-pos {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+  color: #9db8ff;
+}
+.tok-bio {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .04em;
+  padding: 2px 7px; border-radius: 999px;
+  background: rgba(255,255,255,.1); color: rgba(255,255,255,.6);
+}
+.tok--ent { background: rgba(122,166,255,.18); border-color: rgba(122,166,255,.55); }
+.tok--ent .tok-pos { color: #cfe0ff; }
+.tok--ent .tok-bio { background: rgba(122,166,255,.35); color: #eaf2ff; }
+.panel-legend {
+  margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px;
+  font-size: 11.5px; color: rgba(255,255,255,.6);
+}
+.panel-legend .lg {
+  display: inline-block; width: 8px; height: 8px; border-radius: 3px;
+  margin-inline-end: 5px; vertical-align: 1px;
+}
+.lg--pos { background: #9db8ff; }
+.lg--bio { background: rgba(122,166,255,.45); border: 1px solid rgba(122,166,255,.7); }
 .panel-caption {
   margin-top: 12px; display: flex; justify-content: space-between; gap: 10px;
   font-family: var(--mono); font-size: 10px; letter-spacing: .08em;
@@ -480,9 +503,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.2rem 0; }
 }
 @media (max-width: 520px) {
   .hero-panel { min-height: 300px; padding: 20px; border-radius: 22px; }
-  .panel-word { font-size: 2.2rem; }
-  .panel-tokens { gap: 6px; }
-  .token { font-size: 10px; padding: 5px 8px; }
+  .panel-word { font-size: 1.7rem; }
+  .panel-sentence { gap: 6px; }
+  .tok { padding: 8px 9px 6px; }
+  .tok-word { font-size: 13px; }
 }
 
 /* ---------- Stats strip ---------- */

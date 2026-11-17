@@ -82,36 +82,25 @@
           <span class="panel-label">NLP @ SBU · Course notes</span>
           <span class="panel-dots"><span></span><span></span><span></span></span>
         </div>
-        <div class="panel-type">
-          <div class="panel-word">زبان</div>
-          <div class="panel-sub">language · text · meaning</div>
-          <div class="panel-tokens">
-            <span class="token">توکن</span>
-            <span class="token token--hot">نیم‌فاصله</span>
-            <span class="token">BPE</span>
-            <span class="token">Regex</span>
-            <span class="token token--hot">Edit Distance</span>
-            <span class="token">POS</span>
-            <span class="token">P/R/F1</span>
+        <div class="panel-demo">
+          <div class="panel-word">جملهٔ برچسب‌خورده</div>
+          <div class="panel-sub">tokenization · POS · BIO</div>
+          <div class="panel-sentence" dir="rtl">
+            <span class="tok"><span class="tok-word">او</span><span class="tok-pos">PRON</span><span class="tok-bio">O</span></span>
+            <span class="tok"><span class="tok-word">به</span><span class="tok-pos">ADP</span><span class="tok-bio">O</span></span>
+            <span class="tok tok--ent"><span class="tok-word">دانشگاه</span><span class="tok-pos">NOUN</span><span class="tok-bio">B-ORG</span></span>
+            <span class="tok tok--ent"><span class="tok-word">شهید</span><span class="tok-pos">NOUN</span><span class="tok-bio">I-ORG</span></span>
+            <span class="tok tok--ent"><span class="tok-word">بهشتی</span><span class="tok-pos">NOUN</span><span class="tok-bio">I-ORG</span></span>
+            <span class="tok"><span class="tok-word">رفت</span><span class="tok-pos">VERB</span><span class="tok-bio">O</span></span>
+          </div>
+          <div class="panel-legend">
+            <span><i class="lg lg--pos"></i>برچسب نحوی</span>
+            <span><i class="lg lg--bio"></i>بازهٔ BIO برای موجودیت نامدار</span>
           </div>
         </div>
-        <div class="panel-network">
-          <svg viewBox="0 0 380 96" fill="none" aria-hidden="true">
-            <g stroke="rgba(122,166,255,.42)" stroke-width="1">
-              <path d="M20 68 62 38 104 60 146 26 188 56 230 30 272 62 314 34 356 56"/>
-              <path d="M62 38 104 12 146 26M188 56 230 30M272 62 314 34M104 60 146 84 188 56M230 30 272 10 314 34M62 38 62 10M146 84 188 92M230 30 230 72"/>
-            </g>
-            <g fill="#9dc0ff">
-              <circle cx="20" cy="68" r="3"/><circle cx="62" cy="38" r="4"/><circle cx="104" cy="60" r="3"/>
-              <circle cx="146" cy="26" r="3.5"/><circle cx="188" cy="56" r="3"/><circle cx="230" cy="30" r="4"/>
-              <circle cx="272" cy="62" r="3"/><circle cx="314" cy="34" r="3.5"/><circle cx="356" cy="56" r="3"/>
-              <circle cx="104" cy="12" r="2"/><circle cx="272" cy="10" r="2"/><circle cx="146" cy="84" r="2"/>
-            </g>
-          </svg>
-        </div>
         <div class="panel-caption">
-          <span dir="ltr">Precision · Recall · F1</span>
-          <span dir="ltr">SBU · NLP</span>
+          <span dir="ltr">جلسهٔ ۳ · توکن‌سازی</span>
+          <span dir="ltr">جلسهٔ ۶ · POS &amp; NER</span>
         </div>
       </div>
     </div>
