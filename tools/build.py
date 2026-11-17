@@ -127,6 +127,7 @@ MATH_CMDS = {
     "\\infty": "∞",
     "\\quad": '<span class="m-sp"></span>',
     "\\qquad": '<span class="m-sp m-sp2"></span>',
+    "\\,": '<span class="m-thsp"></span>',
     "\\left": "",
     "\\right": "",
 }
