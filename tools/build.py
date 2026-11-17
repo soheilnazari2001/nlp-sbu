@@ -112,6 +112,9 @@ MATH_CMDS = {
     "\\mid": '<span class="m-mid">|</span>',
     "\\prod": '<span class="m-op">∏</span>',
     "\\sum": '<span class="m-op">∑</span>',
+    "\\min": '<span class="m-text">min</span>',
+    "\\{": "{",
+    "\\}": "}",
     "\\times": "×",
     "\\cdot": "·",
     "\\cdots": "⋯",
@@ -313,7 +316,7 @@ class Renderer:
                     out.append(f'<div class="math-block" dir="ltr">{"".join(rows)}</div>')
                 else:
                     cls = f' class="language-{esc(lang)}"' if lang else ""
-                    out.append(f"<pre><code{cls}>{esc(chr(10).join(code_lines))}</code></pre>")
+                    out.append(f'<pre dir="auto"><code{cls}>{esc(chr(10).join(code_lines))}</code></pre>')
                 continue
 
             # qa block (must precede generic callout parsing)

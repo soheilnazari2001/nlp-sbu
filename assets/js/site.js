@@ -225,7 +225,7 @@
   var count = document.querySelector("[data-slide-count]");
   var idx = 0;
   var timer = null;
-  var delay = 4500;
+  var delay = 4000;
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function show(i) {

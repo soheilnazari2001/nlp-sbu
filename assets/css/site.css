@@ -469,7 +469,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2.2rem 0; }
 @media (prefers-reduced-motion: reduce) {
   .slide-icon svg { animation: none; }
 }
-.slide--mt .slide-icon::before { background: rgba(122,166,255,.45); }
+.slide--sum .slide-icon::before { background: rgba(240,180,94,.35); }
 .slide--asr .slide-icon::before { background: rgba(110,207,228,.4); }
 .slide--bot .slide-icon::before { background: rgba(185,167,255,.4); }
 .slide--senti .slide-icon::before { background: rgba(97,211,185,.35); }

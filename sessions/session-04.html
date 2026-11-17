@@ -68,18 +68,13 @@
 <h2 id="۱-نرمال-سازی-پیشرفته-با-regex-advanced-regex-preprocessing" dir="auto">۱. نرمال‌سازی پیشرفته با Regex<span class="h-en" dir="ltr">Advanced Regex Preprocessing</span></h2>
 <div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>جایگاه Regex</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>بیان‌های منظم (Regular Expressions — Regex)</strong> ابزاری کم‌هزینه برای جستجو، استخراج و جایگزینی الگوهای متنی در پیش‌پردازش پیکره‌ها، پیش از ورود به مدل‌های زبانی بزرگ، هستند.</p></div></div>
 <p dir="rtl" lang="fa">تابع اصلی جایگزینی:</p>
-<pre><code class="language-python">re.sub(pattern, replacement, string)</code></pre>
+<pre dir="auto"><code class="language-python">re.sub(pattern, replacement, string)</code></pre>
 <p dir="rtl" lang="fa">دو کاربرد پایه:</p>
 <ul dir="auto"><li dir="rtl" lang="fa"><strong>نرمال‌سازی نویسه:</strong> تبدیل «ك» عربی به «ک» فارسی و «ي» عربی به «ی» فارسی.</li><li dir="rtl" lang="fa"><strong>استانداردسازی اعداد:</strong> تبدیل سال‌ها، قیمت‌ها و شماره‌ها به یک توکن واحد مانند <code>NUM</code> یا <code>1307</code> برای جلوگیری از تورم واژگان (Vocabulary Explosion).</li></ul>
 <h2 id="۲-مکانیک-regex-گروه-بندی-و-ارجاع-پسین-grouping-backreferencing" dir="auto">۲. مکانیک Regex: گروه‌بندی و ارجاع پسین<span class="h-en" dir="ltr">Grouping &amp; Backreferencing</span></h2>
 <h3 id="۲-۱-گروه-بندی-و-ارجاع-پسین" dir="rtl" lang="fa">۲.۱. گروه‌بندی و ارجاع پسین</h3>
 <p dir="rtl" lang="fa">پرانتز <code>(...)</code> یک <strong>گروه کپچری</strong> می‌سازد. در مرحلهٔ جایگزینی با <code>\1</code>، <code>\2</code> و… به ترتیب به گروه‌ها ارجاع می‌دهیم:</p>
-<pre><code class="language-text">الگو:      (\d{2})/(\d{2})/(\d{4})
-گروه‌ها:   گروه ۱ = ماه | گروه ۲ = روز | گروه ۳ = سال
-
-جایگزین:  \3-\1-\2
-ورودی:    12/25/2025
-خروجی:    2025-12-25</code></pre>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">مرحله</th><th dir="rtl" lang="fa">مقدار</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">الگو</td><td dir="ltr" lang="en"><code>(\d{2})/(\d{2})/(\d{4})</code></td></tr><tr><td dir="rtl" lang="fa">گروه‌ها</td><td dir="rtl" lang="fa">گروه ۱ = ماه، گروه ۲ = روز، گروه ۳ = سال</td></tr><tr><td dir="rtl" lang="fa">جایگزین</td><td dir="auto"><code>\3-\1-\2</code></td></tr><tr><td dir="rtl" lang="fa">ورودی</td><td dir="auto"><code>12/25/2025</code></td></tr><tr><td dir="rtl" lang="fa">خروجی</td><td dir="auto"><code>2025-12-25</code></td></tr></tbody></table></div>
 <h3 id="۲-۲-گروه-غیرکپچری" dir="rtl" lang="fa">۲.۲. گروه غیرکپچری</h3>
 <p dir="rtl" lang="fa">با <code>(?:...)</code> گروه فقط منطق الگو را اجرا می‌کند اما در شماره‌گذاری ارجاع‌ها حساب نمی‌شود. این کار زمانی مفید است که بخواهیم بخشی از الگو را گروه‌بندی کنیم بدون اینکه شمارهٔ گروه‌های بعدی جابه‌جا شود.</p>
 <h3 id="۲-۳-استانداردسازی-و-اعتبارسنجی-تاریخ" dir="rtl" lang="fa">۲.۳. استانداردسازی و اعتبارسنجی تاریخ</h3>
@@ -89,14 +84,10 @@
 <h2 id="۳-چت-بات-الگومحور-eliza-pattern-matching-chatbots" dir="auto">۳. چت‌بات الگومحور ELIZA<span class="h-en" dir="ltr">Pattern-Matching Chatbots</span></h2>
 <div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>ELIZA</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>ELIZA</strong> در سال ۱۹۶۶ توسط Joseph Weizenbaum ساخته شد؛ یکی از نخستین سیستم‌های موفق گفتگو بر پایهٔ <strong>تطبیق الگو (Pattern Matching)</strong> و <strong>جایگزینی (Substitution)</strong>. این سیستم نقش یک روان‌شناس تعاملی را بازی می‌کرد.</p></div></div>
 <h3 id="۳-۱-نحوه-عملکرد" dir="rtl" lang="fa">۳.۱. نحوهٔ عملکرد</h3>
-<pre><code class="language-text">ورودی کاربر:   &quot;I am feeling depressed&quot;
-استخراج الگو:  .* I am (.*)
-گروه ۱:        feeling depressed
-قاعده:         &quot;How long have you been \1?&quot;
-خروجی:         &quot;How long have you been feeling depressed?&quot;</code></pre>
+<div class="table-scroll"><table dir="auto"><thead><tr><th dir="rtl" lang="fa">مرحله</th><th dir="rtl" lang="fa">محتوا</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">ورودی کاربر</td><td dir="ltr" lang="en"><code>&quot;I am feeling depressed&quot;</code></td></tr><tr><td dir="rtl" lang="fa">استخراج الگو</td><td dir="ltr" lang="en"><code>.* I am (.*)</code></td></tr><tr><td dir="rtl" lang="fa">گروه ۱</td><td dir="ltr" lang="en"><code>feeling depressed</code></td></tr><tr><td dir="rtl" lang="fa">قاعده</td><td dir="ltr" lang="en"><code>&quot;How long have you been \1?&quot;</code></td></tr><tr><td dir="rtl" lang="fa">خروجی</td><td dir="ltr" lang="en"><code>&quot;How long have you been feeling depressed?&quot;</code></td></tr></tbody></table></div>
 <p dir="rtl" lang="fa">الگوریتم بر اساس کلیدواژه‌های ورودی، الگوی مناسب را پیدا می‌کند و با جابه‌جایی ضمایر پاسخ می‌سازد.</p>
 <h3 id="۳-۲-محدودیت-ها" dir="rtl" lang="fa">۳.۲. محدودیت‌ها</h3>
-<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>دو ضعف ساختاری ELIZA</span><span class="co-label">Important</span></div><div class="callout-body"><ol dir="auto"><li dir="rtl" lang="fa"><strong>نبود حافظهٔ گفتمانی (No Discourse Memory):</strong> سیستم محتوای دقیق جملات قبلی را ذخیره نمی‌کرد؛ اگر موضوع بعد از چند دقیقه تکرار می‌شد، همان پاسخ ابتدایی بازتولید می‌شد.</li><li dir="rtl" lang="fa"><strong>اتکای مطلق به کلیدواژه (Keyword Dependency):</strong> اگر کاربر اصطلاحی خارج از قواعد به کار می‌برد — مثلاً «این دانشگاه پدر من را درآورده است» — سیستم کلیدواژهٔ «پدر» را می‌گرفت و دربارهٔ خانواده سؤال می‌پرسید.</li></ol></div></div>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>دو ضعف ساختاری ELIZA</span><span class="co-label">Important</span></div><div class="callout-body"><ol dir="auto"><li dir="rtl" lang="fa"><strong>نبود حافظهٔ گفتمانی:</strong> (No Discourse Memory) سیستم محتوای دقیق جملات قبلی را ذخیره نمی‌کرد؛ اگر موضوع بعد از چند دقیقه تکرار می‌شد، همان پاسخ ابتدایی بازتولید می‌شد.</li><li dir="rtl" lang="fa"><strong>اتکای مطلق به کلیدواژه:</strong> (Keyword Dependency) اگر کاربر اصطلاحی خارج از قواعد به کار می‌برد — مثلاً «این دانشگاه پدر من را درآورده است» — سیستم کلیدواژهٔ «پدر» را می‌گرفت و دربارهٔ خانواده سؤال می‌پرسید.</li></ol></div></div>
 <h2 id="۴-حداقل-فاصله-ویرایشی-minimum-edit-distance" dir="auto">۴. حداقل فاصلهٔ ویرایشی<span class="h-en" dir="ltr">Minimum Edit Distance</span></h2>
 <div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>تعریف</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>حداقل فاصلهٔ ویرایشی (Minimum Edit Distance)</strong> کمترین <strong>هزینهٔ کل</strong> عملیات پایهٔ ویرایشی — <strong>درج (Insertion)، حذف (Deletion) و جایگزینی (Substitution)</strong> — است که برای تبدیل یک رشته به رشتهٔ دیگر لازم است.</p></div></div>
 <h3 id="۴-۱-کاربردها" dir="rtl" lang="fa">۴.۱. کاربردها</h3>
@@ -105,18 +96,12 @@
 <div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">عملیات</th><th dir="rtl" lang="fa">هزینه</th></tr></thead><tbody><tr><td dir="auto">درج (Insertion)</td><td dir="rtl" lang="fa">۱</td></tr><tr><td dir="auto">حذف (Deletion)</td><td dir="rtl" lang="fa">۱</td></tr><tr><td dir="auto">جایگزینی (Substitution)</td><td dir="rtl" lang="fa">۲ در تعریف J&amp;M</td></tr></tbody></table></div>
 <p dir="rtl" lang="fa">در تعریف کلاسیک لونشتاین، هزینهٔ هر سه عملیات ۱ است. مدل هزینهٔ ۲ برای جایگزینی در کتاب J&amp;M و بسیاری از پیاده‌سازی‌های آموزشی رایج است، چون جایگزینی را معادل یک حذف و یک درج می‌گیرد. همیشه مدل هزینهٔ خود را در گزارش مشخص کنید.</p>
 <h2 id="۵-برنامه-نویسی-پویا-برای-فاصله-ویرایشی-dynamic-programming" dir="rtl" lang="fa">۵. برنامه‌نویسی پویا برای فاصلهٔ ویرایشی<span class="h-en" dir="ltr">Dynamic Programming</span></h2>
-<p dir="rtl" lang="fa">برای دو رشتهٔ S₁ به طول m و S₂ به طول n، ماتریسی به ابعاد (m+1) × (n+1) ساخته می‌شود. رابطهٔ بازگشتی:</p>
-<pre><code class="language-text">D(i, j) = min {
-    D(i-1, j)   + 1        # حذف / Deletion
-    D(i, j-1)   + 1        # درج / Insertion
-    D(i-1, j-1) + cost     # جایگزینی / Substitution
-}
-
-cost = 0  اگر S1[i] == S2[j]
-cost = 2  اگر S1[i] != S2[j]   # مدل هزینهٔ J&amp;M؛ در تعریف کلاسیک ۱</code></pre>
+<p dir="rtl" lang="fa">برای دو رشتهٔ <span class="math">S<sub>1</sub></span> به طول <span class="math">m</span> و <span class="math">S<sub>2</sub></span> به طول <span class="math">n</span>، ماتریسی به ابعاد <span class="math">(m+1) × (n+1)</span> ساخته می‌شود. رابطهٔ بازگشتی:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">D(i, j) = <span class="m-text">min</span> { D(i-1, j) + 1,<span class="m-sp"></span> D(i, j-1) + 1,<span class="m-sp"></span> D(i-1, j-1) + <span class="m-text">cost</span> }</span></div></div>
+<p dir="rtl" lang="fa">هزینهٔ درج و حذف برابر ۱ است؛ هزینهٔ جایگزینی برابر ۲ است اگر <span class="math">S<sub>1</sub>[i] ≠q S<sub>2</sub>[j]</span> و برابر ۰ است اگر <span class="math">S<sub>1</sub>[i] = S<sub>2</sub>[j]</span> — مدل هزینهٔ J&amp;amp;M؛ در تعریف کلاسیک ۱ است.</p>
 <h3 id="۵-۱-ماتریس-نمونه" dir="rtl" lang="fa">۵.۱. ماتریس نمونه</h3>
 <p dir="rtl" lang="fa">ماتریس زیر با هزینهٔ جایگزینی ۲ (مدل J&amp;M) محاسبه شده است.</p>
-<pre><code class="language-text">        #   e   x   e   c   u   t   i   o   n
+<pre dir="auto"><code class="language-text">        #   e   x   e   c   u   t   i   o   n
     #   0   1   2   3   4   5   6   7   8   9
     i   1   2   3   4   5   6   7   6   7   8
     n   2   3   4   5   6   7   8   7   8   7
@@ -126,23 +111,24 @@ cost = 2  اگر S1[i] != S2[j]   # مدل هزینهٔ J&amp;M؛ در تعری�
     t   6   5   6   7   8   9   8   9  10  11
     i   7   6   7   8   9  10   9   8   9  10
     o   8   7   8   9  10  11  10   9   8   9
-    n   9   8   9  10  11  12  11  10   9   8  ← فاصلهٔ کمینه = ۸</code></pre>
-<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>عقب‌گرد</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">با پیمایش معکوس از خانهٔ پایانی D(m,n) به D(0,0)، مسیر <strong>هم‌ترازی بهینه (Optimal Alignment)</strong> استخراج می‌شود. خود عدد فاصله کافی نیست؛ برای تصحیح و تحلیل، مسیر عملیات مهم است.</p></div></div>
+    n   9   8   9  10  11  12  11  10   9   8</code></pre>
+<p dir="rtl" lang="fa">فاصلهٔ کمینهٔ خانهٔ پایانی ماتریس برابر ۸ است.</p>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>عقب‌گرد</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">با پیمایش معکوس از خانهٔ پایانی <span class="math">D(m, n)</span> به <span class="math">D(0, 0)</span>، مسیر <strong>هم‌ترازی بهینه (Optimal Alignment)</strong> استخراج می‌شود. خود عدد فاصله کافی نیست؛ برای تصحیح و تحلیل، مسیر عملیات مهم است.</p></div></div>
 <h2 id="۶-تصحیح-خطای-املایی-و-فاصله-وزن-دار-spelling-correction" dir="rtl" lang="fa">۶. تصحیح خطای املایی و فاصلهٔ وزن‌دار<span class="h-en" dir="ltr">Spelling Correction</span></h2>
 <h3 id="۶-۱-دو-دسته-خطا" dir="rtl" lang="fa">۶.۱. دو دستهٔ خطا</h3>
 <div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">نوع</th><th dir="rtl" lang="fa">تعریف</th><th dir="rtl" lang="fa">مثال</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">خارج از واژه‌نامه (Non-word)</td><td dir="rtl" lang="fa">رشته در فرهنگ لغت وجود ندارد</td><td dir="rtl" lang="fa">«اعزکشن» → «اکسکیوشن»</td></tr><tr><td dir="rtl" lang="fa">درون واژه‌نامه (Real-word)</td><td dir="rtl" lang="fa">واژه معتبر است اما در بافت غلط</td><td dir="rtl" lang="fa">«قیمت عرض بالا رفت» → «ارز»</td></tr></tbody></table></div>
 <h3 id="۶-۲-فاصله-ویرایشی-وزن-دار" dir="rtl" lang="fa">۶.۲. فاصلهٔ ویرایشی وزن‌دار</h3>
 <p dir="rtl" lang="fa">در تصحیح پیشرفته، هزینهٔ جایگزینی یکسان نیست و از <strong>ماتریس اشتباه نویسی (Confusion Matrix)</strong> می‌آید:</p>
-<ul dir="auto"><li dir="rtl" lang="fa"><strong>ماتریس نزدیکی کیبورد (Keyboard Proximity):</strong> کلیدهای نزدیک — مانند «م» و «ن» — هزینهٔ کمتری می‌گیرند.</li><li dir="rtl" lang="fa"><strong>ماتریس شباهت آوایی (Phonetic Confusion):</strong> حروف هم‌آوا در فارسی — س/ص/ث یا ت/ط — هزینهٔ کمتری نسبت به حروف نامرتبط دارند.</li></ul>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ماتریس نزدیکی کیبورد:</strong> (Keyboard Proximity) کلیدهای نزدیک — مانند «م» و «ن» — هزینهٔ کمتری می‌گیرند.</li><li dir="rtl" lang="fa"><strong>ماتریس شباهت آوایی (Phonetic Confusion):</strong> حروف هم‌آوا در فارسی — س/ص/ث یا ت/ط — هزینهٔ کمتری نسبت به حروف نامرتبط دارند.</li></ul>
 <h2 id="۷-خودآزمایی-self-check" dir="rtl" lang="fa">۷. خودآزمایی<span class="h-en" dir="ltr">Self-Check</span></h2>
 <div class="qa-list">
-<details class="qa"><summary><span>تابع اصلی جایگزینی متنی در کتابخانهٔ re پایتون چیست؟</span></summary><div class="qa-a" dir="ltr" lang="en"><code>re.sub(pattern, replacement, string)</code>.</div></details>
+<details class="qa"><summary><span>تابع اصلی جایگزینی متنی در کتابخانهٔ re پایتون چیست؟</span></summary><div class="qa-a" dir="ltr" lang="en"><code>re.sub(pattern, replacement, string)</code></div></details>
 <details class="qa"><summary><span>تفاوت گروه کپچری و غیرکپچری در Regex چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">گروه کپچری در ارجاع‌های عددی مانند <code>\1</code> ذخیره می‌شود؛ گروه غیرکپچری <code>(?:...)</code> فقط منطق الگو را اجرا می‌کند و شماره نمی‌گیرد.</div></details>
 <details class="qa"><summary><span>مکانیزم اصلی پاسخ‌دهی ELIZA چه بود؟</span></summary><div class="qa-a" dir="rtl" lang="fa">تطبیق کلیدواژه و قواعد تجزیه/بازآرایی (decomposition/reassembly) و جابه‌جایی ضمایر؛ ELIZA از Regex استفاده نمی‌کرد.</div></details>
 <details class="qa"><summary><span>دو محدودیت اصلی ELIZA چه بود؟</span></summary><div class="qa-a" dir="rtl" lang="fa">نبود حافظهٔ گفتمانی و اتکای مطلق به کلیدواژه‌های تعریف‌شده.</div></details>
 <details class="qa"><summary><span>حداقل فاصلهٔ ویرایشی را تعریف کنید.</span></summary><div class="qa-a" dir="rtl" lang="fa">کمترین تعداد درج، حذف و جایگزینی برای تبدیل یک رشته به رشتهٔ دیگر.</div></details>
 <details class="qa"><summary><span>در تعریف کلاسیک لونشتاین هزینهٔ جایگزینی چقدر است؟</span></summary><div class="qa-a" dir="rtl" lang="fa">۱. در تعریف کلاسیک؛ در مدل هزینهٔ J&amp;M برابر ۲ است.</div></details>
-<details class="qa"><summary><span>پیچیدگی زمانی الگوریتم برنامه‌نویسی پویا برای دو کلمهٔ به طول m و n چقدر است؟</span></summary><div class="qa-a" dir="ltr" lang="en">O(m × n).</div></details>
+<details class="qa"><summary><span>پیچیدگی زمانی الگوریتم برنامه‌نویسی پویا برای دو کلمهٔ به طول <span class="math">m</span> و <span class="math">n</span> چقدر است؟</span></summary><div class="qa-a" dir="ltr" lang="en"><span class="math">O(m × n)</span></div></details>
 <details class="qa"><summary><span>هدف عقب‌گرد (Backtracking) در ماتریس فاصله چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">استخراج هم‌ترازی بهینه میان دو رشته.</div></details>
 <details class="qa"><summary><span>تفاوت خطای Non-word و Real-word در تصحیح املایی چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">Non-word در واژه‌نامه وجود ندارد؛ Real-word واژهٔ معتبری است که در بافت جمله اشتباه به کار رفته.</div></details>
 <details class="qa"><summary><span>ماتریس اغتشاش کیبورد چه کاربردی در فاصلهٔ وزن‌دار دارد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">به جایگزینی حروف نزدیک روی صفحه‌کلید هزینهٔ کمتری می‌دهد.</div></details>

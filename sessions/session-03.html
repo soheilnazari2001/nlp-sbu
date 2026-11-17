@@ -102,7 +102,7 @@
 <p dir="rtl" lang="fa">بدون تفکیک این نقش‌ها، تقسیم جمله اشتباه می‌شود.</p>
 <h3 id="۷-۲-گروه-بندی-و-ارجاع-پسین" dir="rtl" lang="fa">۷.۲. گروه‌بندی و ارجاع پسین</h3>
 <p dir="rtl" lang="fa">در Regex، پرانتز یک <strong>گروه کپچری</strong> می‌سازد که در جایگزینی با <code>\1</code>، <code>\2</code> و… به آن ارجاع می‌دهیم. گروه غیرکپچری با <code>(?:...)</code> فقط منطق الگو را اجرا می‌کند و شماره‌گذاری نمی‌شود.</p>
-<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>تبدیل تاریخ شمسی</span><span class="co-label">Example</span></div><div class="callout-body"><pre><code class="language-python">import re
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>تبدیل تاریخ شمسی</span><span class="co-label">Example</span></div><div class="callout-body"><pre dir="auto"><code class="language-python">import re
 
 text = &quot;جلسه در تاریخ 1405/08/18 برگزار خواهد شد.&quot;
 pattern = r&quot;(\d{4})/(\d{2})/(\d{2})&quot;
@@ -114,7 +114,7 @@ print(re.sub(pattern, replacement, text))
 <h2 id="۸-ارزیابی-کمی-precision-recall-و-f1-quantitative-evaluation" dir="auto">۸. ارزیابی کمی: Precision، Recall و F1<span class="h-en" dir="ltr">Quantitative Evaluation</span></h2>
 <h3 id="۸-۱-ماتریس-اغتشاش-confusion-matrix" dir="auto">۸.۱. ماتریس اغتشاش (Confusion Matrix)</h3>
 <div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">عنصر</th><th dir="rtl" lang="fa">معنی</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">مثبت واقعی (TP)</td><td dir="rtl" lang="fa">هدف واقعی بود و سیستم درست شناسایی کرد</td></tr><tr><td dir="rtl" lang="fa">مثبت کاذب (FP)</td><td dir="rtl" lang="fa">هدف نبود اما سیستم مثبت اعلام کرد</td></tr><tr><td dir="rtl" lang="fa">منفی کاذب (FN)</td><td dir="rtl" lang="fa">هدف واقعی بود اما سیستم از دست داد</td></tr><tr><td dir="rtl" lang="fa">منفی واقعی (TN)</td><td dir="rtl" lang="fa">هدف نبود و سیستم درست نادیده گرفت</td></tr></tbody></table></div>
-<pre><code class="language-text">Precision = TP / (TP + FP)
+<pre dir="auto"><code class="language-text">Precision = TP / (TP + FP)
 Recall    = TP / (TP + FN)
 F1        = 2 × (Precision × Recall) / (Precision + Recall)</code></pre>
 <div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>دو معیار را اشتباه نگیر</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa"><strong>Precision (دقت):</strong> از پاسخ‌هایی که سیستم داده، چند درصد درست بوده‌اند؟ → صحت خروجی. <strong>Recall (فراخوانی):</strong> از موارد واقعی موجود، چند درصد پیدا شده‌اند؟ → پوشش سیستم.</p></div></div>
