@@ -186,6 +186,14 @@ def math_inline(s: str) -> str:
             out.append(esc(c))
             i += 1
             continue
+        if s.startswith("\\hat", i):
+            if i + 5 < n and s[i + 5] != "{":
+                out.append(f'<span class="m-hat">{esc(s[i + 5])}</span>')
+                i += 6
+                continue
+            out.append(esc(c))
+            i += 1
+            continue
         matched = False
         for cmd in sorted(MATH_CMDS, key=len, reverse=True):
             if s.startswith(cmd, i):

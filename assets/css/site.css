@@ -1211,6 +1211,8 @@ a.note-card:hover { border-color: var(--brand); box-shadow: var(--shadow-2); tra
 .math .m-op { font-style: normal; font-size: 1.32em; vertical-align: -.1em; margin-inline-end: .18em; }
 .math .m-mid { font-style: normal; color: var(--muted); margin: 0 .35em; }
 .math .m-text { font-style: normal; font-family: var(--font); }
+.math .m-hat { position: relative; }
+.math .m-hat::after { content: "^"; position: absolute; top: -0.55em; left: 50%; transform: translateX(-50%); font-size: .55em; font-style: normal; }
 .math .m-sp { display: inline-block; width: 1.1em; }
 .math .m-sp2 { width: 2.3em; }
 .callout .math { white-space: normal; }

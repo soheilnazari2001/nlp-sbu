@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>برچسب‌زنی ادوات سخن و شناسایی موجودیت‌های نامدار — جلسه ۰۶ · پردازش زبان‌های طبیعی</title>
+<meta name="description" content="رده‌بندی مسائل نگاشت دنباله، برچسب‌زنی ادوات سخن و موازنهٔ اندازهٔ مجموعه‌برچسب، خط پایه‌ها و سقف دقت انسانی، فرمول‌بندی احتمالی HMM و مدل‌سازی موجودیت‌های نامدار با طرح BIO.">
+<meta name="theme-color" content="#1d4ed8">
+<script>(function(){try{var t=localStorage.getItem("nlp-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" href="../assets/img/sbu-logo-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<div class="read-progress" data-read-progress aria-hidden="true"><span></span></div>
+
+<header class="session-topbar">
+  <div class="container inner">
+    <span class="brand-logo brand-logo--sm" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+    <a class="back" href="../notes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg><span>یادداشت‌ها</span></a>
+    <div class="bar-title"><span class="mono">S۰۶</span>برچسب‌زنی ادوات سخن و شناسایی موجودیت‌های نامدار</div>
+    <div class="actions">
+      <button class="icon-btn" type="button" data-print aria-label="چاپ صفحه" title="چاپ صفحه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="تغییر پوسته" title="تغییر پوسته"><svg data-icon-moon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg data-icon-sun viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="session-layout">
+    <article class="session-main">
+      <header class="session-hero">
+        <nav class="breadcrumb" aria-label="مسیر">
+          <a href="../index.html">خانه</a><span class="sep">/</span>
+          <a href="../notes.html">یادداشت جلسات</a><span class="sep">/</span>
+          <span>جلسه ۰۶</span>
+        </nav>
+        <div class="session-kicker">
+          <span class="badge badge--live">جلسه ۰۶</span>
+          <span class="tag tag--brand">پردازش زبان‌های طبیعی</span>
+        </div>
+        <h1>برچسب‌زنی ادوات سخن و شناسایی موجودیت‌های نامدار</h1>
+        <div class="h1-en" dir="ltr">POS Tagging &amp; Named Entity Recognition</div>
+        <div class="session-summary"><strong>خلاصه: </strong>رده‌بندی مسائل نگاشت دنباله، برچسب‌زنی ادوات سخن و موازنهٔ اندازهٔ مجموعه‌برچسب، خط پایه‌ها و سقف دقت انسانی، فرمول‌بندی احتمالی HMM و مدل‌سازی موجودیت‌های نامدار با طرح BIO.</div>
+        <div class="session-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>دکتر مهرنوش شمس‌فرد</span></span></div>
+      </header>
+
+      <details class="toc-mobile"><summary>فهرست مطالب</summary><ol><li><a href="#۱-رده-بندی-مسائل-نگاشت-دنباله-sequence-labeling-mapping-taxonomy">۱. رده‌بندی مسائل نگاشت دنباله</a></li>
+<li><a href="#۲-برچسب-زنی-ادوات-سخن-part-of-speech-tagging">۲. برچسب‌زنی ادوات سخن</a></li>
+<li class="toc-sub"><a href="#۲-۱-تعریف-و-سه-سطح-نقش">۲.۱. تعریف و سه سطح نقش</a></li>
+<li class="toc-sub"><a href="#۲-۲-مجموعه-برچسب-ها-و-موازنه-اندازه-آن-ها">۲.۲. مجموعه‌برچسب‌ها و موازنهٔ اندازهٔ آن‌ها</a></li>
+<li class="toc-sub"><a href="#۲-۳-کلمات-کلاس-باز-و-کلاس-بسته">۲.۳. کلمات کلاس باز و کلاس بسته</a></li>
+<li class="toc-sub"><a href="#۲-۴-آمار-ابهام-خط-پایه-ها-و-سقف-دقت">۲.۴. آمار ابهام، خط پایه‌ها و سقف دقت</a></li>
+<li class="toc-sub"><a href="#۲-۵-کاربردهای-برچسب-زنی-نحوی">۲.۵. کاربردهای برچسب‌زنی نحوی</a></li>
+<li><a href="#۳-روش-های-پیاده-سازی-و-فرمول-بندی-احتمالات-implementation-probabilistic-formulation">۳. روش‌های پیاده‌سازی و فرمول‌بندی احتمالات</a></li>
+<li class="toc-sub"><a href="#۳-۱-روش-های-مبتنی-بر-مورفولوژی">۳.۱. روش‌های مبتنی بر مورفولوژی</a></li>
+<li class="toc-sub"><a href="#۳-۲-روش-های-مبتنی-بر-قواعد-بافتی">۳.۲. روش‌های مبتنی بر قواعد بافتی</a></li>
+<li class="toc-sub"><a href="#۳-۳-فرمول-بندی-احتمالی-دنباله-ای-hmm">۳.۳. فرمول‌بندی احتمالی دنباله‌ای (HMM)</a></li>
+<li><a href="#۴-شناسایی-موجودیت-های-نامدار-named-entity-recognition">۴. شناسایی موجودیت‌های نامدار</a></li>
+<li class="toc-sub"><a href="#۴-۱-تعریف-و-مجموعه-برچسب-های-دامنه-ای">۴.۱. تعریف و مجموعه‌برچسب‌های دامنه‌ای</a></li>
+<li class="toc-sub"><a href="#۴-۲-تمایز-gpe-از-loc-و-org">۴.۲. تمایز GPE از LOC و ORG</a></li>
+<li class="toc-sub"><a href="#۴-۳-طرح-برچسب-زنی-bio-برای-عبارات-چندواژه-ای">۴.۳. طرح برچسب‌زنی BIO برای عبارات چندواژه‌ای</a></li>
+<li class="toc-sub"><a href="#۴-۴-کاربردهای-واقعی-ner">۴.۴. کاربردهای واقعی NER</a></li>
+<li><a href="#۵-پرسش-و-پاسخ-های-کلاس-classroom-q-a">۵. پرسش و پاسخ‌های کلاس</a></li>
+<li><a href="#۶-واژه-نامه-glossary">۶. واژه‌نامه</a></li></ol></details>
+
+      <div class="prose">
+<h2 id="۱-رده-بندی-مسائل-نگاشت-دنباله-sequence-labeling-mapping-taxonomy" dir="auto">۱. رده‌بندی مسائل نگاشت دنباله<span class="h-en" dir="ltr">Sequence Labeling &amp; Mapping Taxonomy</span></h2>
+<p dir="rtl" lang="fa">جلسهٔ ششم پس از مرور مدل‌های زبانی ان‌گرام و پرپلکسیتی، با رده‌بندی سیستم‌های پردازشی زبان بر اساس نگاشت ورودی به خروجی آغاز می‌شود. سه دستهٔ اصلی:</p>
+<ol dir="auto"><li dir="rtl" lang="fa"><strong>نگاشت دنباله به برچسب‌ها (Sequence-to-Tag / Sequence Labeling):</strong> ورودی دنباله‌ای از کلمات <span class="math">W = w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub></span> و خروجی دنباله‌ای هم‌طول از برچسب‌ها <span class="math">T = t<sub>1</sub>, t<sub>2</sub>, …, t<sub>n</sub></span> است؛ به هر کلمهٔ ورودی یک برچسب انتساب می‌شود. <strong>برچسب‌زنی ادوات سخن (POS Tagging)</strong> و <strong>شناسایی موجودیت‌های نامدار (NER)</strong> — دو موضوع اصلی این جلسه — در این دسته‌اند.</li><li dir="rtl" lang="fa"><strong>نگاشت دنباله به دنباله (Sequence-to-Sequence / Seq2Seq):</strong> دنبالهٔ ورودی به دنبالهٔ خروجی از جنس دیگر یا با طول متفاوت نگاشت می‌شود؛ مانند ترجمهٔ ماشینی (Machine Translation) و خلاصه‌سازی متن (Text Summarization).</li><li dir="rtl" lang="fa"><strong>کلاس‌بندی متن (Text Classification):</strong> ورودی یک دنبالهٔ متنی (سند یا جمله) است و سیستم تعیین می‌کند که به کدام دستهٔ از پیش تعیین‌شده (Category/Class) تعلق دارد.</li></ol>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>ابزار پیش‌پردازش، نه هدف نهایی</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">POS Tagging و NER خودشان هدف نهایی کاربردی نیستند، اما مراحل پیش‌پردازش (Preprocessing Tools) حیاتی‌اند که دقت اپلیکیشن‌های بالادستی (Downstream Applications) را بهبود می‌دهند.</p></div></div>
+<h2 id="۲-برچسب-زنی-ادوات-سخن-part-of-speech-tagging" dir="auto">۲. برچسب‌زنی ادوات سخن<span class="h-en" dir="ltr">Part-of-Speech Tagging</span></h2>
+<h3 id="۲-۱-تعریف-و-سه-سطح-نقش" dir="rtl" lang="fa">۲.۱. تعریف و سه سطح نقش</h3>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>برچسب‌زنی ادوات سخن (POS Tagging)</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa">فرایند انتساب یک برچسب نحوی (Syntactic Tag) به هر واژه در متن با توجه به بافت (Context) جمله.</p></div></div>
+<p dir="rtl" lang="fa">سه نوع نقش یا برچسب که می‌توان به کلمات نسبت داد — فقط دستهٔ اول موضوع POS Tagging است:</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">سطح تحلیل</th><th dir="rtl" lang="fa">نوع برچسب / نقش</th><th dir="rtl" lang="fa">نمونه‌ها</th><th dir="rtl" lang="fa">جایگاه</th></tr></thead><tbody><tr><td dir="auto">دسته‌های نحوی (Syntactic Categories)</td><td dir="auto">اجزاء کلام (Parts of Speech)</td><td dir="auto">اسم (Noun)، فعل (Verb)، صفت (Adjective)، حرف اضافه (Preposition)</td><td dir="auto">موضوع اصلی POS Tagging</td></tr><tr><td dir="auto">نقش‌های دستور خطی (Grammatical Roles)</td><td dir="rtl" lang="fa">نقش‌های ساختاری جمله</td><td dir="auto">فاعل (Subject)، مفعول (Object)، متمم (Complement)</td><td dir="auto">پارسر نحوی (Syntactic Parser)</td></tr><tr><td dir="auto">نقش‌های معنایی (Semantic Roles)</td><td dir="rtl" lang="fa">نقش‌های مفهوم‌شناختی</td><td dir="auto">کنشگر (Agent)، کنش‌پذیر (Patient)، مبدأ (Source)، مقصد (Goal)، ابزار (Instrument)</td><td dir="auto">تحلیل معنایی (Semantic Role Labeling)</td></tr></tbody></table></div>
+<p dir="rtl" lang="fa">صورت مسئله: مشخص شود یک کلمه در این جملهٔ خاص کدام‌یک از برچسب‌های نحوی ممکن را گرفته است.</p>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>ابهام واژهٔ «شکست»</span><span class="co-label">Example</span></div><div class="callout-body"><p dir="rtl" lang="fa">«شکست» به تنهایی می‌تواند اسم یا فعل باشد. در «او قلبم را شکست» نقش فعل ماضی دارد، اما در «شکستِ زنی که روی زمین نشسته بود…» در نقش اسم ظاهر شده است.</p></div></div>
+<h3 id="۲-۲-مجموعه-برچسب-ها-و-موازنه-اندازه-آن-ها" dir="rtl" lang="fa">۲.۲. مجموعه‌برچسب‌ها و موازنهٔ اندازهٔ آن‌ها</h3>
+<p dir="rtl" lang="fa">مجموعهٔ برچسب‌های نحوی از نظر جزئی‌نگری (Granularity) بسیار متفاوت است:</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>مجموعه‌برچسب‌های کوچک (Coarse-grained Tagsets):</strong> دسته‌های اصلی و محدود؛ مانند ۸ تا ۱۰ برچسب کلاسیک شامل اسم، فعل، صفت، قید، حرف اضافه و ضمیر.</li><li dir="rtl" lang="fa"><strong>مجموعه‌برچسب‌های بزرگ (Fine-grained Tagsets):</strong> خرد کردن دسته‌های اصلی به جزئیات صرفی و نحوی؛ مثلاً اسم به خاص/عام و مفرد/جمع، یا فعل به شخص، زمان، وجه و حالت صرفی — در فارسی بیش از ۲۰۰ حالت صرفی فعل وجود دارد.</li></ul>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>قاعدهٔ موازنهٔ اندازهٔ مجموعه‌برچسب</span><span class="co-label">Important</span></div><div class="callout-body"><ul dir="auto"><li dir="rtl" lang="fa"><strong>بزرگ‌تر شدن مجموعه‌برچسب:</strong> دقت خود POS Tagger کاهش می‌یابد (تشخیص میان ۵۰۰ کلاس بسیار سخت‌تر از ۱۰ کلاس است)، اما اطلاعات بیشتری برای اپلیکیشن بالادستی فراهم می‌شود و دقت آن را بالا می‌برد.</li><li dir="rtl" lang="fa"><strong>کوچک‌تر شدن مجموعه‌برچسب:</strong> دقت خود POS Tagger بالا می‌رود، اما بخشی از اطلاعات مفید برای کاربرد بعدی از دست می‌رود.</li></ul></div></div>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>اصل طراحی پیکره</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">کاهش (Reduce/Collapse) یک مجموعه‌برچسب بزرگ به کوچک همیشه آسان و مستقیم است (مثلاً نگاشت تمام ۲۰۰ حالت صرفی فعل به یک برچسب واحد VERB)، اما عکس آن ممکن نیست. به همین دلیل پیکره‌های استاندارد — مانند پیکرهٔ <strong>بیجن‌خان</strong> در فارسی با ۱۰ میلیون توکن برچسب‌خورده — معمولاً با مجموعه‌برچسب‌های بسیار بزرگ (حدود ۵۰۰ برچسب) ساخته می‌شوند تا کاربران بنا بر نیاز آن را به مجموعه‌های کوچک‌تر تبدیل کنند (مثلاً ۱۷ برچسب که توسط تیم استاد کاهش یافته است).</p></div></div>
+<h3 id="۲-۳-کلمات-کلاس-باز-و-کلاس-بسته" dir="rtl" lang="fa">۲.۳. کلمات کلاس باز و کلاس بسته</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">دسته</th><th dir="rtl" lang="fa">تعریف</th><th dir="rtl" lang="fa">نمونه‌ها</th></tr></thead><tbody><tr><td dir="auto">کلاس بسته (Closed-class / Function Words)</td><td dir="rtl" lang="fa">مجموعه از پیش تعیین‌شده، محدود و ثابت؛ کلمهٔ جدیدی اضافه نمی‌شود</td><td dir="rtl" lang="fa">ضمایر (او، من)، حروف اضافه (از، به، در)، حروف ربط</td></tr><tr><td dir="auto">کلاس باز (Open-class / Content Words)</td><td dir="rtl" lang="fa">محتوای معنایی دارند و با زنده بودن زبان، واژه‌های جدید مرتباً اضافه یا از زبان‌های دیگر وارد می‌شوند</td><td dir="rtl" lang="fa">اسامی، افعال، صفت‌ها، قیدها (مانند «ایجنت» یا فعل ساختگی «گوگل کردن»)</td></tr></tbody></table></div>
+<h3 id="۲-۴-آمار-ابهام-خط-پایه-ها-و-سقف-دقت" dir="rtl" lang="fa">۲.۴. آمار ابهام، خط پایه‌ها و سقف دقت</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>آمار ابهام:</strong> در انگلیسی فقط حدود ۱۵٪ از تیپ‌های واژگانی (Word Types) ابهام برچسبی دارند (بیش از یک تگ می‌گیرند)، اما همین ۱۵٪ پرتکرار حدود ۶۰٪ از توکن‌های متن واقعی را تشکیل می‌دهند — علت اصلی سختی مسئله.</li><li dir="rtl" lang="fa"><strong>خط پایهٔ تصادفی (Random Baseline):</strong> انتساب تصادفی برچسب‌ها؛ دقت حدود ۳۰٪ تا ۵۰٪.</li><li dir="rtl" lang="fa"><strong>خط پایهٔ پرتکرارترین برچسب (Most Frequent Tag — MFT):</strong> انتساب پرتکرارترین برچسب هر واژه بر اساس دادهٔ آموزش؛ دقت به‌صورت جهشی از ۵۰٪ به حدود <strong>۹۰٪</strong> می‌رسد.</li><li dir="rtl" lang="fa"><strong>دقت مدل‌های مدرن و سقف انسانی:</strong> سیستم‌های مدرن (۱۵ سال اخیر) دقتی بین ۹۷٪ تا ۹۸٪ می‌دهند. دقت انسان (توافق ارزیابان — Inter-annotator Agreement) نیز در همین حد ۹۸٪ است؛ حتی متخصصان زبان‌شناسی در ۲٪ تا ۳٪ موارد — مانند تمایز قید و صفت یا حرف اضافه و پارتیکل در فارسی — اختلاف نظر دارند.</li></ul>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>نتیجه‌گیری</span><span class="co-label">Important</span></div><div class="callout-body"><p dir="rtl" lang="fa">چالش اصلی NLP پر کردن فاصلهٔ میان ۹۰٪ (خط پایهٔ MFT) تا ۹۸٪ (سقف دقت انسانی) است.</p></div></div>
+<h3 id="۲-۵-کاربردهای-برچسب-زنی-نحوی" dir="rtl" lang="fa">۲.۵. کاربردهای برچسب‌زنی نحوی</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>تبدیل متن به گفتار (Text-to-Speech):</strong> تعیین محل تکیه (Stress) و تلفظ صحیح واژه بر اساس نقش نحوی آن.</li><li dir="rtl" lang="fa"><strong>ترجمهٔ ماشینی:</strong> جابه‌جایی و بازآرایی ترتیب کلمات در زبان خروجی (مانند ترتیب صفت و موصوف در فارسی و انگلیسی).</li><li dir="rtl" lang="fa"><strong>تحلیل احساسات مبتنی بر جنبه (Aspect-Based Sentiment Analysis — ABSA):</strong> شناسایی اسامی به عنوان جنبه‌ها/هدف‌ها (Aspects) و صفت‌ها به عنوان توصیف‌کننده‌های بار احساسی.</li><li dir="rtl" lang="fa"><strong>استخراج رویدادها و موجودیت‌ها (Event &amp; Entity Extraction).</strong></li></ul>
+<h2 id="۳-روش-های-پیاده-سازی-و-فرمول-بندی-احتمالات-implementation-probabilistic-formulation" dir="auto">۳. روش‌های پیاده‌سازی و فرمول‌بندی احتمالات<span class="h-en" dir="ltr">Implementation &amp; Probabilistic Formulation</span></h2>
+<h3 id="۳-۱-روش-های-مبتنی-بر-مورفولوژی" dir="rtl" lang="fa">۳.۱. روش‌های مبتنی بر مورفولوژی</h3>
+<p dir="rtl" lang="fa">استفاده از پسوندها و پیشوندها برای تشخیص برچسب کلمات ناشناخته (Out-Of-Vocabulary — OOV):</p>
+<ul dir="auto"><li dir="rtl" lang="fa">پسوند «ـبان» در فارسی (دربان، نگهبان) نشانهٔ اسم است.</li><li dir="rtl" lang="fa">پسوند «ـانه» نشانهٔ صفت یا قید است.</li></ul>
+<h3 id="۳-۲-روش-های-مبتنی-بر-قواعد-بافتی" dir="rtl" lang="fa">۳.۲. روش‌های مبتنی بر قواعد بافتی</h3>
+<p dir="rtl" lang="fa">تعریف قواعد دستی بر اساس همسایه‌ها؛ برای مثال، اگر کلمه‌ای بعد از حرف اضافه («به»، «از») قرار گیرد، نمی‌تواند فعل باشد و حتماً اسم یا گروه اسمی است.</p>
+<h3 id="۳-۳-فرمول-بندی-احتمالی-دنباله-ای-hmm" dir="rtl" lang="fa">۳.۳. فرمول‌بندی احتمالی دنباله‌ای (HMM)</h3>
+<p dir="rtl" lang="fa">هدف: یافتن دنبالهٔ برچسب‌های <span class="math">T = t<sub>1</sub>, t<sub>2</sub>, …, t<sub>n</sub></span> که احتمال شرطی آن به شرط دنبالهٔ کلمات ورودی <span class="math">W = w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub></span> بیشینه باشد (قانون بیز — Bayes&#x27; Rule):</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math"><span class="m-hat">T</span>} = <span class="m-text">argmax</span><sub>T</sub> \, P(T <span class="m-mid">|</span> W) = <span class="m-text">argmax</span><sub>T</sub> \, <span class="frac"><span class="frac-n">P(W <span class="m-mid">|</span> T) · P(T)</span><span class="frac-d">P(W)</span></span></span></div></div>
+<p dir="rtl" lang="fa">چون <span class="math">P(W)</span> برای تمام دنباله‌های برچسب کاندید یکسان و ثابت است، از آرگومان ماکزیمم حذف می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math"><span class="m-hat">T</span>} = <span class="m-text">argmax</span><sub>T</sub> \, P(W <span class="m-mid">|</span> T) · P(T)</span></div></div>
+<p dir="rtl" lang="fa">با اعمال فرض‌های ساده‌کنندهٔ مارکوف (Markov Assumptions):</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>احتمال انتقال برچسب (Tag Transition Probability):</strong> احتمال رخ دادن برچسب <span class="math">t<sub>i</sub></span> به شرط برچسب قبلی <span class="math">t<sub>i-1</sub></span> که با <span class="math">P(t<sub>i</sub> <span class="m-mid">|</span> t<sub>i-1</sub>)</span> مدل می‌شود.</li><li dir="rtl" lang="fa"><strong>احتمال صدور کلمه (Word Emission Probability):</strong> احتمال مشاهدهٔ کلمهٔ <span class="math">w<sub>i</sub></span> به شرط برچسب <span class="math">t<sub>i</sub></span> که با <span class="math">P(w<sub>i</sub> <span class="m-mid">|</span> t<sub>i</sub>)</span> مدل می‌شود.</li></ul>
+<p dir="rtl" lang="fa">فرمول ضرب احتمالات برای کل دنباله:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(W <span class="m-mid">|</span> T) · P(T) ≈ <span class="m-op">∏</span><sub>i=1</sub><sup>n</sup> P(w<sub>i</sub> <span class="m-mid">|</span> t<sub>i</sub>) · P(t<sub>i</sub> <span class="m-mid">|</span> t<sub>i-1</sub>)</span></div></div>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>محاسبهٔ نمونهٔ کلاس</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">یک جمله با حالت‌های کاندید برچسب (مثلاً ضمیر، اسم، فعل، حرف تعیین) بررسی شد: ضرب احتمالات صدور هر کلمه در احتمال انتقال برچسب‌ها برای تمام مسیرهای کاندید محاسبه می‌شود و مسیر با بالاترین ضرب احتمال به عنوان خروجی نهایی انتخاب می‌گردد. کلمات تک‌تگ و بدون ابهام احتمال ۱ دارند و می‌توان آن‌ها را از محاسبات مسیر فاکتور گرفت تا پیچیدگی ضرب کارتزینی حالت‌ها کاهش یابد.</p></div></div>
+<h2 id="۴-شناسایی-موجودیت-های-نامدار-named-entity-recognition" dir="rtl" lang="fa">۴. شناسایی موجودیت‌های نامدار<span class="h-en" dir="ltr">Named Entity Recognition</span></h2>
+<h3 id="۴-۱-تعریف-و-مجموعه-برچسب-های-دامنه-ای" dir="rtl" lang="fa">۴.۱. تعریف و مجموعه‌برچسب‌های دامنه‌ای</h3>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>شناسایی موجودیت‌های نامدار (NER)</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa">شناسایی و رده‌بندی عبارات اسمی خاص در متن که به اسامی اشخاص، مکان‌ها، سازمان‌ها، تاریخ، زمان، قیمت و ارز اشاره دارند.</p></div></div>
+<p dir="rtl" lang="fa">مجموعه‌برچسب‌های NER کاملاً وابسته به دامنهٔ اپلیکیشن (Domain-Specific) هستند:</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">دامنه</th><th dir="rtl" lang="fa">نمونهٔ برچسب‌ها</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">عمومی</td><td dir="rtl" lang="fa">افراد (PER)، مکان‌ها (LOC)، سازمان‌ها (ORG)، موجودیت‌های ژئوپلیتیک (GPE)</td></tr><tr><td dir="rtl" lang="fa">دانشگاهی</td><td dir="rtl" lang="fa">استاد، دانشجو، دانشکده، آزمایشگاه، رشتهٔ تحصیلی</td></tr><tr><td dir="rtl" lang="fa">مالی</td><td dir="rtl" lang="fa">نام شرکت، میزان سود، هزینه، واحد پول (Currency)</td></tr><tr><td dir="rtl" lang="fa">جغرافیایی</td><td dir="rtl" lang="fa">کوه، رودخانه، ارتفاع، منطقه</td></tr></tbody></table></div>
+<h3 id="۴-۲-تمایز-gpe-از-loc-و-org" dir="rtl" lang="fa">۴.۲. تمایز GPE از LOC و ORG</h3>
+<div class="callout callout--example"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></svg></span><span>کلمهٔ «ایران»</span><span class="co-label">Example</span></div><div class="callout-body"><ul dir="auto"><li dir="rtl" lang="fa">در «من در ایران زندگی می‌کنم»: مکان جغرافیایی (LOC).</li><li dir="rtl" lang="fa">در «ایران گفت من با شما می‌جنگم» یا «نمایندهٔ ایران در مجمع…»: اشاره به دولت/حکومت؛ موجودیت ژئوپلیتیک (GPE) یا سازمان سیاسی.</li><li dir="rtl" lang="fa">در «خیابان جمهوری اسلامی»: «جمهوری اسلامی» بخشی از نام مکان (LOC) است، اما در «نمایندهٔ جمهوری اسلامی»: سازمان/دولت (ORG/GPE).</li></ul></div></div>
+<h3 id="۴-۳-طرح-برچسب-زنی-bio-برای-عبارات-چندواژه-ای" dir="rtl" lang="fa">۴.۳. طرح برچسب‌زنی BIO برای عبارات چندواژه‌ای</h3>
+<p dir="rtl" lang="fa">چالش اصلی NER: موجودیت‌ها می‌توانند چندواژه‌ای باشند (مانند «دکتر اسلامی»، «خیابان جمهوری اسلامی»، «سازمان کشورهای صادرکنندهٔ نفت»). برای تبدیل مسئلهٔ استخراج بازه (Span Extraction) به برچسب‌زنی توکن‌به-توکن (Sequence Tagging)، از طرح BIO (یا IOB) استفاده می‌شود:</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">برچسب</th><th dir="rtl" lang="fa">معنی</th><th dir="rtl" lang="fa">نمونه</th></tr></thead><tbody><tr><td dir="ltr" lang="en">B (Begin)</td><td dir="rtl" lang="fa">اولین توکن موجودیت نامدار</td><td dir="auto">B-PER، B-LOC، B-ORG</td></tr><tr><td dir="ltr" lang="en">I (Inside)</td><td dir="rtl" lang="fa">توکن‌های بعدیِ درون همان موجودیت</td><td dir="auto">I-PER، I-LOC، I-ORG</td></tr><tr><td dir="ltr" lang="en">O (Outside)</td><td dir="rtl" lang="fa">توکن خارج از هر موجودیت نامدار</td><td dir="auto">—</td></tr></tbody></table></div>
+<p dir="rtl" lang="fa">نمونهٔ برچسب‌گذاری:</p>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">توکن</th><th dir="rtl" lang="fa">دلالت</th><th dir="rtl" lang="fa">برچسب BIO</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">دکتر</td><td dir="rtl" lang="fa">شروع اسم شخص</td><td dir="ltr" lang="en">B-PER</td></tr><tr><td dir="rtl" lang="fa">اسلامی</td><td dir="rtl" lang="fa">ادامهٔ اسم شخص</td><td dir="ltr" lang="en">I-PER</td></tr><tr><td dir="rtl" lang="fa">به</td><td dir="rtl" lang="fa">حرف اضافهٔ معمولی</td><td dir="ltr" lang="en">O</td></tr><tr><td dir="rtl" lang="fa">خیابان</td><td dir="rtl" lang="fa">شروع نام مکان</td><td dir="ltr" lang="en">B-LOC</td></tr><tr><td dir="rtl" lang="fa">جمهوری</td><td dir="rtl" lang="fa">ادامهٔ نام مکان</td><td dir="ltr" lang="en">I-LOC</td></tr><tr><td dir="rtl" lang="fa">اسلامی</td><td dir="rtl" lang="fa">ادامهٔ نام مکان</td><td dir="ltr" lang="en">I-LOC</td></tr><tr><td dir="rtl" lang="fa">رفت</td><td dir="rtl" lang="fa">فعل معمولی</td><td dir="ltr" lang="en">O</td></tr></tbody></table></div>
+<div class="callout callout--question"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 4.6 2.5c-.9.6-1.6 1.2-1.6 2.3"/><circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"/></svg></span><span>چرا برچسب B ضروری است؟ (طرح IO در برابر BIO)</span><span class="co-label">Question</span></div><div class="callout-body"><p dir="rtl" lang="fa">آیا می‌توان B را حذف کرد و فقط از I و O استفاده نمود؟</p></div></div>
+<div class="callout callout--answer"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg></span><span>پاسخ</span><span class="co-label">Answer</span></div><div class="callout-body"><p dir="rtl" lang="fa">خیر. اگر دو موجودیت هم‌جنس بلافاصله پشت سر هم بیایند — مانند «احمد حسن را دید» که هر دو اسم شخص‌اند — در طرح IO هر دو برچسب I-PER می‌گیرند (I-PER I-PER) و سیستم نمی‌تواند تشخیص دهد یک عبارت دونامه‌ای («احمد حسن») است یا دو موجودیت مجزا («احمد» و «حسن»). برچسب B مرز شروع موجودیت دوم را به‌صورت B-PER B-PER شفاف می‌سازد.</p></div></div>
+<p dir="rtl" lang="fa">انواع دیگر این طرح مانند BIOES / BILOU نیز وجود دارند که در آن‌ها برچسب E (End) برای انتهای عبارت و S (Single) برای موجودیت‌های تک‌واژه‌ای اضافه می‌شود.</p>
+<h3 id="۴-۴-کاربردهای-واقعی-ner" dir="rtl" lang="fa">۴.۴. کاربردهای واقعی NER</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>استخراج دانش و ساخت گراف دانش (Knowledge Graph Construction):</strong> پروژهٔ کاربردی استاد روی روزنامه‌های رسمی کشور: استخراج اسامی اشخاص و شرکت‌ها، ردیابی تغییرات سهامداران، و کشف روابط انحصار (Monopoly) یا شرکت‌های متعلق به یک خانواده از طریق نگاشت موجودیت‌ها به نودهای گراف و اتصال آن به سیستم‌های پرسش‌وپاسخ (RAG).</li><li dir="rtl" lang="fa"><strong>پُر کردن اسلات‌ها در چت‌بات‌ها (Slot Filling in Conversational AI):</strong> استخراج مبدأ، مقصد، تاریخ، ساعت و تعداد بلیت از متن کاربر برای رزرو پرواز.</li><li dir="rtl" lang="fa"><strong>گمنام‌سازی و حفظ حریم خصوصی (Data Anonymization):</strong> شناسایی و حذف اسامی اشخاص، شغل و آدرس‌ها از متون گفتگو.</li></ul>
+<h2 id="۵-پرسش-و-پاسخ-های-کلاس-classroom-q-a" dir="rtl" lang="fa">۵. پرسش و پاسخ‌های کلاس<span class="h-en" dir="ltr">Classroom Q&amp;A</span></h2>
+<div class="qa-list">
+<details class="qa"><summary><span>اگر مجموعه‌برچسب‌های POS را بسیار بزرگ و جزئی‌نگر کنیم، چه تأثیری بر دقت برچسب‌زنی و اپلیکیشن نهایی دارد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">دقت خود سیستم برچسب‌زنی (POS Tagger) کاهش می‌یابد، زیرا کلاسیفایر باید میان کلاس‌های بسیار زیادی تصمیم بگیرد. اما برای اپلیکیشن بالادستی نهایی اطلاعات بیشتری فراهم شده و دقت کاربرد نهایی افزایش می‌یابد. همواره می‌توان مجموعه‌برچسب بزرگ را به کوچک تبدیل کرد.</div></details>
+<details class="qa"><summary><span>چرا دقت POS Tagging در حد ۹۷٪ تا ۹۸٪ متوقف می‌شود و به ۱۰۰٪ نمی‌رسد؟ آیا مشکل از الگوریتم ماشین است؟</span></summary><div class="qa-a" dir="rtl" lang="fa">خیر، الزاماً مشکل ماشین نیست. توافق میان متخصصان انسانی (Inter-annotator Agreement) نیز در همین حد ۹۸٪ است؛ خبرگان زبان‌شناسی هم در ۲٪ تا ۳٪ موارد دربارهٔ برچسب مواردی مانند تمایز قید و صفت یا حرف اضافه و پارتیکل در فارسی اختلاف نظر دارند.</div></details>
+<details class="qa"><summary><span>ساده‌ترین خط پایهٔ غیرتصادفی برای POS Tagging چیست و چه دقتی می‌دهد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">انتساب پرتکرارترین برچسب نحوی هر کلمه (Most Frequent Tag — MFT) بر اساس داده‌های آموزشی. این روش ساده دقت را به حدود ۹۰٪ می‌رساند و چالش اصلی NLP پر کردن فاصلهٔ میان ۹۰٪ تا ۹۸٪ است.</div></details>
+<details class="qa"><summary><span>POS Tagging چگونه به تحلیل احساسات کمک می‌کند؟</span></summary><div class="qa-a" dir="rtl" lang="fa">در تحلیل احساسات مبتنی بر جنبه (ABSA)، برچسب‌های اسمی (Nouns) به پیدا کردن جنبه‌ها یا هدف‌ها (Aspects) — مانند سرعت یا کیفیت — کمک می‌کنند و برچسب‌های صفتی (Adjectives) بار احساسی انتساب‌داده‌شده به آن جنبه را مشخص می‌سازند.</div></details>
+<details class="qa"><summary><span>چگونه مسئلهٔ استخراج عبارت‌های چندواژه‌ای در NER به مسئلهٔ برچسب‌زنی توکن‌به-توکن تبدیل می‌شود؟</span></summary><div class="qa-a" dir="rtl" lang="fa">با طرح برچسب‌زنی BIO (شامل Begin، Inside و Outside) که در آن توکن اول عبارت برچسب B-Type، توکن‌های بعدی I-Type و کلمات معمولی O می‌گیرند.</div></details>
+<details class="qa"><summary><span>چرا در طرح BIO وجود برچسب B ضروری است و نمی‌توان فقط از I و O (طرح IO) استفاده کرد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">اگر دو موجودیت هم‌جنس بلافاصله مجاور هم بیایند (مانند دو اسم شخص در «احمد حسن را دید»)، در طرح IO هر دو برچسب I-PER می‌گیرند و یک موجودیت واحد تلقی می‌شوند. برچسب B امکان تفکیک مرز موجودیت‌های مجاور هم‌جنس را به‌صورت B-PER B-PER فراهم می‌سازد.</div></details>
+</div>
+<h2 id="۶-واژه-نامه-glossary" dir="rtl" lang="fa">۶. واژه‌نامه<span class="h-en" dir="ltr">Glossary</span></h2>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">فارسی</th><th dir="ltr" lang="en">English</th><th dir="rtl" lang="fa">معنی کوتاه</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">برچسب‌زنی دنباله</td><td dir="ltr" lang="en">Sequence Labeling / Tagging</td><td dir="rtl" lang="fa">انتساب یک برچسب به هر توکن در دنبالهٔ ورودی</td></tr><tr><td dir="rtl" lang="fa">برچسب‌زنی ادوات سخن</td><td dir="ltr" lang="en">Part-of-Speech (POS) Tagging</td><td dir="rtl" lang="fa">تشخیص اسم، فعل، صفت و…</td></tr><tr><td dir="rtl" lang="fa">شناسایی موجودیت‌های نامدار</td><td dir="ltr" lang="en">Named Entity Recognition (NER)</td><td dir="rtl" lang="fa">استخراج اسامی اشخاص، مکان‌ها، سازمان‌ها</td></tr><tr><td dir="rtl" lang="fa">موازنهٔ اندازهٔ مجموعه‌برچسب</td><td dir="ltr" lang="en">Tagset Size Trade-off</td><td dir="rtl" lang="fa">تقابل دقت Tagger و غنای اطلاعاتی</td></tr><tr><td dir="rtl" lang="fa">کلی‌نگر در برابر جزئی‌نگر</td><td dir="ltr" lang="en">Coarse-grained vs. Fine-grained</td><td dir="rtl" lang="fa">مجموعه‌برچسب محدود در برابر ریزدانه‌ای</td></tr><tr><td dir="rtl" lang="fa">کلمات کلاس باز و بسته</td><td dir="ltr" lang="en">Open-class vs. Closed-class</td><td dir="rtl" lang="fa">اسامی/افعال در برابر حروف/ضمایر</td></tr><tr><td dir="rtl" lang="fa">خط پایهٔ پرتکرارترین برچسب</td><td dir="ltr" lang="en">Most Frequent Tag (MFT) Baseline</td><td dir="rtl" lang="fa">پرتکرارترین برچسب هر واژه از دادهٔ آموزش</td></tr><tr><td dir="rtl" lang="fa">توافق ارزیابان</td><td dir="ltr" lang="en">Inter-annotator Agreement</td><td dir="rtl" lang="fa">میزان توافق متخصصان انسانی</td></tr><tr><td dir="rtl" lang="fa">طرح برچسب‌زنی BIO / IOB</td><td dir="ltr" lang="en">BIO / IOB Tagging Scheme</td><td dir="rtl" lang="fa">برچسب‌های شروع (Begin)، درون (Inside) و بیرون (Outside)</td></tr><tr><td dir="rtl" lang="fa">موجودیت ژئوپلیتیک</td><td dir="ltr" lang="en">Geo-Political Entity (GPE)</td><td dir="rtl" lang="fa">کشور/دولت در نقش سیاسی، در تمایز با مکان جغرافیایی</td></tr><tr><td dir="rtl" lang="fa">احتمال انتقال برچسب</td><td dir="ltr" lang="en">Tag Transition Probability</td><td dir="ltr" lang="en"><span class="math">P(t<sub>i</sub> <span class="m-mid">|</span> t<sub>i-1</sub>)</span></td></tr><tr><td dir="rtl" lang="fa">احتمال صدور کلمه</td><td dir="ltr" lang="en">Word Emission Probability</td><td dir="ltr" lang="en"><span class="math">P(w<sub>i</sub> <span class="m-mid">|</span> t<sub>i</sub>)</span></td></tr><tr><td dir="rtl" lang="fa">پُر کردن اسلات‌ها</td><td dir="ltr" lang="en">Slot Filling</td><td dir="rtl" lang="fa">استخراج فیلدها در سیستم‌های گفتگو و چت‌بات‌ها</td></tr></tbody></table></div>
+      </div>
+
+      <div class="session-foot-note">
+        این صفحه یادداشت مطالعاتی دانشجویان بر اساس جلسهٔ کلاس است و جایگزین اعلام‌های رسمی استاد نیست.
+        منبع اصلی درس: <span dir="ltr">Jurafsky &amp; Martin, Speech and Language Processing (3rd ed. draft)</span>.
+        برای اصلاح یا تکمیل یادداشت‌ها، از طریق مخزن گیت‌هاب اقدام کنید.
+      </div>
+
+      <nav class="session-nav" aria-label="ناوبری جلسات">
+        <a class="prev" href="session-05.html"><span class="sn-label">جلسهٔ قبل</span><span class="sn-title">جلسه ۰۵ — مدل‌های زبانی، ان‌گرام و پرپلکسیتی</span></a>
+        
+      </nav>
+    </article>
+
+    <aside class="toc" data-toc aria-label="فهرست مطالب">
+      <div class="toc-title">در این صفحه</div>
+      <ol><li><a href="#۱-رده-بندی-مسائل-نگاشت-دنباله-sequence-labeling-mapping-taxonomy">۱. رده‌بندی مسائل نگاشت دنباله</a></li>
+<li><a href="#۲-برچسب-زنی-ادوات-سخن-part-of-speech-tagging">۲. برچسب‌زنی ادوات سخن</a></li>
+<li class="toc-sub"><a href="#۲-۱-تعریف-و-سه-سطح-نقش">۲.۱. تعریف و سه سطح نقش</a></li>
+<li class="toc-sub"><a href="#۲-۲-مجموعه-برچسب-ها-و-موازنه-اندازه-آن-ها">۲.۲. مجموعه‌برچسب‌ها و موازنهٔ اندازهٔ آن‌ها</a></li>
+<li class="toc-sub"><a href="#۲-۳-کلمات-کلاس-باز-و-کلاس-بسته">۲.۳. کلمات کلاس باز و کلاس بسته</a></li>
+<li class="toc-sub"><a href="#۲-۴-آمار-ابهام-خط-پایه-ها-و-سقف-دقت">۲.۴. آمار ابهام، خط پایه‌ها و سقف دقت</a></li>
+<li class="toc-sub"><a href="#۲-۵-کاربردهای-برچسب-زنی-نحوی">۲.۵. کاربردهای برچسب‌زنی نحوی</a></li>
+<li><a href="#۳-روش-های-پیاده-سازی-و-فرمول-بندی-احتمالات-implementation-probabilistic-formulation">۳. روش‌های پیاده‌سازی و فرمول‌بندی احتمالات</a></li>
+<li class="toc-sub"><a href="#۳-۱-روش-های-مبتنی-بر-مورفولوژی">۳.۱. روش‌های مبتنی بر مورفولوژی</a></li>
+<li class="toc-sub"><a href="#۳-۲-روش-های-مبتنی-بر-قواعد-بافتی">۳.۲. روش‌های مبتنی بر قواعد بافتی</a></li>
+<li class="toc-sub"><a href="#۳-۳-فرمول-بندی-احتمالی-دنباله-ای-hmm">۳.۳. فرمول‌بندی احتمالی دنباله‌ای (HMM)</a></li>
+<li><a href="#۴-شناسایی-موجودیت-های-نامدار-named-entity-recognition">۴. شناسایی موجودیت‌های نامدار</a></li>
+<li class="toc-sub"><a href="#۴-۱-تعریف-و-مجموعه-برچسب-های-دامنه-ای">۴.۱. تعریف و مجموعه‌برچسب‌های دامنه‌ای</a></li>
+<li class="toc-sub"><a href="#۴-۲-تمایز-gpe-از-loc-و-org">۴.۲. تمایز GPE از LOC و ORG</a></li>
+<li class="toc-sub"><a href="#۴-۳-طرح-برچسب-زنی-bio-برای-عبارات-چندواژه-ای">۴.۳. طرح برچسب‌زنی BIO برای عبارات چندواژه‌ای</a></li>
+<li class="toc-sub"><a href="#۴-۴-کاربردهای-واقعی-ner">۴.۴. کاربردهای واقعی NER</a></li>
+<li><a href="#۵-پرسش-و-پاسخ-های-کلاس-classroom-q-a">۵. پرسش و پاسخ‌های کلاس</a></li>
+<li><a href="#۶-واژه-نامه-glossary">۶. واژه‌نامه</a></li></ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand" style="margin-bottom:14px">
+      <span class="brand-logo" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+      <span><strong>پردازش زبان‌های طبیعی</strong><span>NLP · SBU</span></span>
+    </div>
+    <div class="footer-bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> — پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</span>
+      <span class="mono">NLP · SBU</span>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

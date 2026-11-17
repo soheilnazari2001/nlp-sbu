@@ -26,7 +26,7 @@ GitHub Pages and can be served from any static host.
 | `index.html` | Course home: published session topics, instructor, grading from the notes, references |
 | `notes.html` | Searchable archive of published session notes |
 | `exercises.html` | Suggested practice sets + the project facts stated in the notes |
-| `sessions/session-01.html` … `session-05.html` | Generated session pages |
+| `sessions/session-01.html` … `session-06.html` | Generated session pages |
 
 ## Session notes pipeline
 
