@@ -1231,6 +1231,7 @@ a.note-card:hover { border-color: var(--brand); box-shadow: var(--shadow-2); tra
 .math .m-sp { display: inline-block; width: 1.1em; }
 .math .m-sp2 { width: 2.3em; }
 .math .m-thsp { display: inline-block; width: .18em; }
+.math .m-thsp2 { width: .36em; }
 .callout .math { white-space: normal; }
 .prose .persian-block {
   direction: rtl; text-align: right; background: var(--brand-soft);

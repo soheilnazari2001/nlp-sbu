@@ -133,6 +133,7 @@ MATH_CMDS = {
     "\\quad": '<span class="m-sp"></span>',
     "\\qquad": '<span class="m-sp m-sp2"></span>',
     "\\,": '<span class="m-thsp"></span>',
+    "\\;": '<span class="m-thsp m-thsp2"></span>',
     "\\left": "",
     "\\right": "",
 }
