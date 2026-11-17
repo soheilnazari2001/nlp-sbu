@@ -215,3 +215,40 @@
     el.textContent = String(new Date().getFullYear());
   });
 })();
+
+/* ---------- hero slideshow ---------- */
+(function () {
+  var wrap = document.querySelector("[data-slides]");
+  if (!wrap) return;
+  var slides = Array.prototype.slice.call(wrap.querySelectorAll(".slide"));
+  var dots = Array.prototype.slice.call(document.querySelectorAll(".sdot"));
+  var count = document.querySelector("[data-slide-count]");
+  var idx = 0;
+  var timer = null;
+  var delay = 4500;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function show(i) {
+    idx = (i + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle("is-active", k === idx); });
+    dots.forEach(function (d, k) { d.classList.toggle("is-active", k === idx); });
+    if (count) count.textContent = faNumber(idx + 1) + " / " + faNumber(slides.length);
+  }
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function play() {
+    stop();
+    if (!reduced) timer = setInterval(function () { show(idx + 1); }, delay);
+  }
+  dots.forEach(function (d) {
+    d.addEventListener("click", function () {
+      show(Number(d.getAttribute("data-goto")));
+      play();
+    });
+  });
+  wrap.addEventListener("mouseenter", stop);
+  wrap.addEventListener("mouseleave", play);
+  show(0);
+  play();
+})();

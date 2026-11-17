@@ -82,25 +82,52 @@
           <span class="panel-label">NLP @ SBU · Course notes</span>
           <span class="panel-dots"><span></span><span></span><span></span></span>
         </div>
-        <div class="panel-demo">
-          <div class="panel-word">جملهٔ برچسب‌خورده</div>
-          <div class="panel-sub">tokenization · POS · BIO</div>
-          <div class="panel-sentence" dir="rtl">
-            <span class="tok"><span class="tok-word">او</span><span class="tok-pos">PRON</span><span class="tok-bio">O</span></span>
-            <span class="tok"><span class="tok-word">به</span><span class="tok-pos">ADP</span><span class="tok-bio">O</span></span>
-            <span class="tok tok--ent"><span class="tok-word">دانشگاه</span><span class="tok-pos">NOUN</span><span class="tok-bio">B-ORG</span></span>
-            <span class="tok tok--ent"><span class="tok-word">شهید</span><span class="tok-pos">NOUN</span><span class="tok-bio">I-ORG</span></span>
-            <span class="tok tok--ent"><span class="tok-word">بهشتی</span><span class="tok-pos">NOUN</span><span class="tok-bio">I-ORG</span></span>
-            <span class="tok"><span class="tok-word">رفت</span><span class="tok-pos">VERB</span><span class="tok-bio">O</span></span>
+        <div class="slides" data-slides>
+          <div class="slide is-active">
+            <div class="slide-eyebrow">جلسهٔ ۳ · توکن‌سازی</div>
+            <div class="slide-main" dir="rtl">دانشگاه شهید بهشتی</div>
+            <div class="slide-chips" dir="rtl">
+              <span class="chip-sl">دانشگاه</span>
+              <span class="chip-sl">شهید</span>
+              <span class="chip-sl">بهشتی</span>
+            </div>
+            <div class="slide-note">شکستن متن به توکن‌های مجزا</div>
           </div>
-          <div class="panel-legend">
-            <span><i class="lg lg--pos"></i>برچسب نحوی</span>
-            <span><i class="lg lg--bio"></i>بازهٔ BIO برای موجودیت نامدار</span>
+          <div class="slide">
+            <div class="slide-eyebrow">جلسهٔ ۵ · مدل زبانی</div>
+            <div class="slide-main mono" dir="ltr">P(w<sub>k</sub> | w<sub>k−1</sub>)</div>
+            <div class="slide-note">احتمال کلمهٔ بعدی به شرط کلمهٔ قبل — بای‌گرام</div>
+          </div>
+          <div class="slide">
+            <div class="slide-eyebrow">جلسهٔ ۶ · برچسب نحوی</div>
+            <div class="slide-main" dir="rtl">او به دانشگاه رفت</div>
+            <div class="slide-rows" dir="rtl">
+              <span class="row-tok">او<i>PRON</i></span>
+              <span class="row-tok">به<i>ADP</i></span>
+              <span class="row-tok">دانشگاه<i>NOUN</i></span>
+              <span class="row-tok">رفت<i>VERB</i></span>
+            </div>
+            <div class="slide-note">هر واژه یک برچسب نحوی می‌گیرد</div>
+          </div>
+          <div class="slide">
+            <div class="slide-eyebrow">جلسهٔ ۶ · NER و طرح BIO</div>
+            <div class="slide-main ent" dir="rtl">دانشگاه شهید بهشتی</div>
+            <div class="slide-rows" dir="ltr">
+              <span class="row-bio">B-ORG</span>
+              <span class="row-bio">I-ORG</span>
+              <span class="row-bio">I-ORG</span>
+            </div>
+            <div class="slide-note">موجودیت نامدار چندواژه‌ای با بازهٔ BIO</div>
           </div>
         </div>
-        <div class="panel-caption">
-          <span dir="ltr">جلسهٔ ۳ · توکن‌سازی</span>
-          <span dir="ltr">جلسهٔ ۶ · POS &amp; NER</span>
+        <div class="slide-ctrl">
+          <div class="slide-dots">
+            <button type="button" class="sdot is-active" data-goto="0" aria-label="اسلاید ۱"></button>
+            <button type="button" class="sdot" data-goto="1" aria-label="اسلاید ۲"></button>
+            <button type="button" class="sdot" data-goto="2" aria-label="اسلاید ۳"></button>
+            <button type="button" class="sdot" data-goto="3" aria-label="اسلاید ۴"></button>
+          </div>
+          <span class="slide-count" data-slide-count>۱ / ۴</span>
         </div>
       </div>
     </div>
