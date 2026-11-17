@@ -9,6 +9,34 @@ Shahid Beheshti University, taught by Dr. Mehrnoush Shamsfard.
 The site is plain HTML/CSS/JS with no build dependencies and no CDN. It is designed for
 GitHub Pages and can be served from any static host.
 
+## Contributing via pull requests
+
+Pull requests are welcome. The notes live in `content/sessions/*.md`; the HTML pages
+are generated, so edit the Markdown — never the generated HTML.
+
+1. **Fork** the repo and create a branch (e.g. `improve-session-04`).
+2. **Edit** the Markdown source in `content/sessions/`. Follow the existing style:
+   - Front matter with `session`, `title_fa`, `title_en`, `summary_fa`, `lecturer`, `tags`.
+   - Bilingual headings: `## ۱. فارسی | English`.
+   - Callouts (`::: tip`, `::: warning`, `::: definition`, `::: example`, …), tables,
+     and the `::: qa` self-check block.
+   - Formulas in `math` code fences or inline `$...$` — supported syntax: `\frac{a}{b}`,
+     `_{...}` / `^{...}`, `\mid`, `\prod`, `\sum`, `\hat{T}`, `\lambda`, `\text{...}`,
+     `\dots`, `\times`, `\approx`, `\ge`, `\le`.
+   - Content policy above: only what the session notes actually say — no invented
+     syllabus, dates, or exam claims.
+3. **Build and check** locally:
+   ```bash
+   python3 tools/build.py --check   # validate without writing
+   python3 tools/build.py           # render pages + inject cards
+   python3 -m http.server 8000      # preview at http://127.0.0.1:8000/
+   ```
+   Commit the regenerated `sessions/*.html` (and `index.html` / `notes.html` /
+   `exercises.html` when the session count or cards changed) together with the
+   Markdown change.
+4. **Push** your branch and open a pull request against `main`. Describe what you
+   changed and which part of the notes it improves.
+
 ## Content policy
 
 - All substantive course content on the public pages is derived from the supplied
