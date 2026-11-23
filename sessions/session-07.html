@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>هموارسازی، دسته‌بندی متن و بیز ساده — جلسه ۰۷ · پردازش زبان‌های طبیعی</title>
+<meta name="description" content="مرور هموارسازی و تلفیق خطی، دسته‌بندی متن در برابر خوشه‌بندی، کلاسیفایر بیز ساده و مدل کیسه‌واژه‌ها، کلمات ایستگی، بیز ساده باینری، مدیریت منفی‌سازی، ارزیابی Macro/Micro و رگرسیون ">
+<meta name="theme-color" content="#1d4ed8">
+<script>(function(){try{var t=localStorage.getItem("nlp-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<link rel="icon" href="../assets/img/sbu-logo-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<div class="read-progress" data-read-progress aria-hidden="true"><span></span></div>
+
+<header class="session-topbar">
+  <div class="container inner">
+    <span class="brand-logo brand-logo--sm" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+    <a class="back" href="../notes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg><span>یادداشت‌ها</span></a>
+    <div class="bar-title"><span class="mono">S۰۷</span>هموارسازی، دسته‌بندی متن و بیز ساده</div>
+    <div class="actions">
+      <button class="icon-btn" type="button" data-print aria-label="چاپ صفحه" title="چاپ صفحه"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg></button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="تغییر پوسته" title="تغییر پوسته"><svg data-icon-moon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg data-icon-sun viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <div class="session-layout">
+    <article class="session-main">
+      <header class="session-hero">
+        <nav class="breadcrumb" aria-label="مسیر">
+          <a href="../index.html">خانه</a><span class="sep">/</span>
+          <a href="../notes.html">یادداشت جلسات</a><span class="sep">/</span>
+          <span>جلسه ۰۷</span>
+        </nav>
+        <div class="session-kicker">
+          <span class="badge badge--live">جلسه ۰۷</span>
+          <span class="tag tag--brand">پردازش زبان‌های طبیعی</span>
+        </div>
+        <h1>هموارسازی، دسته‌بندی متن و بیز ساده</h1>
+        <div class="h1-en" dir="ltr">Smoothing, Text Classification &amp; Naive Bayes</div>
+        <div class="session-summary"><strong>خلاصه: </strong>مرور هموارسازی و تلفیق خطی، دسته‌بندی متن در برابر خوشه‌بندی، کلاسیفایر بیز ساده و مدل کیسه‌واژه‌ها، کلمات ایستگی، بیز ساده باینری، مدیریت منفی‌سازی، ارزیابی Macro/Micro و رگرسیون لوجستیک.</div>
+        <div class="session-meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>دکتر مهرنوش شمس‌فرد</span></span></div>
+      </header>
+
+      <details class="toc-mobile"><summary>فهرست مطالب</summary><ol><li><a href="#۱-مرور-هموارسازی-و-تلفیق-خطی-smoothing-linear-interpolation">۱. مرور هموارسازی و تلفیق خطی</a></li>
+<li class="toc-sub"><a href="#۱-۱-هموارسازی-لاپلاس-و-محاسبات-لگاریتمی">۱.۱. هموارسازی لاپلاس و محاسبات لگاریتمی</a></li>
+<li class="toc-sub"><a href="#۱-۲-موازنه-مرتبه-n-گرام-و-تلفیق-خطی">۱.۲. موازنهٔ مرتبهٔ N-گرام و تلفیق خطی</a></li>
+<li class="toc-sub"><a href="#۱-۳-ضرایب-وابسته-به-بافت">۱.۳. ضرایب وابسته به بافت</a></li>
+<li><a href="#۲-دسته-بندی-متن-در-برابر-خوشه-بندی-text-classification-vs-clustering">۲. دسته‌بندی متن در برابر خوشه‌بندی</a></li>
+<li class="toc-sub"><a href="#۲-۱-تعریف-ریاضی-دسته-بندی-متن">۲.۱. تعریف ریاضی دسته‌بندی متن</a></li>
+<li class="toc-sub"><a href="#۲-۲-مقایسه-دسته-بندی-و-خوشه-بندی">۲.۲. مقایسهٔ دسته‌بندی و خوشه‌بندی</a></li>
+<li class="toc-sub"><a href="#۲-۳-کاربردهای-عملی-دسته-بندی-متن">۲.۳. کاربردهای عملی دسته‌بندی متن</a></li>
+<li><a href="#۳-کلاسیفایر-بیز-ساده-naive-bayes-classifier">۳. کلاسیفایر بیز ساده</a></li>
+<li class="toc-sub"><a href="#۳-۱-قضیه-بیز-و-قاعده-تصمیم-map">۳.۱. قضیهٔ بیز و قاعدهٔ تصمیم MAP</a></li>
+<li class="toc-sub"><a href="#۳-۲-فرض-استقلال-و-مدل-کیسه-واژه-ها">۳.۲. فرض استقلال و مدل کیسه‌واژه‌ها</a></li>
+<li class="toc-sub"><a href="#۳-۳-برآورد-پارامترها-و-هموارسازی">۳.۳. برآورد پارامترها و هموارسازی</a></li>
+<li class="toc-sub"><a href="#۳-۴-مثال-عددی-گام-به-گام-تحلیل-احساسات-نظرات">۳.۴. مثال عددی گام‌به‌گام (تحلیل احساسات نظرات)</a></li>
+<li><a href="#۴-کلمات-ایستگی-و-نقش-آن-ها-در-دسته-بندی-stop-words-in-classification">۴. کلمات ایستگی و نقش آن‌ها در دسته‌بندی</a></li>
+<li class="toc-sub"><a href="#۴-۱-سیاست-های-حذف-بر-حسب-مسئله">۴.۱. سیاست‌های حذف بر حسب مسئله</a></li>
+<li class="toc-sub"><a href="#۴-۲-کلمات-ایستگی-وابسته-به-دامنه">۴.۲. کلمات ایستگی وابسته به دامنه</a></li>
+<li><a href="#۵-بیز-ساده-باینری-در-برابر-چندجمله-ای-binarized-vs-multinomial-naive-bayes">۵. بیز ساده باینری در برابر چندجمله‌ای</a></li>
+<li class="toc-sub"><a href="#۵-۱-بیز-ساده-چندجمله-ای-multinomial">۵.۱. بیز ساده چندجمله‌ای (Multinomial)</a></li>
+<li class="toc-sub"><a href="#۵-۲-بیز-ساده-باینری-binarized-bernoulli">۵.۲. بیز ساده باینری (Binarized / Bernoulli)</a></li>
+<li class="toc-sub"><a href="#۵-۳-چرا-باینری">۵.۳. چرا باینری؟</a></li>
+<li><a href="#۶-مدیریت-منفی-سازی-در-تحلیل-احساسات-negation-handling">۶. مدیریت منفی‌سازی در تحلیل احساسات</a></li>
+<li class="toc-sub"><a href="#۶-۱-هیوریستیک-متداول-در-انگلیسی">۶.۱. هیوریستیک متداول در انگلیسی</a></li>
+<li class="toc-sub"><a href="#۶-۲-چالش-های-ساختاری-در-فارسی">۶.۲. چالش‌های ساختاری در فارسی</a></li>
+<li><a href="#۷-ارزیابی-چندکلاسه-macro-در-برابر-micro-macro-vs-micro-averaging">۷. ارزیابی چندکلاسه: Macro در برابر Micro</a></li>
+<li class="toc-sub"><a href="#۷-۱-میانگین-گیری-کلان-macro-averaging">۷.۱. میانگین‌گیری کلان (Macro-averaging)</a></li>
+<li class="toc-sub"><a href="#۷-۲-میانگین-گیری-خرد-micro-averaging">۷.۲. میانگین‌گیری خرد (Micro-averaging)</a></li>
+<li><a href="#۸-مدل-های-تمایزی-و-رگرسیون-لوجستیک-discriminative-models-logistic-regression">۸. مدل‌های تمایزی و رگرسیون لوجستیک</a></li>
+<li class="toc-sub"><a href="#۸-۱-تولیدی-در-برابر-تمایزی">۸.۱. تولیدی در برابر تمایزی</a></li>
+<li class="toc-sub"><a href="#۸-۲-ترکیب-خطی-و-تابع-سیگموئید">۸.۲. ترکیب خطی و تابع سیگموئید</a></li>
+<li class="toc-sub"><a href="#۸-۳-مهندسی-ویژگی-feature-engineering">۸.۳. مهندسی ویژگی (Feature Engineering)</a></li>
+<li><a href="#۹-پرسش-و-پاسخ-های-کلاس-classroom-q-a">۹. پرسش و پاسخ‌های کلاس</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol></details>
+
+      <div class="prose">
+<h2 id="۱-مرور-هموارسازی-و-تلفیق-خطی-smoothing-linear-interpolation" dir="auto">۱. مرور هموارسازی و تلفیق خطی<span class="h-en" dir="ltr">Smoothing &amp; Linear Interpolation</span></h2>
+<p dir="rtl" lang="fa">جلسهٔ هفتم با مرور مباحث پایانی مدل‌سازی زبانی آغاز می‌شود. احتمال شرطی مشاهدهٔ واژهٔ <span class="math">w<sub>i</sub></span> به شرط تاریخچهٔ <span class="math">w<sub>i-1</sub></span> بر اساس بیشینه احتمال (Maximum Likelihood Estimation — MLE) از رابطهٔ زیر به دست می‌آید:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P<sub>MLE</sub>(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-1</sub>) = <span class="frac"><span class="frac-n">C(w<sub>i-1</sub>, w<sub>i</sub>)</span><span class="frac-d">C(w<sub>i-1</sub>)</span></span></span></div></div>
+<p dir="rtl" lang="fa">اگر یک دنبالهٔ دو واژه‌ای در پیکرهٔ آموزشی مشاهده نشده باشد، مقدار <span class="math">C(w<sub>i-1</sub>, w<sub>i</sub>) = 0</span> شده و احتمال کل زنجیره به دلیل ضرب احتمالات صفر می‌گردد. روش‌های هموارسازی برای پیشگیری از این مشکل معرفی می‌شوند.</p>
+<h3 id="۱-۱-هموارسازی-لاپلاس-و-محاسبات-لگاریتمی" dir="rtl" lang="fa">۱.۱. هموارسازی لاپلاس و محاسبات لگاریتمی</h3>
+<p dir="rtl" lang="fa">در هموارسازی لاپلاس (Laplace / Add-one Smoothing)، به شمارش تمام زوج‌واژه‌ها یک واحد اضافه و در مخرج به اندازهٔ واژگان جبران می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P<sub>Laplace</sub>(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-1</sub>) = <span class="frac"><span class="frac-n">C(w<sub>i-1</sub>, w<sub>i</sub>) + 1</span><span class="frac-d">C(w<sub>i-1</sub>) + V</span></span></span></div></div>
+<p dir="rtl" lang="fa">V برابر اندازهٔ واژگان است. برای جلوگیری از سرریز زیرین محاسباتی (Arithmetic Underflow) هنگام ضرب احتمالات بسیار کوچک، از مجموع لگاریتم‌ها استفاده می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math"><span class="m-text">log</span> P(W) = <span class="m-op">∑</span><sub>i=1</sub><sup>n</sup> <span class="m-text">log</span> P(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-N+1</sub>, …, w<sub>i-1</sub>)</span></div></div>
+<h3 id="۱-۲-موازنه-مرتبه-n-گرام-و-تلفیق-خطی" dir="rtl" lang="fa">۱.۲. موازنهٔ مرتبهٔ N-گرام و تلفیق خطی</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>مراتب بالاتر (مانند ترای‌گرام):</strong> بافت (Context) و وابستگی‌های بلندمدت (Long-range Dependencies) را خوب حفظ می‌کنند، اما با مشکل شدید احتمالات صفر و پراکندگی داده‌ها (Data Sparsity) روبه‌رو می‌شوند.</li><li dir="rtl" lang="fa"><strong>مراتب پایین‌تر (مانند بای‌گرام و یونی‌گرام):</strong> احتمالات صفر کمتری تولید می‌کنند، اما بافت زبانی و ارتباطات دور را از دست می‌دهند.</li></ul>
+<p dir="rtl" lang="fa">تلفیق خطی (Linear Interpolation) احتمالات مراتب مختلف را ترکیب می‌کند تا هم بافت غنی حفظ شود و هم از احتمالات صفر پرهیز گردد:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-2</sub>, w<sub>i-1</sub>) = λ<sub>1</sub> P(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-2</sub>, w<sub>i-1</sub>) + λ<sub>2</sub> P(w<sub>i</sub> <span class="m-mid">|</span> w<sub>i-1</sub>) + λ<sub>3</sub> P(w<sub>i</sub>)</span></div></div>
+<p dir="rtl" lang="fa">با شرط این که مجموع ضرایب برابر ۱ باشد:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math"><span class="m-op">∑</span><sub>k=1</sub><sup>3</sup> λ<sub>k</sub> = 1, <span class="m-sp m-sp2"></span> λ<sub>k</sub> ≥ 0</span></div></div>
+<h3 id="۱-۳-ضرایب-وابسته-به-بافت" dir="rtl" lang="fa">۱.۳. ضرایب وابسته به بافت</h3>
+<p dir="rtl" lang="fa">ضرایب <span class="math">λ</span> می‌توانند ثابت باشند یا به کلمات قبلی وابسته شوند: <span class="math">λ<sub>1</sub>(w<sub>i-2</sub>, w<sub>i-1</sub>)</span>.</p>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ترکیب‌های هم‌آیند (Collocations):</strong> برای عباراتی مانند «شورای عالی آموزش» یا «ریاست جمهوری» که کلمات وابستگی شدیدی به هم دارند، ضریب <span class="math">λ<sub>1</sub></span> مربوط به ترای‌گرام باید مقدار بالاتری داشته باشد.</li><li dir="rtl" lang="fa"><strong>ترکیب‌های تصادفی:</strong> برای ترکیب‌های عمومی‌تر مانند «پرده و زمین»، ضریب ترای‌گرام کاهش یافته و وزن بیشتری به بای‌گرام یا یونی‌گرام داده می‌شود.</li></ul>
+<div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>یادگیری ضرایب</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">ضرایب <span class="math">λ</span> از طریق الگوریتم‌های بهینه‌سازی — مانند تنزیل گرادیان در شبکه‌های پیش‌سو یا ارزیابی روی دادهٔ اعتبارسنجی (Validation Set) — یاد گرفته می‌شوند تا احتمال کل پیکره بیشینه گردد.</p></div></div>
+<h2 id="۲-دسته-بندی-متن-در-برابر-خوشه-بندی-text-classification-vs-clustering" dir="auto">۲. دسته‌بندی متن در برابر خوشه‌بندی<span class="h-en" dir="ltr">Text Classification vs. Clustering</span></h2>
+<h3 id="۲-۱-تعریف-ریاضی-دسته-بندی-متن" dir="rtl" lang="fa">۲.۱. تعریف ریاضی دسته‌بندی متن</h3>
+<p dir="rtl" lang="fa">فرض کنید یک سند متنی <span class="math">d ∈ D</span> و مجموعه‌ای از کلاس‌های پیش‌فرض <span class="math">C = {c<sub>1</sub>, c<sub>2</sub>, …, c<sub>k</sub>}</span> داده شده است. هدف، تخصیص برچسب مناسب <span class="math">c<sup>*</sup> ∈ C</span> به سند <span class="math">d</span> است:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">γ : D → C</span></div></div>
+<h3 id="۲-۲-مقایسه-دسته-بندی-و-خوشه-بندی" dir="rtl" lang="fa">۲.۲. مقایسهٔ دسته‌بندی و خوشه‌بندی</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">محور مقایسه</th><th dir="auto">دسته‌بندی متن (Text Classification)</th><th dir="auto">خوشه‌بندی متن (Text Clustering)</th></tr></thead><tbody><tr><td dir="auto">نوع یادگیری (Learning Type)</td><td dir="auto">نظارت‌شده (Supervised)</td><td dir="auto">بدون نظارت (Unsupervised)</td></tr><tr><td dir="rtl" lang="fa">وضعیت کلاس‌ها</td><td dir="rtl" lang="fa">کلاس‌ها از قبل تعریف‌شده و مشخص‌اند (C معلوم است)</td><td dir="rtl" lang="fa">کلاس‌ها ناآشکارند و بر اساس شباهت داده‌ها شکل می‌گیرند</td></tr><tr><td dir="rtl" lang="fa">دادهٔ آموزشی</td><td dir="rtl" lang="fa">نیازمند دادهٔ برچسب‌خورده (Labeled Data)</td><td dir="rtl" lang="fa">بدون نیاز به برچسب اولیه (Unlabeled Text Data)</td></tr><tr><td dir="rtl" lang="fa">مثال کاربردی</td><td dir="rtl" lang="fa">تشخیص نویسنده از میان ۱۰ نویسندهٔ شناخته‌شده</td><td dir="rtl" lang="fa">گروه‌بندی اسناد نامشخص بر اساس شباهت ساختاری/موضوعی</td></tr></tbody></table></div>
+<h3 id="۲-۳-کاربردهای-عملی-دسته-بندی-متن" dir="rtl" lang="fa">۲.۳. کاربردهای عملی دسته‌بندی متن</h3>
+<p dir="rtl" lang="fa">۱) <strong>تشخیص نویسنده (Authorship Attribution):</strong> تعیین نویسندهٔ واقعی یک متن ناشناس از میان نویسندگان کاندید (مانند تحلیل نامه‌های تاریخی سال ۱۹۶۳).</p>
+<p dir="rtl" lang="fa">۲) <strong>تحلیل احساسات (Sentiment Analysis):</strong> رده‌بندی نظرات کاربران به مثبت (Positive)، منفی (Negative) یا خنثی (Neutral).</p>
+<p dir="rtl" lang="fa">۳) <strong>دسته‌بندی موضوعی (Topic Categorization):</strong> تشخیص حوزهٔ تخصصی سند (مثلاً پزشکی/قلب و عروق در برابر هوش مصنوعی/NLP).</p>
+<p dir="rtl" lang="fa">۴) <strong>تشخیص هرزنامه (Spam Detection):</strong> جداسازی ایمیل‌های اسپم از غیر اسپم.</p>
+<h2 id="۳-کلاسیفایر-بیز-ساده-naive-bayes-classifier" dir="auto">۳. کلاسیفایر بیز ساده<span class="h-en" dir="ltr">Naive Bayes Classifier</span></h2>
+<p dir="rtl" lang="fa">بیز ساده یک مدل احتمالاتی تولیدی (Generative Probabilistic Classifier) است که بر پایهٔ قضیهٔ بیز (Bayes&#x27; Theorem) عمل می‌کند.</p>
+<h3 id="۳-۱-قضیه-بیز-و-قاعده-تصمیم-map" dir="rtl" lang="fa">۳.۱. قضیهٔ بیز و قاعدهٔ تصمیم MAP</h3>
+<p dir="rtl" lang="fa">احتمال پسین (Posterior Probability) تعلق سند <span class="math">d</span> به کلاس <span class="math">c</span>:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(c <span class="m-mid">|</span> d) = <span class="frac"><span class="frac-n">P(d <span class="m-mid">|</span> c) <span class="m-thsp"></span> P(c)</span><span class="frac-d">P(d)</span></span></span></div></div>
+<p dir="rtl" lang="fa">برای تعیین کلاس برنده از قاعدهٔ بیشینه احتمال پسین (Maximum A Posteriori — MAP) استفاده می‌شود. چون مخرج <span class="math">P(d)</span> برای تمام کلاس‌ها یکسان و ثابت است، می‌توان آن را در مقایسه حذف کرد:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">c<sub>MAP</sub> = <span class="m-text">argmax</span><sub>c ∈ C</sub> <span class="m-thsp"></span> P(c <span class="m-mid">|</span> d) = <span class="m-text">argmax</span><sub>c ∈ C</sub> <span class="m-thsp"></span> P(d <span class="m-mid">|</span> c) <span class="m-thsp"></span> P(c)</span></div></div>
+<h3 id="۳-۲-فرض-استقلال-و-مدل-کیسه-واژه-ها" dir="rtl" lang="fa">۳.۲. فرض استقلال و مدل کیسه‌واژه‌ها</h3>
+<p dir="rtl" lang="fa">در مدل کیسه‌واژه‌ها (Bag-of-Words — BoW)، ترتیب کلمات نادیده گرفته شده و تنها حضور و تعداد تکرار واژگان در نظر گرفته می‌شود؛ سند <span class="math">d</span> به صورت برداری از واژه‌ها <span class="math">d = (x<sub>1</sub>, x<sub>2</sub>, …, x<sub>n</sub>)</span> نمایش داده می‌شود.</p>
+<div class="callout callout--definition"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M8 3v18"/></svg></span><span>فرض استقلال بیز ساده (Naive Independence Assumption)</span><span class="co-label">Definition</span></div><div class="callout-body"><p dir="rtl" lang="fa">رخداد کلمات مختلف <span class="math">x<sub>i</sub></span> در درون یک کلاس <span class="math">c</span> کاملاً از یکدیگر مستقل فرض می‌شوند:</p>
+<p dir="ltr" lang="en"><span class="math">P(d <span class="m-mid">|</span> c) = P(x<sub>1</sub>, x<sub>2</sub>, …, x<sub>n</sub> <span class="m-mid">|</span> c) = <span class="m-op">∏</span><sub>i=1</sub><sup>n</sup> P(x<sub>i</sub> <span class="m-mid">|</span> c)</span></p></div></div>
+<p dir="rtl" lang="fa">رابطهٔ اصلی کلاسیفایر بیز ساده:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">c<sub>NB</sub> = <span class="m-text">argmax</span><sub>c ∈ C</sub> <span class="m-thsp"></span> P(c) <span class="m-op">∏</span><sub>i=1</sub><sup>n</sup> P(x<sub>i</sub> <span class="m-mid">|</span> c)</span></div></div>
+<h3 id="۳-۳-برآورد-پارامترها-و-هموارسازی" dir="rtl" lang="fa">۳.۳. برآورد پارامترها و هموارسازی</h3>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>احتمال پیشین کلاس:</strong> <span class="math">P(c) = <span class="frac"><span class="frac-n">N<sub>c</sub></span><span class="frac-d">N<sub>doc</sub></span></span></span> که <span class="math">N<sub>c</sub></span> تعداد اسناد کلاس <span class="math">c</span> و <span class="math">N<sub>doc</sub></span> تعداد کل اسناد پیکرهٔ آموزشی است.</li><li dir="rtl" lang="fa"><strong>احتمال شرطی واژه با هموارسازی لاپلاس:</strong> <span class="math">P(w<sub>i</sub> <span class="m-mid">|</span> c) = <span class="frac"><span class="frac-n">C(w<sub>i</sub>, c) + 1</span><span class="frac-d"><span class="m-op">∑</span><sub>w ∈ V</sub> C(w, c) + V</span></span></span> که در آن <span class="math">C(w<sub>i</sub>, c)</span> تعداد تکرار واژهٔ <span class="math">w<sub>i</sub></span> در کل اسناد کلاس <span class="math">c</span>، مجموع مخرج کل توکن‌های کلاس <span class="math">c</span> و V اندازهٔ کل واژگان منحصربه‌فرد پیکره است.</li></ul>
+<h3 id="۳-۴-مثال-عددی-گام-به-گام-تحلیل-احساسات-نظرات" dir="rtl" lang="fa">۳.۴. مثال عددی گام‌به‌گام (تحلیل احساسات نظرات)</h3>
+<p dir="rtl" lang="fa">پیکرهٔ آموزشی فرضی دارای ۵ سند است: ۳ سند منفی (<span class="math">c<sup>-</sup></span>) و ۲ سند مثبت (<span class="math">c<sup>+</sup></span>).</p>
+<p dir="rtl" lang="fa"><strong>گام ۱ — احتمال پیشین کلاس‌ها:</strong></p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(c<sup>-</sup>) = <span class="frac"><span class="frac-n">3</span><span class="frac-d">5</span></span> = 0.6, <span class="m-sp m-sp2"></span> P(c<sup>+</sup>) = <span class="frac"><span class="frac-n">2</span><span class="frac-d">5</span></span> = 0.4</span></div></div>
+<p dir="rtl" lang="fa"><strong>گام ۲ — کلمات خارج از واژگان (OOV):</strong> اگر در سند تست واژه‌ای باشد که در هیچ‌یک از اسناد آموزشی نیامده است (مانند واژهٔ &quot;with&quot;)، در بیز سادهٔ متنی این واژه به‌کلی حذف می‌شود، زیرا اعمال هموارسازی روی آن تنها باعث برتری ناخواسته به کلاسی با مخرج کوچک‌تر می‌شود.</p>
+<p dir="rtl" lang="fa"><strong>گام ۳ — احتمال کلمات سند تست:</strong> تعداد کل توکن‌ها در کلاس منفی ۱۴ و در کلاس مثبت ۹ است؛ اندازهٔ کل واژگان منحصربه‌فرد V = 19.</p>
+<ul dir="auto"><li dir="auto">برای کلاس منفی: <span class="math">P(<span class="m-text">&quot;no&quot;</span> <span class="m-mid">|</span> c<sup>-</sup>) = <span class="frac"><span class="frac-n">1 + 1</span><span class="frac-d">14 + 19</span></span> = <span class="frac"><span class="frac-n">2</span><span class="frac-d">33</span></span></span> و <span class="math">P(<span class="m-text">&quot;fun&quot;</span> <span class="m-mid">|</span> c<sup>-</sup>) = <span class="frac"><span class="frac-n">0 + 1</span><span class="frac-d">14 + 19</span></span> = <span class="frac"><span class="frac-n">1</span><span class="frac-d">33</span></span></span></li><li dir="auto">برای کلاس مثبت: <span class="math">P(<span class="m-text">&quot;no&quot;</span> <span class="m-mid">|</span> c<sup>+</sup>) = <span class="frac"><span class="frac-n">0 + 1</span><span class="frac-d">9 + 19</span></span> = <span class="frac"><span class="frac-n">1</span><span class="frac-d">28</span></span></span> و <span class="math">P(<span class="m-text">&quot;fun&quot;</span> <span class="m-mid">|</span> c<sup>+</sup>) = <span class="frac"><span class="frac-n">1 + 1</span><span class="frac-d">9 + 19</span></span> = <span class="frac"><span class="frac-n">2</span><span class="frac-d">28</span></span></span></li></ul>
+<p dir="rtl" lang="fa"><strong>گام ۴ — ضرب نهایی:</strong> احتمال هر کلاس در احتمال پیشین ضرب شده و کلاسی که بیشترین مقدار را حاصل کند به عنوان برچسب نهایی سند تست انتخاب می‌شود.</p>
+<h2 id="۴-کلمات-ایستگی-و-نقش-آن-ها-در-دسته-بندی-stop-words-in-classification" dir="rtl" lang="fa">۴. کلمات ایستگی و نقش آن‌ها در دسته‌بندی<span class="h-en" dir="ltr">Stop Words in Classification</span></h2>
+<p dir="rtl" lang="fa">کلمات ایستگی (Stop Words) واژگان پرتکراری هستند که معمولاً بار معنایی خاصی در یک حوزه ایجاد نمی‌کنند (مانند حروف اضافه، افعال ربطی، «و»، «در»، «از»).</p>
+<h3 id="۴-۱-سیاست-های-حذف-بر-حسب-مسئله" dir="rtl" lang="fa">۴.۱. سیاست‌های حذف بر حسب مسئله</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">مسئله / کاربرد</th><th dir="rtl" lang="fa">حذف کلمات ایستگی</th><th dir="rtl" lang="fa">دلیل و تحلیل زبانی</th></tr></thead><tbody><tr><td dir="auto">دسته‌بندی موضوعی (Topic Categorization)</td><td dir="rtl" lang="fa">مجاز و مفید</td><td dir="rtl" lang="fa">کلمات ایستگی اطلاعات موضوعی ندارند؛ حذف آن‌ها ابعاد واژگان را کم و سرعت محاسبه را زیاد می‌کند</td></tr><tr><td dir="auto">تشخیص نویسنده (Authorship Attribution)</td><td dir="rtl" lang="fa">غیرمجاز</td><td dir="rtl" lang="fa">حروف اضافه، ضمایر و نحوهٔ استفاده از کلمات ایستگی، اثر انگشت سبکی (Stylistic Fingerprint) نویسنده‌اند</td></tr><tr><td dir="auto">تحلیل احساسات (Sentiment Analysis)</td><td dir="rtl" lang="fa">حذف مشروط و محدود</td><td dir="rtl" lang="fa">کلماتی مانند &quot;not&quot;, &quot;no&quot;, &quot;but&quot;, &quot;don&#x27;t&quot; نقش کلیدی در تغییر احساسات دارند و نباید حذف شوند</td></tr><tr><td dir="rtl" lang="fa">برچسب‌زنی نحوی (POS Tagging)</td><td dir="rtl" lang="fa">غیرمجاز</td><td dir="rtl" lang="fa">ساختار نحوی جمله بدون حروف اضافه و افعال ربطی کاملاً از دست می‌رود</td></tr></tbody></table></div>
+<h3 id="۴-۲-کلمات-ایستگی-وابسته-به-دامنه" dir="rtl" lang="fa">۴.۲. کلمات ایستگی وابسته به دامنه</h3>
+<p dir="rtl" lang="fa">لیست کلمات ایستگی ثابت نیست. واژه‌ای که در یک مسئله کلمهٔ ایستگی است، در مسئلهٔ دیگر ویژگی حیاتی است. همچنین کلماتی که در تمام اسناد یک پیکره فارغ از کلاس با فراوانی بسیار بالا تکرار می‌شوند (مانند «دارو» در یک دادگان تماماً پزشکی) باید شناسایی و فیلتر شوند.</p>
+<h2 id="۵-بیز-ساده-باینری-در-برابر-چندجمله-ای-binarized-vs-multinomial-naive-bayes" dir="auto">۵. بیز ساده باینری در برابر چندجمله‌ای<span class="h-en" dir="ltr">Binarized vs. Multinomial Naive Bayes</span></h2>
+<h3 id="۵-۱-بیز-ساده-چندجمله-ای-multinomial" dir="rtl" lang="fa">۵.۱. بیز ساده چندجمله‌ای (Multinomial)</h3>
+<p dir="rtl" lang="fa">تعداد تکرار دقیق کلمه <span class="math">C(w, d)</span> در نظر گرفته می‌شود؛ اگر کلمه‌ای ۱۰ بار در سند تکرار شده باشد، ۱۰ بار در ضرب احتمالات وارد می‌شود.</p>
+<h3 id="۵-۲-بیز-ساده-باینری-binarized-bernoulli" dir="auto">۵.۲. بیز ساده باینری (Binarized / Bernoulli)</h3>
+<p dir="rtl" lang="fa">تکرار کلمات در درون یک سند به ۱ محدود می‌شود (فقط حضور یا عدم حضور واژه). اگر کلمه‌ای ۵ بار تکرار شده باشد، تنها ۱ بار به عنوان «سند دارای آن کلمه» شمرده می‌شود.</p>
+<h3 id="۵-۳-چرا-باینری" dir="rtl" lang="fa">۵.۳. چرا باینری؟</h3>
+<div class="callout callout--important"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.8 19.2A1.2 1.2 0 0 0 3.9 21h16.2a1.2 1.2 0 0 0 1.1-1.8L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17.4" r=".8" fill="currentColor" stroke="none"/></svg></span><span>دقت بیشتر بیز باینری در تحلیل احساسات</span><span class="co-label">Important</span></div><div class="callout-body"><p dir="rtl" lang="fa">برخی اسناد به دلیل اطناب و پرگویی (Verbosity) یک کلمهٔ مثبت یا منفی را چندین بار تکرار می‌کنند؛ تکرار زیاد یک واژه نباید وزن آن را به صورت نمایی در تصمیم‌گیری کل افزایش دهد. تجربه نشان داده که در تحلیل احساسات، بیز سادهٔ باینری عملکرد دقیق‌تر و باثبات‌تری نسبت به حالت چندجمله‌ای دارد.</p></div></div>
+<h2 id="۶-مدیریت-منفی-سازی-در-تحلیل-احساسات-negation-handling" dir="rtl" lang="fa">۶. مدیریت منفی‌سازی در تحلیل احساسات<span class="h-en" dir="ltr">Negation Handling</span></h2>
+<p dir="rtl" lang="fa">تحلیل احساسات تنها با شمردن کلمات مثبت و منفی (Semantic Lexicons) دچار خطا می‌شود، زیرا روابط زبانی و منفی‌سازی (Negation) بار معنایی جمله را معکوس می‌کنند.</p>
+<h3 id="۶-۱-هیوریستیک-متداول-در-انگلیسی" dir="rtl" lang="fa">۶.۱. هیوریستیک متداول در انگلیسی</h3>
+<p dir="rtl" lang="fa">پس از مشاهدهٔ یک واژهٔ منفی‌ساز (&quot;not&quot;, &quot;don&#x27;t&quot;, &quot;never&quot;)، تا رسیدن به علامت نگارشی (نقطه یا کاما)، به تمام کلمات بعدی پیشوند <code>NOT_</code> اضافه می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math"><span class="m-text">&quot;I didn&#x27;t like this movie&quot;</span> → <span class="m-text">didn&#x27;t</span>, <span class="m-thsp m-thsp2"></span> <span class="m-text">NOT_like</span>, <span class="m-thsp m-thsp2"></span> <span class="m-text">NOT_this</span>, <span class="m-thsp m-thsp2"></span> <span class="m-text">NOT_movie</span></span></div></div>
+<p dir="rtl" lang="fa">با این کار، توکن <code>NOT_like</code> ویژگی کاملاً مجزایی از <code>like</code> می‌شود و بار منفی دریافت می‌کند.</p>
+<h3 id="۶-۲-چالش-های-ساختاری-در-فارسی" dir="rtl" lang="fa">۶.۲. چالش‌های ساختاری در فارسی</h3>
+<p dir="rtl" lang="fa">۱) <strong>موقعیت فعل در انتهای جمله:</strong> منفی‌سازها در فارسی معمولاً به فعلِ انتهای جمله متصل می‌شوند (مانند «دوست ندارم»). حرکت به جلو تا نقطه، برچسب کلمات جملهٔ بعدی را به اشتباه تغییر می‌دهد.</p>
+<p dir="rtl" lang="fa">۲) <strong>پیچیدگی وابستگی‌های نحوی (Syntactic Dependencies):</strong> در جمله‌های مرکب فارسی، منفی‌ساز ممکن است به سازه‌ای در ابتدای جمله وابسته باشد («هیچ‌کدام از این گربه‌هایی که… دوست ندارم»).</p>
+<p dir="rtl" lang="fa">۳) <strong>تحلیل معکوس (Backward Heuristic):</strong> در فارسی هیوریستیک باید به صورت حرکت به عقب از فعل منفی‌ساز تا سرگروه اسمی یا صفت مربوطه طراحی شود، یا از درخت وابستگی نحوی (Dependency Parse Tree) برای یافتن دقیق دامنهٔ منفی‌سازی استفاده گردد.</p>
+<h2 id="۷-ارزیابی-چندکلاسه-macro-در-برابر-micro-macro-vs-micro-averaging" dir="auto">۷. ارزیابی چندکلاسه: Macro در برابر Micro<span class="h-en" dir="ltr">Macro vs. Micro Averaging</span></h2>
+<p dir="rtl" lang="fa">در ارزیابی دسته‌بندی متن با بیش از دو کلاس (K &gt; 2)، دو روش اصلی برای میانگین‌گیری از صحت (Precision) و فراخوانی (Recall) وجود دارد.</p>
+<h3 id="۷-۱-میانگین-گیری-کلان-macro-averaging" dir="rtl" lang="fa">۷.۱. میانگین‌گیری کلان (Macro-averaging)</h3>
+<p dir="rtl" lang="fa">ابتدا دقت و فراخوانی برای تک‌تک کلاس‌ها مستقل محاسبه و سپس میانگین ساده گرفته می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P<sub>macro</sub> = <span class="frac"><span class="frac-n">1</span><span class="frac-d">|C|</span></span> <span class="m-op">∑</span><sub>i=1</sub><sup>|C|</sup> P<sub>i</sub>, <span class="m-sp m-sp2"></span> R<sub>macro</sub> = <span class="frac"><span class="frac-n">1</span><span class="frac-d">|C|</span></span> <span class="m-op">∑</span><sub>i=1</sub><sup>|C|</sup> R<sub>i</sub></span></div></div>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ویژگی:</strong> به تمام کلاس‌ها فارغ از تعداد اسنادشان وزن یکسان می‌دهد؛ برای ارزیابی عملکرد روی کلاس‌های اقلیت (Minority Classes) بسیار مناسب است.</li></ul>
+<h3 id="۷-۲-میانگین-گیری-خرد-micro-averaging" dir="rtl" lang="fa">۷.۲. میانگین‌گیری خرد (Micro-averaging)</h3>
+<p dir="rtl" lang="fa">تمام مثبت‌های صادق (True Positives)، مثبت‌های کاذب (False Positives) و منفی‌های کاذب (False Negatives) از همهٔ کلاس‌ها جمع زده می‌شوند و یک دقت و فراخوانی کلی محاسبه می‌گردد:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P<sub>micro</sub> = <span class="frac"><span class="frac-n"><span class="m-op">∑</span><sub>i=1</sub><sup>|C|</sup> TP<sub>i</sub></span><span class="frac-d"><span class="m-op">∑</span><sub>i=1</sub><sup>|C|</sup> (TP<sub>i</sub> + FP<sub>i</sub>)</span></span></span></div></div>
+<ul dir="auto"><li dir="rtl" lang="fa"><strong>ویژگی:</strong> کلاس‌های بزرگ‌تر با اسناد بیشتر سهم اصلی را در عدد نهایی دارند و تأثیر کلاس‌های کوچک کم‌رنگ می‌شود.</li></ul>
+<h2 id="۸-مدل-های-تمایزی-و-رگرسیون-لوجستیک-discriminative-models-logistic-regression" dir="auto">۸. مدل‌های تمایزی و رگرسیون لوجستیک<span class="h-en" dir="ltr">Discriminative Models &amp; Logistic Regression</span></h2>
+<h3 id="۸-۱-تولیدی-در-برابر-تمایزی" dir="rtl" lang="fa">۸.۱. تولیدی در برابر تمایزی</h3>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">مدل</th><th dir="rtl" lang="fa">رویکرد</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">تولیدی (Generative — مانند بیز ساده)</td><td dir="rtl" lang="fa">توزیع احتمال توأم <span class="math">P(d, c) = P(d <span class="m-mid">|</span> c) <span class="m-thsp"></span> P(c)</span> را مدل می‌کند</td></tr><tr><td dir="rtl" lang="fa">تمایزی (Discriminative — مانند رگرسیون لوجستیک)</td><td dir="rtl" lang="fa">مستقیماً احتمال شرطی <span class="math">P(c <span class="m-mid">|</span> d)</span> را بدون مدل‌سازی نحوهٔ تولید سند برآورد می‌کند</td></tr></tbody></table></div>
+<h3 id="۸-۲-ترکیب-خطی-و-تابع-سیگموئید" dir="rtl" lang="fa">۸.۲. ترکیب خطی و تابع سیگموئید</h3>
+<p dir="rtl" lang="fa">ابتدا ترکیب خطی بردار ویژگی‌ها (x) و بردار وزن‌ها (w) به همراه مقدار انحراف (Bias — b) محاسبه می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">z = w · x + b = <span class="m-op">∑</span><sub>i=1</sub><sup>n</sup> w<sub>i</sub> x<sub>i</sub> + b</span></div></div>
+<p dir="rtl" lang="fa">سپس z که عددی در بازهٔ <span class="math">(-∞, +∞)</span> است، توسط تابع سیگموئید (Sigmoid / Logistic Function) به بازهٔ احتمالاتی [0, 1] نگاشت می‌شود:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">σ(z) = <span class="frac"><span class="frac-n">1</span><span class="frac-d">1 + e<sup>-z</sup></span></span></span></div></div>
+<p dir="rtl" lang="fa">احتمال تعلق سند به کلاس ۱ (مثبت):</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(y = 1 <span class="m-mid">|</span> x) = σ(w · x + b) = <span class="frac"><span class="frac-n">1</span><span class="frac-d">1 + e<sup>-(w · x + b)</sup></span></span></span></div></div>
+<p dir="rtl" lang="fa">و احتمال تعلق به کلاس ۰:</p>
+<div class="math-block" dir="ltr"><div class="math-row"><span class="math">P(y = 0 <span class="m-mid">|</span> x) = 1 - P(y = 1 <span class="m-mid">|</span> x)</span></div></div>
+<h3 id="۸-۳-مهندسی-ویژگی-feature-engineering" dir="auto">۸.۳. مهندسی ویژگی (Feature Engineering)</h3>
+<p dir="rtl" lang="fa">بر خلاف بیز ساده که تنها از حضور کلمات استفاده می‌کرد، در رگرسیون لوجستیک می‌توان بردار ویژگی‌های بسیار متنوعی طراحی کرد:</p>
+<ul dir="auto"><li dir="rtl" lang="fa">تعداد کلمات مثبت و منفی موجود در سند.</li><li dir="rtl" lang="fa">حضور یا عدم حضور کلمات منفی‌ساز.</li><li dir="rtl" lang="fa">تعداد ضمایر اول‌شخص و دوم‌شخص.</li><li dir="auto">لگاریتم طول سند: <span class="math"><span class="m-text">log</span>(<span class="m-text">length</span>)</span>.</li><li dir="rtl" lang="fa">وجود موجودیت‌های نام‌دار خاص (NER Tags).</li></ul>
+<p dir="rtl" lang="fa">این مدل پایه و اساس شبکه‌های عصبی تک‌لایه (Perceptrons) محسوب می‌شود.</p>
+<h2 id="۹-پرسش-و-پاسخ-های-کلاس-classroom-q-a" dir="rtl" lang="fa">۹. پرسش و پاسخ‌های کلاس<span class="h-en" dir="ltr">Classroom Q&amp;A</span></h2>
+<div class="qa-list">
+<details class="qa"><summary><span>نحوهٔ تعیین و یادگیری ضرایب λ در تلفیق خطی N-گرام‌ها چگونه است؟</span></summary><div class="qa-a" dir="rtl" lang="fa">ضرایب λ یا ثابت‌اند — که از طریق ارزیابی روی دادهٔ اعتبارسنجی (Validation Data) و بهینه‌سازی توابع خطا به دست می‌آیند — یا وابسته به کلمات قبلی‌اند: <span class="math">λ(w<sub>i-1</sub>, w<sub>i-2</sub>)</span>. در حالت دوم، برای عبارت‌های پرکاربرد و هم‌آیند (مانند «آموزش و پرورش» یا «ریاست جمهوری»)، وزن N-گرام‌های بالاتر خودبه‌خود از روی داده‌ها بیشتر یاد گرفته می‌شود.</div></details>
+<details class="qa"><summary><span>آیا تشخیص نویسندهٔ متن (Authorship Attribution) همیشه یک مسئلهٔ دسته‌بندی است؟</span></summary><div class="qa-a" dir="rtl" lang="fa">خیر، بستگی دارد. اگر نویسندگان کاندید از قبل مشخص و محدود باشند (مثلاً ۵ یا ۱۰ نویسندهٔ معلوم)، مسئله دسته‌بندی (Classification) و نظارت‌شده است. اما اگر اسناد متعددی بدون هیچ برچسبی وجود داشته باشند و بخواهیم بفهمیم کدام اسناد را یک فرد نوشته است، مسئله به خوشه‌بندی (Clustering) تبدیل می‌شود.</div></details>
+<details class="qa"><summary><span>چرا در فرمول بیز ساده، مخرج کسر P(d) را در محاسبات حذف می‌کنیم؟</span></summary><div class="qa-a" dir="rtl" lang="fa">زیرا هنگام مقایسهٔ احتمال تعلق یک سند مشخص d به کلاس‌های مختلف <span class="math">(c<sub>1</sub>, c<sub>2</sub>, …)</span>، مقدار P(d) در مخرج تمام کسرها یکسان است. بنابراین برای یافتن کلاس دارای بیشترین احتمال (argmax) نیازی به محاسبهٔ مخرج نیست و مقایسهٔ صورت کسرها کفایت می‌کند.</div></details>
+<details class="qa"><summary><span>در دسته‌بندی بیز ساده، اگر کلمه‌ای در دادهٔ تست باشد که در دادهٔ آموزشی اصلاً وجود نداشته (OOV)، چرا آن را کلاً حذف می‌کنیم؟</span></summary><div class="qa-a" dir="rtl" lang="fa">کلمه‌ای که در هیچ‌یک از کلاس‌های دادهٔ آموزشی دیده نشده، هیچ اطلاعات تمایزدهنده‌ای دربارهٔ کلاس‌ها نمی‌دهد. اگر بخواهیم آن را با هموارسازی وارد کنیم، به دلیل تفاوت تعداد کل کلمات کلاس‌ها (اندازهٔ مخرج‌ها)، ناخواسته به کلاسی که مجموع کلمات کمتری دارد امتیاز بیشتری می‌دهیم و محاسبات منحرف می‌شود؛ حذف آن عادلانه‌ترین رفتار است.</div></details>
+<details class="qa"><summary><span>آیا کلمات ایستگی (Stop Words) را می‌توان در تمام تسک‌های NLP حذف کرد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">خیر. حذف کلمات ایستگی تنها در تسک‌هایی مجاز است که این کلمات نقش ویژگی (Feature) ایفا نکنند (مانند دسته‌بندی موضوعی). اما در تسک‌هایی مانند تشخیص نویسنده (که سبک نگارش و ضمایر اهمیت دارند) یا برچسب‌زنی نحوی (POS Tagging) و تحلیل احساسات (که واژگان منفی‌ساز دارند)، حذف کلمات ایستگی مدل را به‌شدت خراب می‌کند.</div></details>
+<details class="qa"><summary><span>چرا در تحلیل احساسات از بیز سادهٔ باینری (Binarized Naive Bayes) به جای چندجمله‌ای استفاده می‌شود؟</span></summary><div class="qa-a" dir="rtl" lang="fa">در تحلیل احساسات، تکرار زیاد یک کلمه در یک سند (مثلاً تکرار ۱۰ بار یک صفت) معمولاً به معنای ۱۰ برابر شدن احساسات سند نیست و ممکن است ناشی از پرگویی نویسنده باشد. بیز باینری با در نظر گرفتن تنها حضور یا عدم حضور کلمه، از سوگیری شدید مدل به سمت اسناد طولانی جلوگیری می‌کند.</div></details>
+<details class="qa"><summary><span>تفاوت هیوریستیک‌های منفی‌سازی (Negation Handling) در انگلیسی و فارسی چیست؟</span></summary><div class="qa-a" dir="rtl" lang="fa">در انگلیسی منفی‌ساز در ابتدای عبارت می‌آید و هیوریستیک حرکت به جلو تا علائم نگارشی کارساز است. اما در فارسی به دلیل قرار گرفتن فعل در انتهای جمله و ساختارهای وابستهٔ پیچیده، حرکت به جلو اشتباه است و هیوریستیک باید بر اساس حرکت به عقب یا تحلیل درخت وابستگی نحوی (Dependency Parsing) اجرا شود.</div></details>
+<details class="qa"><summary><span>تفاوت Macro-averaging و Micro-averaging در ارزیابی چیست و هرکدام چه زمانی ترجیح دارد؟</span></summary><div class="qa-a" dir="rtl" lang="fa">در Macro-averaging دقت کلاس‌ها جداگانه حساب شده و میانگین ساده گرفته می‌شود؛ به تمام کلاس‌ها وزن برابر می‌دهد و برای داده‌های نامتعادل مناسب است. در Micro-averaging تمام نمونه‌ها با هم جمع زده می‌شوند؛ کلاس‌های بزرگ‌تر با اسناد بیشتر، نتیجهٔ نهایی را تحت تأثیر قرار می‌دهند.</div></details>
+</div>
+<h2 id="۱۰-واژه-نامه-glossary" dir="rtl" lang="fa">۱۰. واژه‌نامه<span class="h-en" dir="ltr">Glossary</span></h2>
+<div class="table-scroll"><table dir="rtl" lang="fa"><thead><tr><th dir="rtl" lang="fa">فارسی</th><th dir="ltr" lang="en">English</th><th dir="rtl" lang="fa">معنی کوتاه</th></tr></thead><tbody><tr><td dir="rtl" lang="fa">دسته‌بندی متن</td><td dir="ltr" lang="en">Text Classification / Categorization</td><td dir="rtl" lang="fa">تخصیص سند به کلاس از پیش تعریف‌شده</td></tr><tr><td dir="rtl" lang="fa">خوشه‌بندی متن</td><td dir="ltr" lang="en">Text Clustering</td><td dir="rtl" lang="fa">گروه‌بندی بدون برچسب بر اساس شباهت</td></tr><tr><td dir="rtl" lang="fa">بیز ساده</td><td dir="ltr" lang="en">Naive Bayes (NB)</td><td dir="rtl" lang="fa">کلاسیفایر احتمالاتی با فرض استقلال</td></tr><tr><td dir="rtl" lang="fa">قاعدهٔ بیشینه احتمال پسین</td><td dir="ltr" lang="en">Maximum A Posteriori (MAP)</td><td dir="rtl" lang="fa">انتخاب کلاس با بیشترین احتمال پسین</td></tr><tr><td dir="rtl" lang="fa">مدل کیسه‌واژه‌ها</td><td dir="ltr" lang="en">Bag-of-Words (BoW) Model</td><td dir="rtl" lang="fa">نادیده گرفتن ترتیب و شمارش واژگان</td></tr><tr><td dir="rtl" lang="fa">تلفیق خطی</td><td dir="ltr" lang="en">Linear Interpolation</td><td dir="rtl" lang="fa">ترکیب وزن‌دار احتمالات مراتب N-گرام</td></tr><tr><td dir="rtl" lang="fa">ضرایب وابسته به بافت</td><td dir="ltr" lang="en">Context-Dependent Weights</td><td dir="rtl" lang="fa">ضرایب λ تابعی از کلمات قبلی</td></tr><tr><td dir="rtl" lang="fa">کلمات ایستگی / توقف</td><td dir="ltr" lang="en">Stop Words</td><td dir="rtl" lang="fa">واژگان پرتکرار بدون بار معنایی خاص</td></tr><tr><td dir="rtl" lang="fa">بیز ساده باینری</td><td dir="ltr" lang="en">Binarized / Bernoulli Naive Bayes</td><td dir="rtl" lang="fa">حضور/عدم حضور واژه به‌جای شمارش</td></tr><tr><td dir="rtl" lang="fa">تشخیص نویسنده</td><td dir="ltr" lang="en">Authorship Attribution</td><td dir="rtl" lang="fa">تعیین نویسنده از میان کاندیدها</td></tr><tr><td dir="rtl" lang="fa">تحلیل احساسات</td><td dir="ltr" lang="en">Sentiment Analysis</td><td dir="rtl" lang="fa">رده‌بندی مثبت/منفی/خنثی</td></tr><tr><td dir="rtl" lang="fa">مدیریت منفی‌سازی</td><td dir="ltr" lang="en">Negation Handling</td><td dir="rtl" lang="fa">معکوس‌کردن بار معنایی با منفی‌سازها</td></tr><tr><td dir="rtl" lang="fa">تغییردهنده‌های شدت</td><td dir="ltr" lang="en">Sentiment Shifters / Modifiers</td><td dir="rtl" lang="fa">واژگانی که شدت احساس را تغییر می‌دهند</td></tr><tr><td dir="rtl" lang="fa">واژگان احساسی</td><td dir="ltr" lang="en">Semantic Lexicons</td><td dir="rtl" lang="fa">فرهنگ‌های واژگان مثبت و منفی</td></tr><tr><td dir="rtl" lang="fa">میانگین‌گیری کلان</td><td dir="ltr" lang="en">Macro-averaging</td><td dir="rtl" lang="fa">میانگین سادهٔ معیارهای هر کلاس</td></tr><tr><td dir="rtl" lang="fa">میانگین‌گیری خرد</td><td dir="ltr" lang="en">Micro-averaging</td><td dir="rtl" lang="fa">جمع نمونه‌های همهٔ کلاس‌ها</td></tr><tr><td dir="rtl" lang="fa">مدل‌های تمایزی</td><td dir="ltr" lang="en">Discriminative Models</td><td dir="rtl" lang="fa">برآورد مستقیم <span class="math">P(c <span class="m-mid">|</span> d)</span></td></tr><tr><td dir="rtl" lang="fa">مدل‌های تولیدی</td><td dir="ltr" lang="en">Generative Models</td><td dir="rtl" lang="fa">مدل‌سازی توزیع توأم <span class="math">P(d, c)</span></td></tr><tr><td dir="rtl" lang="fa">رگرسیون لوجستیک</td><td dir="ltr" lang="en">Logistic Regression</td><td dir="rtl" lang="fa">تمایزی خطی با تابع سیگموئید</td></tr><tr><td dir="rtl" lang="fa">تابع سیگموئید</td><td dir="ltr" lang="en">Sigmoid Function</td><td dir="rtl" lang="fa">نگاشت z به بازهٔ [0, 1]</td></tr></tbody></table></div>
+      </div>
+
+      <div class="session-foot-note">
+        این صفحه یادداشت مطالعاتی دانشجویان بر اساس جلسهٔ کلاس است و جایگزین اعلام‌های رسمی استاد نیست.
+        منبع اصلی درس: <span dir="ltr">Jurafsky &amp; Martin, Speech and Language Processing (3rd ed. draft)</span>.
+        برای اصلاح یا تکمیل یادداشت‌ها، از طریق مخزن گیت‌هاب اقدام کنید.
+      </div>
+
+      <nav class="session-nav" aria-label="ناوبری جلسات">
+        <a class="prev" href="session-06.html"><span class="sn-label">جلسهٔ قبل</span><span class="sn-title">جلسه ۰۶ — برچسب‌زنی ادوات سخن و شناسایی موجودیت‌های نامدار</span></a>
+        
+      </nav>
+    </article>
+
+    <aside class="toc" data-toc aria-label="فهرست مطالب">
+      <div class="toc-title">در این صفحه</div>
+      <ol><li><a href="#۱-مرور-هموارسازی-و-تلفیق-خطی-smoothing-linear-interpolation">۱. مرور هموارسازی و تلفیق خطی</a></li>
+<li class="toc-sub"><a href="#۱-۱-هموارسازی-لاپلاس-و-محاسبات-لگاریتمی">۱.۱. هموارسازی لاپلاس و محاسبات لگاریتمی</a></li>
+<li class="toc-sub"><a href="#۱-۲-موازنه-مرتبه-n-گرام-و-تلفیق-خطی">۱.۲. موازنهٔ مرتبهٔ N-گرام و تلفیق خطی</a></li>
+<li class="toc-sub"><a href="#۱-۳-ضرایب-وابسته-به-بافت">۱.۳. ضرایب وابسته به بافت</a></li>
+<li><a href="#۲-دسته-بندی-متن-در-برابر-خوشه-بندی-text-classification-vs-clustering">۲. دسته‌بندی متن در برابر خوشه‌بندی</a></li>
+<li class="toc-sub"><a href="#۲-۱-تعریف-ریاضی-دسته-بندی-متن">۲.۱. تعریف ریاضی دسته‌بندی متن</a></li>
+<li class="toc-sub"><a href="#۲-۲-مقایسه-دسته-بندی-و-خوشه-بندی">۲.۲. مقایسهٔ دسته‌بندی و خوشه‌بندی</a></li>
+<li class="toc-sub"><a href="#۲-۳-کاربردهای-عملی-دسته-بندی-متن">۲.۳. کاربردهای عملی دسته‌بندی متن</a></li>
+<li><a href="#۳-کلاسیفایر-بیز-ساده-naive-bayes-classifier">۳. کلاسیفایر بیز ساده</a></li>
+<li class="toc-sub"><a href="#۳-۱-قضیه-بیز-و-قاعده-تصمیم-map">۳.۱. قضیهٔ بیز و قاعدهٔ تصمیم MAP</a></li>
+<li class="toc-sub"><a href="#۳-۲-فرض-استقلال-و-مدل-کیسه-واژه-ها">۳.۲. فرض استقلال و مدل کیسه‌واژه‌ها</a></li>
+<li class="toc-sub"><a href="#۳-۳-برآورد-پارامترها-و-هموارسازی">۳.۳. برآورد پارامترها و هموارسازی</a></li>
+<li class="toc-sub"><a href="#۳-۴-مثال-عددی-گام-به-گام-تحلیل-احساسات-نظرات">۳.۴. مثال عددی گام‌به‌گام (تحلیل احساسات نظرات)</a></li>
+<li><a href="#۴-کلمات-ایستگی-و-نقش-آن-ها-در-دسته-بندی-stop-words-in-classification">۴. کلمات ایستگی و نقش آن‌ها در دسته‌بندی</a></li>
+<li class="toc-sub"><a href="#۴-۱-سیاست-های-حذف-بر-حسب-مسئله">۴.۱. سیاست‌های حذف بر حسب مسئله</a></li>
+<li class="toc-sub"><a href="#۴-۲-کلمات-ایستگی-وابسته-به-دامنه">۴.۲. کلمات ایستگی وابسته به دامنه</a></li>
+<li><a href="#۵-بیز-ساده-باینری-در-برابر-چندجمله-ای-binarized-vs-multinomial-naive-bayes">۵. بیز ساده باینری در برابر چندجمله‌ای</a></li>
+<li class="toc-sub"><a href="#۵-۱-بیز-ساده-چندجمله-ای-multinomial">۵.۱. بیز ساده چندجمله‌ای (Multinomial)</a></li>
+<li class="toc-sub"><a href="#۵-۲-بیز-ساده-باینری-binarized-bernoulli">۵.۲. بیز ساده باینری (Binarized / Bernoulli)</a></li>
+<li class="toc-sub"><a href="#۵-۳-چرا-باینری">۵.۳. چرا باینری؟</a></li>
+<li><a href="#۶-مدیریت-منفی-سازی-در-تحلیل-احساسات-negation-handling">۶. مدیریت منفی‌سازی در تحلیل احساسات</a></li>
+<li class="toc-sub"><a href="#۶-۱-هیوریستیک-متداول-در-انگلیسی">۶.۱. هیوریستیک متداول در انگلیسی</a></li>
+<li class="toc-sub"><a href="#۶-۲-چالش-های-ساختاری-در-فارسی">۶.۲. چالش‌های ساختاری در فارسی</a></li>
+<li><a href="#۷-ارزیابی-چندکلاسه-macro-در-برابر-micro-macro-vs-micro-averaging">۷. ارزیابی چندکلاسه: Macro در برابر Micro</a></li>
+<li class="toc-sub"><a href="#۷-۱-میانگین-گیری-کلان-macro-averaging">۷.۱. میانگین‌گیری کلان (Macro-averaging)</a></li>
+<li class="toc-sub"><a href="#۷-۲-میانگین-گیری-خرد-micro-averaging">۷.۲. میانگین‌گیری خرد (Micro-averaging)</a></li>
+<li><a href="#۸-مدل-های-تمایزی-و-رگرسیون-لوجستیک-discriminative-models-logistic-regression">۸. مدل‌های تمایزی و رگرسیون لوجستیک</a></li>
+<li class="toc-sub"><a href="#۸-۱-تولیدی-در-برابر-تمایزی">۸.۱. تولیدی در برابر تمایزی</a></li>
+<li class="toc-sub"><a href="#۸-۲-ترکیب-خطی-و-تابع-سیگموئید">۸.۲. ترکیب خطی و تابع سیگموئید</a></li>
+<li class="toc-sub"><a href="#۸-۳-مهندسی-ویژگی-feature-engineering">۸.۳. مهندسی ویژگی (Feature Engineering)</a></li>
+<li><a href="#۹-پرسش-و-پاسخ-های-کلاس-classroom-q-a">۹. پرسش و پاسخ‌های کلاس</a></li>
+<li><a href="#۱۰-واژه-نامه-glossary">۱۰. واژه‌نامه</a></li></ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-brand" style="margin-bottom:14px">
+      <span class="brand-logo" aria-hidden="true"><img src="../assets/img/sbu-logo.svg" alt=""></span>
+      <span><strong>پردازش زبان‌های طبیعی</strong><span>NLP · SBU</span></span>
+    </div>
+    <div class="footer-bottom" style="margin-top:0;border-top:0;padding-top:0">
+      <span>© <span data-year>2026</span> — پردازش زبان‌های طبیعی · دانشگاه شهید بهشتی</span>
+      <span class="mono">NLP · SBU</span>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site.js" defer></script>
+</body>
+</html>

@@ -54,7 +54,7 @@ are generated, so edit the Markdown — never the generated HTML.
 | `index.html` | Course home: published session topics, instructor, grading from the notes, references |
 | `notes.html` | Searchable archive of published session notes |
 | `exercises.html` | Suggested practice sets + the project facts stated in the notes |
-| `sessions/session-01.html` … `session-06.html` | Generated session pages |
+| `sessions/session-01.html` … `session-07.html` | Generated session pages |
 
 ## Session notes pipeline
 

@@ -113,6 +113,7 @@ MATH_CMDS = {
     "\\prod": '<span class="m-op">∏</span>',
     "\\sum": '<span class="m-op">∑</span>',
     "\\min": '<span class="m-text">min</span>',
+    "\\log": '<span class="m-text">log</span>',
     "\\forall": '<span class="m-op">∀</span>',
     "\\exists": '<span class="m-op">∃</span>',
     "\\{": "{",
@@ -201,9 +202,9 @@ def math_inline(s: str) -> str:
                     out.append(f'<span class="m-hat">{math_inline(content)}</span>')
                     i = j2
                     continue
-            if i + 5 < n and s[i + 5] != "{":
-                out.append(f'<span class="m-hat">{esc(s[i + 5])}</span>')
-                i += 6
+            if j < n and not s[j].isspace():
+                out.append(f'<span class="m-hat">{esc(s[j])}</span>')
+                i = j + 1
                 continue
             out.append(esc(c))
             i += 1
@@ -262,7 +263,7 @@ def inline_md(text: str) -> str:
 # ---------------------------------------------------------------------------
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
-LIST_RE = re.compile(r"^(\s*)([-*+]|\d{1,9}[.)])\s+(.*)$")
+LIST_RE = re.compile(r"^(\s*)([-*+]|[0-9]{1,9}[.)])\s+(.*)$")
 QUOTE_RE = re.compile(r"^\s*>\s?(.*)$")
 TABLE_DELIM_RE = re.compile(r"^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$")
 HR_RE = re.compile(r"^\s{0,3}((?:-[ \t]*){3,}|(?:\*[ \t]*){3,}|(?:_[ \t]*){3,})\s*$")

@@ -67,7 +67,9 @@
       <div class="prose">
 <h2 id="۱-رده-بندی-مسائل-نگاشت-دنباله-sequence-labeling-mapping-taxonomy" dir="auto">۱. رده‌بندی مسائل نگاشت دنباله<span class="h-en" dir="ltr">Sequence Labeling &amp; Mapping Taxonomy</span></h2>
 <p dir="rtl" lang="fa">جلسهٔ ششم پس از مرور مدل‌های زبانی ان‌گرام و پرپلکسیتی، با رده‌بندی سیستم‌های پردازشی زبان بر اساس نگاشت ورودی به خروجی آغاز می‌شود. سه دستهٔ اصلی:</p>
-<ol dir="auto"><li dir="rtl" lang="fa"><strong>نگاشت دنباله به برچسب‌ها (Sequence-to-Tag / Sequence Labeling):</strong> ورودی دنباله‌ای از کلمات <span class="math">W = w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub></span> و خروجی دنباله‌ای هم‌طول از برچسب‌ها <span class="math">T = t<sub>1</sub>, t<sub>2</sub>, …, t<sub>n</sub></span> است؛ به هر کلمهٔ ورودی یک برچسب انتساب می‌شود. <strong>برچسب‌زنی ادوات سخن (POS Tagging)</strong> و <strong>شناسایی موجودیت‌های نامدار (NER)</strong> — دو موضوع اصلی این جلسه — در این دسته‌اند.</li><li dir="rtl" lang="fa"><strong>نگاشت دنباله به دنباله (Sequence-to-Sequence / Seq2Seq):</strong> دنبالهٔ ورودی به دنبالهٔ خروجی از جنس دیگر یا با طول متفاوت نگاشت می‌شود؛ مانند ترجمهٔ ماشینی (Machine Translation) و خلاصه‌سازی متن (Text Summarization).</li><li dir="rtl" lang="fa"><strong>کلاس‌بندی متن (Text Classification):</strong> ورودی یک دنبالهٔ متنی (سند یا جمله) است و سیستم تعیین می‌کند که به کدام دستهٔ از پیش تعیین‌شده (Category/Class) تعلق دارد.</li></ol>
+<p dir="rtl" lang="fa">۱) <strong>نگاشت دنباله به برچسب‌ها (Sequence-to-Tag / Sequence Labeling):</strong> ورودی دنباله‌ای از کلمات <span class="math">W = w<sub>1</sub>, w<sub>2</sub>, …, w<sub>n</sub></span> و خروجی دنباله‌ای هم‌طول از برچسب‌ها <span class="math">T = t<sub>1</sub>, t<sub>2</sub>, …, t<sub>n</sub></span> است؛ به هر کلمهٔ ورودی یک برچسب انتساب می‌شود. <strong>برچسب‌زنی ادوات سخن (POS Tagging)</strong> و <strong>شناسایی موجودیت‌های نامدار (NER)</strong> — دو موضوع اصلی این جلسه — در این دسته‌اند.</p>
+<p dir="rtl" lang="fa">۲) <strong>نگاشت دنباله به دنباله (Sequence-to-Sequence / Seq2Seq):</strong> دنبالهٔ ورودی به دنبالهٔ خروجی از جنس دیگر یا با طول متفاوت نگاشت می‌شود؛ مانند ترجمهٔ ماشینی (Machine Translation) و خلاصه‌سازی متن (Text Summarization).</p>
+<p dir="rtl" lang="fa">۳) <strong>کلاس‌بندی متن (Text Classification):</strong> ورودی یک دنبالهٔ متنی (سند یا جمله) است و سیستم تعیین می‌کند که به کدام دستهٔ از پیش تعیین‌شده (Category/Class) تعلق دارد.</p>
 <div class="callout callout--tip"><div class="callout-head"><span class="co-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.7.6 1.2V16h6v-1c0-.5.2-.9.6-1.2A6 6 0 0 0 12 3Z"/></svg></span><span>ابزار پیش‌پردازش، نه هدف نهایی</span><span class="co-label">Tip</span></div><div class="callout-body"><p dir="rtl" lang="fa">POS Tagging و NER خودشان هدف نهایی کاربردی نیستند، اما مراحل پیش‌پردازش (Preprocessing Tools) حیاتی‌اند که دقت اپلیکیشن‌های بالادستی (Downstream Applications) را بهبود می‌دهند.</p></div></div>
 <h2 id="۲-برچسب-زنی-ادوات-سخن-part-of-speech-tagging" dir="auto">۲. برچسب‌زنی ادوات سخن<span class="h-en" dir="ltr">Part-of-Speech Tagging</span></h2>
 <h3 id="۲-۱-تعریف-و-سه-سطح-نقش" dir="rtl" lang="fa">۲.۱. تعریف و سه سطح نقش</h3>
@@ -142,7 +144,7 @@
 
       <nav class="session-nav" aria-label="ناوبری جلسات">
         <a class="prev" href="session-05.html"><span class="sn-label">جلسهٔ قبل</span><span class="sn-title">جلسه ۰۵ — مدل‌های زبانی، ان‌گرام و پرپلکسیتی</span></a>
-        
+        <a class="next" href="session-07.html"><span class="sn-label">جلسهٔ بعد</span><span class="sn-title">جلسه ۰۷ — هموارسازی، دسته‌بندی متن و بیز ساده</span></a>
       </nav>
     </article>
 
