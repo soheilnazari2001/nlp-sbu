@@ -1233,6 +1233,14 @@ a.note-card:hover { border-color: var(--brand); box-shadow: var(--shadow-2); tra
 .math .m-thsp { display: inline-block; width: .18em; }
 .math .m-thsp2 { width: .36em; }
 .callout .math { white-space: normal; }
+
+/* Diagrams (SVG figures in session notes) */
+.prose .diagram {
+  margin: 22px 0; text-align: center; padding: 14px;
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 12px; overflow-x: auto;
+}
+.prose .diagram svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 .prose .persian-block {
   direction: rtl; text-align: right; background: var(--brand-soft);
   border-radius: 10px; padding: 14px 18px; margin: 16px 0;

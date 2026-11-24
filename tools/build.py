@@ -113,7 +113,12 @@ MATH_CMDS = {
     "\\prod": '<span class="m-op">∏</span>',
     "\\sum": '<span class="m-op">∑</span>',
     "\\min": '<span class="m-text">min</span>',
+    "\\max": '<span class="m-text">max</span>',
     "\\log": '<span class="m-text">log</span>',
+    "\\tanh": '<span class="m-text">tanh</span>',
+    "\\sigma": "σ",
+    "\\partial": "∂",
+    "\\eta": "η",
     "\\forall": '<span class="m-op">∀</span>',
     "\\exists": '<span class="m-op">∃</span>',
     "\\{": "{",
@@ -264,6 +269,7 @@ def inline_md(text: str) -> str:
 
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
 LIST_RE = re.compile(r"^(\s*)([-*+]|[0-9]{1,9}[.)])\s+(.*)$")
+PERSIAN_LIST_RE = re.compile(r"^[۰-۹]+[.)]\s")
 QUOTE_RE = re.compile(r"^\s*>\s?(.*)$")
 TABLE_DELIM_RE = re.compile(r"^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$")
 HR_RE = re.compile(r"^\s{0,3}((?:-[ \t]*){3,}|(?:\*[ \t]*){3,}|(?:_[ \t]*){3,})\s*$")
@@ -318,6 +324,8 @@ class Renderer:
                                 f"{math_inline(code_line.strip())}</span></div>"
                             )
                     out.append(f'<div class="math-block" dir="ltr">{"".join(rows)}</div>')
+                elif lang.lower() == "svg":
+                    out.append(f'<figure class="diagram" dir="ltr">{"".join(code_lines)}</figure>')
                 else:
                     cls = f' class="language-{esc(lang)}"' if lang else ""
                     out.append(f'<pre dir="auto"><code{cls}>{esc(chr(10).join(code_lines))}</code></pre>')
@@ -425,7 +433,8 @@ class Renderer:
             para = [line]
             i += 1
             while (i < len(lines) and lines[i].strip() and not HEADING_RE.match(lines[i])
-                   and not LIST_RE.match(lines[i]) and not QUOTE_RE.match(lines[i])
+                   and not LIST_RE.match(lines[i]) and not PERSIAN_LIST_RE.match(lines[i])
+                   and not QUOTE_RE.match(lines[i])
                    and not CALLOUT_RE.match(lines[i]) and not lines[i].strip().startswith("```")
                    and not HR_RE.match(lines[i])):
                 para.append(lines[i])
