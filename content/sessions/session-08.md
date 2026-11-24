@@ -43,23 +43,31 @@ z = \sum_{i=1}^{n} w_i x_i + b = w_1 x_1 + w_2 x_2 + \dots + w_n x_n + b
 ترکیب خطی محض نمی‌تواند روابط پیچیده و غیرخطی زبان را مدل کند؛ از این رو z وارد تابع فعال‌ساز (Activation Function) می‌شود:
 
 ```svg
-<svg viewBox="0 0 270 124" fill="none" aria-hidden="true">
-  <text x="6" y="30" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">x₁</text>
-  <text x="6" y="62" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">x₂</text>
-  <text x="6" y="96" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">xₙ</text>
-  <line x1="32" y1="26" x2="96" y2="50" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
-  <line x1="32" y1="58" x2="96" y2="58" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
-  <line x1="32" y1="92" x2="96" y2="68" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
-  <circle cx="114" cy="60" r="17" fill="rgba(122,166,255,.15)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
-  <text x="114" y="65" text-anchor="middle" font-size="14" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">Σ</text>
-  <text x="100" y="102" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">b</text>
-  <line x1="105" y1="97" x2="112" y2="78" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
-  <path d="M133 56h20m-6-6 6 6-6 6" stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="166" y="45" width="48" height="30" rx="8" fill="rgba(122,166,255,.15)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
-  <text x="190" y="64" text-anchor="middle" font-size="13" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">σ</text>
-  <path d="M216 60h26" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
-  <path d="M242 54h8l-5 6 5 6h-8" stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="256" y="65" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">y</text>
+<svg viewBox="0 0 300 140" fill="none" aria-hidden="true">
+  <g font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">
+    <text x="4" y="30">x₁</text>
+    <text x="4" y="70">x₂</text>
+    <text x="4" y="110">xₙ</text>
+    <text x="76" y="18" font-size="11" fill="#9db8ff">w₁</text>
+    <text x="76" y="52" font-size="11" fill="#9db8ff">w₂</text>
+    <text x="76" y="100" font-size="11" fill="#9db8ff">wₙ</text>
+  </g>
+  <g stroke="rgba(158,184,255,.55)" stroke-width="1.2">
+    <line x1="28" y1="26" x2="128" y2="52"/>
+    <line x1="28" y1="66" x2="128" y2="66"/>
+    <line x1="28" y1="106" x2="128" y2="82"/>
+  </g>
+  <circle cx="150" cy="66" r="20" fill="rgba(122,166,255,.15)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
+  <text x="150" y="71" text-anchor="middle" font-size="15" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">Σ</text>
+  <g font-size="11" fill="#9db8ff" font-family="Vazirmatn, sans-serif">
+    <text x="158" y="118">+b</text>
+  </g>
+  <line x1="152" y1="104" x2="150" y2="88" stroke="rgba(158,184,255,.55)" stroke-width="1.2"/>
+  <path d="M172 66h16M184 60l6 6-6 6" stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="198" y="52" width="56" height="28" rx="8" fill="rgba(122,166,255,.15)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
+  <text x="226" y="70" text-anchor="middle" font-size="13" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">σ(z)</text>
+  <path d="M256 66h22M274 60l6 6-6 6" stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="290" y="71" font-size="12" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">y</text>
 </svg>
 ```
 
@@ -93,24 +101,32 @@ y = \sigma(0.92) = \frac{1}{1 + e^{-0.92}} \approx \frac{1}{1 + 0.3985} \approx 
 با قرار دادن چند نورون در یک لایه و زنجیره‌سازی چند لایه روی هم، شبکهٔ عصبی چندلایه (Multi-Layer Perceptron / FFNN) ساخته می‌شود:
 
 ```svg
-<svg viewBox="0 0 280 150" fill="none" aria-hidden="true">
-  <g stroke="rgba(158,184,255,.4)" stroke-width="1">
-    <line x1="56" y1="30" x2="128" y2="25"/><line x1="56" y1="30" x2="128" y2="55"/><line x1="56" y1="30" x2="128" y2="85"/><line x1="56" y1="30" x2="128" y2="115"/>
-    <line x1="56" y1="75" x2="128" y2="25"/><line x1="56" y1="75" x2="128" y2="55"/><line x1="56" y1="75" x2="128" y2="85"/><line x1="56" y1="75" x2="128" y2="115"/>
-    <line x1="56" y1="120" x2="128" y2="25"/><line x1="56" y1="120" x2="128" y2="55"/><line x1="56" y1="120" x2="128" y2="85"/><line x1="56" y1="120" x2="128" y2="115"/>
-    <line x1="150" y1="25" x2="218" y2="55"/><line x1="150" y1="25" x2="218" y2="95"/>
-    <line x1="150" y1="55" x2="218" y2="55"/><line x1="150" y1="55" x2="218" y2="95"/>
-    <line x1="150" y1="85" x2="218" y2="55"/><line x1="150" y1="85" x2="218" y2="95"/>
-    <line x1="150" y1="115" x2="218" y2="55"/><line x1="150" y1="115" x2="218" y2="95"/>
+<svg viewBox="0 0 300 170" fill="none" aria-hidden="true">
+  <g stroke="rgba(158,184,255,.38)" stroke-width="1">
+    <line x1="59" y1="35" x2="141" y2="24"/><line x1="59" y1="35" x2="141" y2="62"/><line x1="59" y1="35" x2="141" y2="100"/><line x1="59" y1="35" x2="141" y2="138"/>
+    <line x1="59" y1="80" x2="141" y2="24"/><line x1="59" y1="80" x2="141" y2="62"/><line x1="59" y1="80" x2="141" y2="100"/><line x1="59" y1="80" x2="141" y2="138"/>
+    <line x1="59" y1="125" x2="141" y2="24"/><line x1="59" y1="125" x2="141" y2="62"/><line x1="59" y1="125" x2="141" y2="100"/><line x1="59" y1="125" x2="141" y2="138"/>
+    <line x1="159" y1="24" x2="241" y2="57"/><line x1="159" y1="24" x2="241" y2="105"/>
+    <line x1="159" y1="62" x2="241" y2="57"/><line x1="159" y1="62" x2="241" y2="105"/>
+    <line x1="159" y1="100" x2="241" y2="57"/><line x1="159" y1="100" x2="241" y2="105"/>
+    <line x1="159" y1="138" x2="241" y2="57"/><line x1="159" y1="138" x2="241" y2="105"/>
   </g>
   <g fill="rgba(122,166,255,.18)" stroke="rgba(158,184,255,.7)" stroke-width="1.2">
-    <circle cx="56" cy="30" r="10"/><circle cx="56" cy="75" r="10"/><circle cx="56" cy="120" r="10"/>
-    <circle cx="150" cy="25" r="10"/><circle cx="150" cy="55" r="10"/><circle cx="150" cy="85" r="10"/><circle cx="150" cy="115" r="10"/>
-    <circle cx="218" cy="55" r="10"/><circle cx="218" cy="95" r="10"/>
+    <circle cx="50" cy="35" r="10"/><circle cx="50" cy="80" r="10"/><circle cx="50" cy="125" r="10"/>
+    <circle cx="150" cy="24" r="10"/><circle cx="150" cy="62" r="10"/><circle cx="150" cy="100" r="10"/><circle cx="150" cy="138" r="10"/>
+    <circle cx="250" cy="57" r="10"/><circle cx="250" cy="105" r="10"/>
   </g>
-  <text x="56" y="146" text-anchor="middle" font-size="11" fill="#9db8ff" font-family="Vazirmatn, sans-serif">لایهٔ ورودی</text>
-  <text x="150" y="146" text-anchor="middle" font-size="11" fill="#9db8ff" font-family="Vazirmatn, sans-serif">لایهٔ پنهان</text>
-  <text x="218" y="146" text-anchor="middle" font-size="11" fill="#9db8ff" font-family="Vazirmatn, sans-serif">لایهٔ خروجی</text>
+  <g font-size="11" fill="#cfe0ff" font-family="Vazirmatn, sans-serif">
+    <text x="20" y="39">x₁</text><text x="20" y="84">x₂</text><text x="20" y="129">xₙ</text>
+    <text x="172" y="28" font-size="9.5" fill="#9db8ff">h₁</text><text x="172" y="66" font-size="9.5" fill="#9db8ff">h₂</text>
+    <text x="172" y="104" font-size="9.5" fill="#9db8ff">h₃</text><text x="172" y="142" font-size="9.5" fill="#9db8ff">h₄</text>
+    <text x="270" y="61">ŷ₁</text><text x="270" y="109">ŷ₂</text>
+  </g>
+  <g font-size="11" fill="#9db8ff" font-family="Vazirmatn, sans-serif" text-anchor="middle">
+    <text x="50" y="162">لایهٔ ورودی</text>
+    <text x="150" y="162">لایهٔ پنهان</text>
+    <text x="250" y="162">لایهٔ خروجی</text>
+  </g>
 </svg>
 ```
 
@@ -184,38 +200,45 @@ y_t = \text{Softmax}(W_y \, h_t + b_y)
 اگر سلول RNN در گام‌های زمانی t=0, t=1, t=2, … باز شود، دیده می‌شود که اطلاعات از گام‌های اول به گام‌های بعدی منتقل می‌شوند:
 
 ```svg
-<svg viewBox="0 0 310 132" fill="none" aria-hidden="true">
-  <g>
-    <rect x="18" y="34" width="60" height="38" rx="9" fill="rgba(122,166,255,.14)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
-    <text x="48" y="50" text-anchor="middle" font-size="11" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">h(t−1)</text>
-    <text x="48" y="65" text-anchor="middle" font-size="9" fill="#9db8ff" font-family="Vazirmatn, sans-serif">سلول RNN</text>
-    <rect x="125" y="34" width="60" height="38" rx="9" fill="rgba(122,166,255,.14)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
-    <text x="155" y="50" text-anchor="middle" font-size="11" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">h(t)</text>
-    <text x="155" y="65" text-anchor="middle" font-size="9" fill="#9db8ff" font-family="Vazirmatn, sans-serif">سلول RNN</text>
-    <rect x="232" y="34" width="60" height="38" rx="9" fill="rgba(122,166,255,.14)" stroke="rgba(158,184,255,.7)" stroke-width="1.3"/>
-    <text x="262" y="50" text-anchor="middle" font-size="11" fill="#eaf2ff" font-family="Vazirmatn, sans-serif">h(t+1)</text>
-    <text x="262" y="65" text-anchor="middle" font-size="9" fill="#9db8ff" font-family="Vazirmatn, sans-serif">سلول RNN</text>
+<svg viewBox="0 0 330 150" fill="none" aria-hidden="true">
+  <g fill="rgba(122,166,255,.14)" stroke="rgba(158,184,255,.7)" stroke-width="1.3">
+    <rect x="30" y="56" width="64" height="40" rx="9"/>
+    <rect x="133" y="56" width="64" height="40" rx="9"/>
+    <rect x="236" y="56" width="64" height="40" rx="9"/>
   </g>
-  <g stroke="#7aa6ff" stroke-width="1.3">
-    <path d="M80 53h43m-6-6 6 6-6 6"/>
-    <path d="M187 53h43m-6-6 6 6-6 6"/>
+  <g font-family="Vazirmatn, sans-serif" text-anchor="middle">
+    <text x="62" y="73" font-size="11.5" fill="#eaf2ff">h(t−1)</text>
+    <text x="62" y="88" font-size="9" fill="#9db8ff">tanh</text>
+    <text x="165" y="73" font-size="11.5" fill="#eaf2ff">h(t)</text>
+    <text x="165" y="88" font-size="9" fill="#9db8ff">tanh</text>
+    <text x="268" y="73" font-size="11.5" fill="#eaf2ff">h(t+1)</text>
+    <text x="268" y="88" font-size="9" fill="#9db8ff">tanh</text>
+  </g>
+  <g stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 76h29M121 70l6 6-6 6"/>
+    <path d="M199 76h29M224 70l6 6-6 6"/>
   </g>
   <g stroke="rgba(158,184,255,.55)" stroke-width="1.2">
-    <line x1="48" y1="98" x2="48" y2="74"/>
-    <line x1="155" y1="98" x2="155" y2="74"/>
-    <line x1="262" y1="98" x2="262" y2="74"/>
-    <line x1="48" y1="32" x2="48" y2="12"/>
-    <line x1="155" y1="32" x2="155" y2="12"/>
-    <line x1="262" y1="32" x2="262" y2="12"/>
+    <line x1="62" y1="112" x2="62" y2="98"/>
+    <line x1="165" y1="112" x2="165" y2="98"/>
+    <line x1="268" y1="112" x2="268" y2="98"/>
+    <line x1="62" y1="52" x2="62" y2="32"/>
+    <line x1="165" y1="52" x2="165" y2="32"/>
+    <line x1="268" y1="52" x2="268" y2="32"/>
   </g>
-  <g font-size="10.5" fill="#9db8ff" font-family="Vazirmatn, sans-serif">
-    <text x="48" y="112" text-anchor="middle">x(t−1)</text>
-    <text x="155" y="112" text-anchor="middle">x(t)</text>
-    <text x="262" y="112" text-anchor="middle">x(t+1)</text>
-    <text x="48" y="8" text-anchor="middle">y(t−1)</text>
-    <text x="155" y="8" text-anchor="middle">y(t)</text>
-    <text x="262" y="8" text-anchor="middle">y(t+1)</text>
+  <g stroke="#7aa6ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 108l6-6-6-6M159 108l6-6-6-6M262 108l6-6-6-6"/>
+    <path d="M56 40l6 6-6 6M159 40l6 6-6 6M262 40l6 6-6 6"/>
   </g>
+  <g font-size="10.5" fill="#9db8ff" font-family="Vazirmatn, sans-serif" text-anchor="middle">
+    <text x="62" y="128">x(t−1)</text>
+    <text x="165" y="128">x(t)</text>
+    <text x="268" y="128">x(t+1)</text>
+    <text x="62" y="22">y(t−1)</text>
+    <text x="165" y="22">y(t)</text>
+    <text x="268" y="22">y(t+1)</text>
+  </g>
+  <text x="305" y="100" font-size="10" fill="#9db8ff" font-family="Vazirmatn, sans-serif" transform="rotate(-90 305 100)">حافظهٔ گذشته</text>
 </svg>
 ```
 
