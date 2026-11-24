@@ -200,45 +200,46 @@ y_t = \text{Softmax}(W_y \, h_t + b_y)
 اگر سلول RNN در گام‌های زمانی t=0, t=1, t=2, … باز شود، دیده می‌شود که اطلاعات از گام‌های اول به گام‌های بعدی منتقل می‌شوند:
 
 ```svg
-<svg viewBox="0 0 330 150" fill="none" aria-hidden="true">
+<svg viewBox="0 0 340 150" fill="none" aria-hidden="true">
+  <defs>
+    <marker id="arr-rnn" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 8 4 0 8z" fill="#7aa6ff"/>
+    </marker>
+  </defs>
   <g fill="rgba(122,166,255,.14)" stroke="rgba(158,184,255,.7)" stroke-width="1.3">
-    <rect x="30" y="56" width="64" height="40" rx="9"/>
-    <rect x="133" y="56" width="64" height="40" rx="9"/>
-    <rect x="236" y="56" width="64" height="40" rx="9"/>
+    <rect x="40" y="56" width="64" height="40" rx="9"/>
+    <rect x="148" y="56" width="64" height="40" rx="9"/>
+    <rect x="256" y="56" width="64" height="40" rx="9"/>
   </g>
   <g font-family="Vazirmatn, sans-serif" text-anchor="middle">
-    <text x="62" y="73" font-size="11.5" fill="#eaf2ff">h(t−1)</text>
-    <text x="62" y="88" font-size="9" fill="#9db8ff">tanh</text>
-    <text x="165" y="73" font-size="11.5" fill="#eaf2ff">h(t)</text>
-    <text x="165" y="88" font-size="9" fill="#9db8ff">tanh</text>
-    <text x="268" y="73" font-size="11.5" fill="#eaf2ff">h(t+1)</text>
-    <text x="268" y="88" font-size="9" fill="#9db8ff">tanh</text>
+    <text x="72" y="73" font-size="11.5" fill="#eaf2ff">h(t−1)</text>
+    <text x="72" y="88" font-size="9" fill="#9db8ff">tanh</text>
+    <text x="180" y="73" font-size="11.5" fill="#eaf2ff">h(t)</text>
+    <text x="180" y="88" font-size="9" fill="#9db8ff">tanh</text>
+    <text x="288" y="73" font-size="11.5" fill="#eaf2ff">h(t+1)</text>
+    <text x="288" y="88" font-size="9" fill="#9db8ff">tanh</text>
   </g>
-  <g stroke="#7aa6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M96 76h29M121 70l6 6-6 6"/>
-    <path d="M199 76h29M224 70l6 6-6 6"/>
+  <g stroke="#7aa6ff" stroke-width="1.3" marker-end="url(#arr-rnn)">
+    <line x1="106" y1="76" x2="144" y2="76"/>
+    <line x1="214" y1="76" x2="252" y2="76"/>
   </g>
-  <g stroke="rgba(158,184,255,.55)" stroke-width="1.2">
-    <line x1="62" y1="112" x2="62" y2="98"/>
-    <line x1="165" y1="112" x2="165" y2="98"/>
-    <line x1="268" y1="112" x2="268" y2="98"/>
-    <line x1="62" y1="52" x2="62" y2="32"/>
-    <line x1="165" y1="52" x2="165" y2="32"/>
-    <line x1="268" y1="52" x2="268" y2="32"/>
-  </g>
-  <g stroke="#7aa6ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M56 108l6-6-6-6M159 108l6-6-6-6M262 108l6-6-6-6"/>
-    <path d="M56 40l6 6-6 6M159 40l6 6-6 6M262 40l6 6-6 6"/>
+  <g stroke="rgba(158,184,255,.55)" stroke-width="1.2" marker-end="url(#arr-rnn)">
+    <line x1="72" y1="112" x2="72" y2="99"/>
+    <line x1="180" y1="112" x2="180" y2="99"/>
+    <line x1="288" y1="112" x2="288" y2="99"/>
+    <line x1="72" y1="53" x2="72" y2="36"/>
+    <line x1="180" y1="53" x2="180" y2="36"/>
+    <line x1="288" y1="53" x2="288" y2="36"/>
   </g>
   <g font-size="10.5" fill="#9db8ff" font-family="Vazirmatn, sans-serif" text-anchor="middle">
-    <text x="62" y="128">x(t−1)</text>
-    <text x="165" y="128">x(t)</text>
-    <text x="268" y="128">x(t+1)</text>
-    <text x="62" y="22">y(t−1)</text>
-    <text x="165" y="22">y(t)</text>
-    <text x="268" y="22">y(t+1)</text>
+    <text x="72" y="128">x(t−1)</text>
+    <text x="180" y="128">x(t)</text>
+    <text x="288" y="128">x(t+1)</text>
+    <text x="72" y="24">y(t−1)</text>
+    <text x="180" y="24">y(t)</text>
+    <text x="288" y="24">y(t+1)</text>
   </g>
-  <text x="305" y="100" font-size="10" fill="#9db8ff" font-family="Vazirmatn, sans-serif" transform="rotate(-90 305 100)">حافظهٔ گذشته</text>
+  <text x="170" y="147" font-size="10.5" fill="#9db8ff" font-family="Vazirmatn, sans-serif" text-anchor="middle">جریان وضعیت پنهان h از گذشته به آینده</text>
 </svg>
 ```
 
